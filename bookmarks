@@ -1,0 +1,25 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("ranger-s"
+ (filename . "~/.config/Scripts/")
+ (front-context-string . "dx.sh\n  -rw-r--r")
+ (rear-context-string . "82 Mar 11 19:00 ")
+ (position . 138))
+("ranger-c"
+ (filename . "~/.config/i3/")
+ (front-context-string)
+ (rear-context-string . "1K Dec 12 16:22 ")
+ (position . 137))
+("ranger-e"
+ (filename . "~/.emacs.d/")
+ (front-context-string . "init.el\n  -rw---")
+ (rear-context-string . "1K Mar 12 16:29 ")
+ (position . 677))
+("ranger-x"
+ (filename . "~/Projects/dubiex-webserver/dubiex/")
+ (front-context-string . "public\n  drwxr-x")
+ (rear-context-string . "0K Mar  4 21:56 ")
+ (position . 245))
+)
