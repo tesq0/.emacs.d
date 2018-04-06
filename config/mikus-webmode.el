@@ -39,10 +39,10 @@
 
 (use-package flycheck
   :ensure t
+	:hook (prog-mode . flycheck-mode)
 	:config
-	(setq flycheck-highlighting-mode 'lines)
+	(setq flycheck-highlighting-mode 'symbols)
 	(setq flycheck-check-syntax-automatically '(mode-enabled save))
-	(global-flycheck-mode)
 	(flycheck-add-mode 'css-csslint 'web-mode)
 	(flycheck-add-mode 'javascript-eslint 'web-mode)
 )
@@ -55,20 +55,34 @@
 	(setq web-mode-markup-indent-offset 2)
 	(setq web-mode-css-indent-offset 2)
 	(setq web-mode-code-indent-offset 2)
+	:config
+	(setq web-mode-auto-quote-style nil)
+	)
+
+(use-package tern
+	:ensure t
+	:config
+	(define-key tern-mode-keymap (kbd "M-.") nil)
+	(define-key tern-mode-keymap (kbd "M-,") nil) 
 	)
 
 
+(use-package js2-mode
+	:ensure t 
+	)
 
-(use-package js-doc
+(use-package js2-refactor
 	:ensure t
 	)
 
+(use-package xref-js2
+	:ensure t
+	)
 
 ;; disable jshint, we will use eslint instead
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
-    '(javascript-jshint)))
-
+    '(javascript-jshint))) 
 
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
@@ -81,21 +95,52 @@
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
+
+
+
+
+(add-hook 'js2-mode-hook
+					(lambda () 
+						;; selecting flycheck checkers based on file modes
+						(when (string-equal "js" (file-name-extension buffer-file-name))
+							(setq-local flycheck-disabled-checkers '( css-csslint ))
+							;; (setup-tide-mode)
+							;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append) 
+							;; (flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append) 
+							;; (flycheck-add-next-checker 'javascript-tide 'jsx-tide 'append)
+							(js2-refactor-mode)
+							(js2r-add-keybindings-with-prefix "C-c C-r")
+							(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+							(define-key js-mode-map (kbd "M-.") nil) 
+							(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)
+							(tern-mode t) 
+
+							(company-mode)
+							)
+						)
+					
+					)
+
+
 (add-hook 'web-mode-hook
 					(lambda () 
 						;; selecting flycheck checkers based on file modes
 						(when (string-equal "css" (file-name-extension buffer-file-name))
-							(setq-local flycheck-disabled-checkers '( javascript-eslint ))) 
+							(setq-local flycheck-disabled-checkers '( javascript-eslint ))
+							(rainbow-mode) 
+							(add-to-list (make-local-variable 'company-backends)
+													 'company-css)
+							) 
 						(when (string-equal "js" (file-name-extension buffer-file-name))
 							(setq-local flycheck-disabled-checkers '( css-csslint ))
 							;; (setup-tide-mode)
 							(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append) 
 							(flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append) 
 							;; (flycheck-add-next-checker 'javascript-tide 'jsx-tide 'append)
-							(tern-mode t)
-							(evil-leader/set-key
-								"j" (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-jsdoc/body))))
-							)
+							(add-to-list (make-local-variable 'company-backends)
+													 'company-tern)
+							(tern-mode t) 
+							(company-mode))
 						)
 					
 					)
@@ -114,7 +159,7 @@
 ;;(setq web-mode-enable-auto-pairing t)
 
 ;; css
-(setq web-mode-enable-css-colorization t)
+;; (setq web-mode-enable-css-colorization t)
 
 
 (setq web-mode-content-types-alist

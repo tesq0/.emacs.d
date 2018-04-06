@@ -45,11 +45,15 @@
 
 (defhydra hydra-window (:color red
                         :hint nil)
-  "Hydra window management"
+  "windows"
   ("j" ( hydra-move-splitter-left 10 ))
   ("k" ( hydra-move-splitter-down 10 ))
   ("l" ( hydra-move-splitter-up 10 ))
   (";" ( hydra-move-splitter-right 10 )) 
+	("J" evil-window-move-far-left)
+	(":" evil-window-move-far-right)
+	("K" evil-window-move-very-bottom)
+	("L" evil-window-move-very-top)
 	("b" balance-windows) 
   ("-" text-scale-decrease)
   ("=" text-scale-increase)
@@ -74,18 +78,6 @@
   ("da" ace-delete-window)
   ("dw" delete-window)
   ("db" kill-this-buffer)
-	)
-
-
-
-(defhydra hydra-jsdoc (:color red
-                        :hint nil)
-  "Hydra jsdoc"
-	("f" js-doc-insert-function-doc)
-	("F" js-doc-insert-file-doc)
-	("t" js-doc-insert-tag)
-	("dt" js-doc-insert-tag)
-
 	)
 
 (defhydra hydra-fzf (:color red

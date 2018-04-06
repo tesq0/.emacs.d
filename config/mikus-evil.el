@@ -1,7 +1,13 @@
 
 
 (use-package evil
-  :ensure t)
+  :ensure t
+	:config
+	(evil-set-initial-state 'term-mode 'emacs)
+	(evil-set-initial-state 'calendar-mode 'emacs)
+	;; :init
+	;; (add-hook 'indium-repl-mode-hook 'evil-mode nil)
+	)
 
 (use-package evil-leader
   :ensure t)
@@ -9,8 +15,6 @@
 (use-package avy
   :ensure t
 	)
-
-
 
 (use-package evil-surround
   :ensure t
@@ -20,19 +24,6 @@
 
 (use-package evil-nerd-commenter
   :ensure t)
-
-(use-package evil-matchit
-  :ensure t
-	:init
-	(global-evil-matchit-mode 1) 
-	)
-
-;; (use-package evil-mc
-;;   :ensure t
-;;   :config
-;;   (global-evil-mc-mode 1)
-;;   )
-
 
 ;; helm-split-window-inside-p           t
 (use-package helm
@@ -49,7 +40,7 @@
 	helm-ff-file-name-history-use-recentf t
 	helm-echo-input-in-header-line t) 
 	(setq helm-autoresize-max-height 0)
-	(setq helm-autoresize-min-height 20)
+	(setq helm-autoresize-min-height 40)
 	(helm-autoresize-mode 1)
 	(setq helm-buffers-fuzzy-matching t
 				helm-recentf-fuzzy-match    t)
@@ -70,8 +61,7 @@
 
 
 (add-hook 'helm-minibuffer-set-up-hook
-          'spacemacs//helm-hide-minibuffer-maybe)
-
+          'spacemacs//helm-hide-minibuffer-maybe) 
 
 
 (use-package helm-projectile
@@ -79,7 +69,6 @@
 	)
 (use-package evil-visualstar
   :ensure t)
-
 
 
 
@@ -165,10 +154,18 @@
   ;; (define-key evil-motion-state-map (kbd "C-;")  (lambda () (interactive) (evil-scroll-column-right 20) (evil-forward-char 20)))
   ;; (define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (evil-scroll-column-left 20) (evil-backward-char 20)))
 	
+  ;; (define-key evil-motion-state-map (kbd "C-;")  (lambda () (interactive) (scroll-left 20)))
+  ;; (define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (scroll-right 20)))
+  ;; (define-key evil-motion-state-map (kbd "M-;")  (lambda () (interactive) (scroll-left 20)))
+  ;; (define-key evil-motion-state-map (kbd "M-j")  (lambda () (interactive) (scroll-right 20)))
+
   (define-key evil-motion-state-map (kbd "C-;")  (lambda () (interactive) (evil-scroll-column-right 20)))
   (define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (evil-scroll-column-left 20)))
   (define-key evil-motion-state-map (kbd "M-;")  (lambda () (interactive) (evil-scroll-column-right 20)))
-  (define-key evil-motion-state-map (kbd "M-j")  (lambda () (interactive) (evil-scroll-column-left 20)))
+  ;; (define-key evil-motion-state-map (kbd "M-j")  (lambda () (interactive) (evil-scroll-column-left 20)))
+  (define-key evil-motion-state-map (kbd "M-j") 'evil-join)
+  (define-key evil-motion-state-map (kbd "M-v") 'evil-visual-line)
+
   (define-key evil-motion-state-map "k" 'evil-next-visual-line)
   (define-key evil-motion-state-map "l" 'evil-previous-visual-line)
   (define-key evil-motion-state-map "`" 'evil-paste-from-register) 
@@ -176,21 +173,24 @@
   (define-key evil-motion-state-map "j" 'evil-backward-char)
   (define-key evil-motion-state-map "h" 'evil-goto-mark)
   (define-key evil-motion-state-map (kbd "'") 'evil-repeat-find-char)
+  (define-key evil-motion-state-map (kbd "C-f") nil) ; Disable the C-F, i'll use it as a prefix
   ;; (define-key evil-motion-state-map (kbd "C-k")  (lambda () (interactive) (evil-scroll-line-down 3) (evil-next-visual-line 3)))
   ;; (define-key evil-motion-state-map (kbd "C-l")  (lambda () (interactive) (evil-scroll-line-up 3) (evil-previous-visual-line 3))) 
   (define-key evil-motion-state-map (kbd "C-k")  (lambda () (interactive) (evil-scroll-line-down 3)))
   (define-key evil-motion-state-map (kbd "C-l")  (lambda () (interactive) (evil-scroll-line-up 3))) 
-  (define-key evil-motion-state-map (kbd "M-k")  (lambda () (interactive) (evil-scroll-line-down 3)))
-  (define-key evil-motion-state-map (kbd "M-l")  (lambda () (interactive) (evil-scroll-line-up 3))) 
+  ;; (define-key evil-motion-state-map (kbd "M-k")  (lambda () (interactive) (evil-scroll-line-down 3)))
+  ;; (define-key evil-motion-state-map (kbd "M-l")  (lambda () (interactive) (evil-scroll-line-up 3))) 
   (define-key evil-motion-state-map (kbd "C-e")  (lambda () (interactive) (evil-scroll-line-down 3)))
   (define-key evil-motion-state-map (kbd "C-y")  (lambda () (interactive) (evil-scroll-line-up 3))) 
-  (define-key evil-motion-state-map (kbd "K")  'evil-avy-goto-line-below)
-  (define-key evil-motion-state-map (kbd "L")  'evil-avy-goto-line-above) 
+  (define-key evil-motion-state-map (kbd "M-k")  'evil-avy-goto-line-below)
+  (define-key evil-motion-state-map (kbd "M-l")  'evil-avy-goto-line-above) 
 
 
 	;; same for visual 
-  (define-key evil-visual-state-map (kbd "K")  'move-2-lines-down)
-  (define-key evil-visual-state-map (kbd "L")  'move-2-lines-up) 
+  (define-key evil-visual-state-map (kbd "K")  'evil-avy-goto-line-below)
+  (define-key evil-visual-state-map (kbd "L")  'evil-avy-goto-line-above) 
+  ;; (define-key evil-visual-state-map (kbd "K")  'move-2-lines-down)
+  ;; (define-key evil-visual-state-map (kbd "L")  'move-2-lines-up) 
   (define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-motion-state-map "&" 'evil-end-of-line)
   (define-key evil-normal-state-map "&" 'evil-end-of-line)
@@ -206,6 +206,7 @@
   (define-key evil-motion-state-map "g$" 'evil-beginning-of-visual-line)
   (define-key evil-normal-state-map "g&" 'evil-end-of-visual-line)
   (define-key evil-normal-state-map "g$" 'evil-beginning-of-visual-line)
+	(define-key evil-motion-state-map (kbd "M-;") 'evil-ex)
 
 
   ;;; WINDOW
@@ -221,15 +222,43 @@
 
 	;;; Insert mode 
 
-	(define-key evil-insert-state-map "\C-i" 'self-insert-command) 
-  (define-key evil-insert-state-map (kbd "C-n") 'company-complete-common-or-cycle)
+
+	(define-key evil-insert-state-map (kbd "C-i") 'self-insert-command) 
+	(global-unset-key (kbd "C-SPC"))
+  (define-key evil-insert-state-map (kbd "C-n") 'company-select-next)
+  (define-key evil-insert-state-map (kbd "C-n") 'company-select-next)
 	(define-key evil-insert-state-map (kbd "C-p")  'company-select-previous)
+	;
+	
+	
+
+  (global-set-key (kbd "M-SPC") 'company-complete-common) 
+
+	(defun evil-keyboard-quit ()
+		"Keyboard quit and force normal state."
+		(interactive)
+		(and evil-mode (evil-force-normal-state))
+		(keyboard-quit))
+
+
+	(define-key evil-normal-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+	(define-key evil-motion-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+	(define-key evil-insert-state-map   (kbd "C-g") #'evil-keyboard-quit) 
+	(define-key evil-window-map         (kbd "C-g") #'evil-keyboard-quit) 
+	(define-key evil-operator-state-map (kbd "C-g") #'evil-keyboard-quit) 
 
 
   ;;; Normal mode 
-  (define-key evil-normal-state-map (kbd "M-.") 'tern-find-definition)
-  (define-key evil-normal-state-map (kbd "M-,") 'tern-pop-find-definition)
-  (define-key evil-normal-state-map "g;" nil)
+	(defun force-normal-mode ()
+		(interactive)
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
+		(evil-force-normal-state))
+
+	(define-key evil-normal-state-map (kbd "<escape>") 'force-normal-mode)
+
+	(define-key evil-normal-state-map (kbd "M-.") nil)
+  (define-key evil-normal-state-map (kbd "M-,") nil)
   (define-key evil-normal-state-map "g'" 'goto-last-change)
   (define-key evil-normal-state-map "g," 'goto-last-change-reverse)
   (define-key evil-normal-state-map "^" 'evil-ex-repeat-substitute)
@@ -239,6 +268,8 @@
 	;;; avy
   (define-key evil-normal-state-map "\'" 'evil-repeat-find-char)
   (define-key evil-normal-state-map "s" 'evil-avy-goto-word-or-subword-1)
+
+	(global-set-key (kbd "M-s") 'evil-avy-goto-char)
 
 	;;; Visual mode 
   (define-key evil-normal-state-map (kbd "[ e") 'move-text-up)

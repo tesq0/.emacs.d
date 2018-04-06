@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("ranger-s"
+(("ranger-t"
+ (filename . "~/back/dubiex/")
+ (front-context-string)
+ (rear-context-string . "1K Mar 27 13:00 ")
+ (position . 142))
+("ranger-n"
+ (filename . "~/Notes/")
+ (front-context-string . "kappa.js\n  -rw-r")
+ (rear-context-string . "9K Mar  4 04:20 ")
+ (position . 142))
+("ranger-s"
  (filename . "~/.config/Scripts/")
  (front-context-string . "dx.sh\n  -rw-r--r")
  (rear-context-string . "82 Mar 11 19:00 ")
