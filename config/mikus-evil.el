@@ -5,6 +5,7 @@
 	:config
 	(evil-set-initial-state 'term-mode 'emacs)
 	(evil-set-initial-state 'calendar-mode 'emacs)
+	(evil-set-initial-state 'magit-mode 'emacs)
 	;; :init
 	;; (add-hook 'indium-repl-mode-hook 'evil-mode nil)
 	)
@@ -27,12 +28,14 @@
 
 ;; helm-split-window-inside-p           t
 (use-package helm
-	:ensure t 
-	:config 
+	:ensure t
+	:config
 	(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 	(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 	(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-	(setq 
+	(global-set-key (kbd "M-x") 'helm-M-x) ; list actions using C-z
+	(define-key helm-map (kbd "<escape>") 'helm-keyboard-quit)
+	(setq
 	helm-move-to-line-cycle-in-source t ; move to end or beginning of source when reaching top or bottom of source.
 	helm-split-window-inside-p t ; open helm buffer inside current window, not occupy whole other window
 	helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
@@ -44,8 +47,9 @@
 	(helm-autoresize-mode 1)
 	(setq helm-buffers-fuzzy-matching t
 				helm-recentf-fuzzy-match    t)
-	(helm-mode 1)
 
+	(evil-set-initial-state 'helm-mode 'emacs)
+	(helm-mode 1) 
 	) 
 
 
@@ -66,6 +70,9 @@
 
 (use-package helm-projectile
 	:ensure t 
+	:init
+	(projectile-mode)
+	(helm-projectile-on)
 	)
 (use-package evil-visualstar
   :ensure t)
@@ -88,16 +95,16 @@
   "w"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-window/body)))
   "g"  'magit-status
   "b"  'helm-buffers-list
-  "p"  'helm-projectile-find-file
+  "p"  'projectile-command-map
   "k"  'helm-register
   "a"  'ace-window
   ;;"f"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-fzf/body)))
 	"f"  'fzf-directory
-	"s"  'evil-avy-goto-char
 	"k"  'kill-buffer
 	"q"  'helm-show-kill-ring
   "m"  'helm-all-mark-rings
   "o"  'helm-occur
+  "O"  'projectile-multi-occur
   "t"  'helm-top
   "x"  'helm-M-x
   "ef" 'flycheck-buffer
@@ -144,6 +151,8 @@
   (move-text-internal (- arg)))
 
 
+
+
 (with-eval-after-load 'evil-maps
   ;;; Motion
 	(evil-define-motion move-2-lines-down ()
@@ -158,6 +167,7 @@
   ;; (define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (scroll-right 20)))
   ;; (define-key evil-motion-state-map (kbd "M-;")  (lambda () (interactive) (scroll-left 20)))
   ;; (define-key evil-motion-state-map (kbd "M-j")  (lambda () (interactive) (scroll-right 20)))
+	(define-key evil-motion-state-map (kbd "C-b") nil)
 
   (define-key evil-motion-state-map (kbd "C-;")  (lambda () (interactive) (evil-scroll-column-right 20)))
   (define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (evil-scroll-column-left 20)))
@@ -185,6 +195,8 @@
   (define-key evil-motion-state-map (kbd "M-k")  'evil-avy-goto-line-below)
   (define-key evil-motion-state-map (kbd "M-l")  'evil-avy-goto-line-above) 
 
+  (define-key evil-motion-state-map (kbd "K")  'evil-avy-goto-line-below)
+  (define-key evil-motion-state-map (kbd "L")  'evil-avy-goto-line-above) 
 
 	;; same for visual 
   (define-key evil-visual-state-map (kbd "K")  'evil-avy-goto-line-below)
@@ -228,18 +240,60 @@
   (define-key evil-insert-state-map (kbd "C-n") 'company-select-next)
   (define-key evil-insert-state-map (kbd "C-n") 'company-select-next)
 	(define-key evil-insert-state-map (kbd "C-p")  'company-select-previous)
-	;
+	
 	
 	
 
-  (global-set-key (kbd "M-SPC") 'company-complete-common) 
+  (global-set-key (kbd "C-SPC") 'company-complete-common) 
+
 
 	(defun evil-keyboard-quit ()
 		"Keyboard quit and force normal state."
 		(interactive)
 		(and evil-mode (evil-force-normal-state))
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
 		(keyboard-quit))
 
+	(defun go-start-of-line ()
+		"go to the start of line"
+		(interactive)
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
+		(evil-beginning-of-line))
+
+	(defun go-end-of-line ()
+		"go to the end of line"
+		(interactive)
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
+		(evil-end-of-line))
+
+	(defun go-end-of-visual-line ()
+		"go to the end of visual line"
+		(interactive)
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
+		(evil-end-of-visual-line))
+
+	(defun go-start-of-visual-line ()
+		"go to the start of visual line"
+		(interactive)
+		(if (not auto-hscroll-mode) 
+				(setq auto-hscroll-mode t))
+		(evil-beginning-of-visual-line))
+
+	(define-key evil-motion-state-map   (kbd "C-e") #'go-end-of-line) 
+	(define-key evil-motion-state-map   (kbd "ge") #'go-end-of-visual-line) 
+
+	(define-key evil-motion-state-map   (kbd "C-b") #'go-start-of-line) 
+	(define-key evil-motion-state-map   (kbd "gb") #'go-start-of-visual-line) 
+
+	(define-key evil-motion-state-map   (kbd "M-b") #'backward-word) 
+
+	(define-key evil-motion-state-map   (kbd "M-h") #'avy-pop-mark) 
+	(define-key evil-motion-state-map   (kbd "M-y") #'avy-copy-line) 
+	(define-key evil-motion-state-map   (kbd "M-m") #'avy-move-line) 
 
 	(define-key evil-normal-state-map   (kbd "C-g") #'evil-keyboard-quit) 
 	(define-key evil-motion-state-map   (kbd "C-g") #'evil-keyboard-quit) 
@@ -247,15 +301,8 @@
 	(define-key evil-window-map         (kbd "C-g") #'evil-keyboard-quit) 
 	(define-key evil-operator-state-map (kbd "C-g") #'evil-keyboard-quit) 
 
-
-  ;;; Normal mode 
-	(defun force-normal-mode ()
-		(interactive)
-		(if (not auto-hscroll-mode) 
-				(setq auto-hscroll-mode t))
-		(evil-force-normal-state))
-
-	(define-key evil-normal-state-map (kbd "<escape>") 'force-normal-mode)
+	(global-set-key (kbd "<escape>") 'evil-keyboard-quit)
+	(define-key evil-normal-state-map (kbd "<escape>") 'evil-keyboard-quit)
 
 	(define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-normal-state-map (kbd "M-,") nil)
@@ -268,8 +315,9 @@
 	;;; avy
   (define-key evil-normal-state-map "\'" 'evil-repeat-find-char)
   (define-key evil-normal-state-map "s" 'evil-avy-goto-word-or-subword-1)
+  (define-key evil-normal-state-map "S" 'evil-avy-goto-char)
 
-	(global-set-key (kbd "M-s") 'evil-avy-goto-char)
+	(global-set-key (kbd "M-s") 'evil-avy-goto-char-in-line)
 
 	;;; Visual mode 
   (define-key evil-normal-state-map (kbd "[ e") 'move-text-up)

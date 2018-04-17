@@ -75,9 +75,9 @@
 	:ensure t
 	)
 
-(use-package xref-js2
-	:ensure t
-	)
+;; (use-package xref-js2
+;; 	:ensure t
+;; 	)
 
 ;; disable jshint, we will use eslint instead
 (setq-default flycheck-disabled-checkers

@@ -4,18 +4,17 @@
 
 
 (setq user-full-name "Mikołaj Gałkowski")                 ; My name
-(setq gc-cons-threshold (* 500 1024 1024))                  ; increase the threshold for garbage collection - 100 MB
-(setq delete-old-versions -1)                     ; delete excess backup versions silently
-(setq delete-old-versions -1)                     ; delete excess backup versions silently
-(setq version-control t)                      ; use version control for backups
-(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))             ; which directory to put backups file
+;;(setq gc-cons-threshold (* 500 1024 1024))                  ; increase the threshold for garbage collection - 100 MB
+;;(setq delete-old-versions -1)                     ; delete excess backup versions silently
+;;(setq version-control t)                      ; use version control for backups
+;;(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))             ; which directory to put backups file
+(setq make-backup-files nil)
 (setq inhibit-startup-screen t)                     ; inhibit useless and old-school startup screen
 (setq visible-bell nil)                       ; no visible bell for errors
-(setq auto-hscroll-mode t)                        ; no visible bell for errors
 (setq ring-bell-function 'ignore)                   ; silent bell when you make a mistake
 (setq coding-system-for-read 'utf-8)                    ; use utf-8 by default for reading
 (setq coding-system-for-write 'utf-8)                   ; use utf-8 by default for writing
-(setq initial-major-mode 'fundamental-mode)                 ; set the mode of the initial scratch buffer
+(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
 (setq initial-scratch-message "")                             ; print nothing and leave screen at insert mode
 (menu-bar-mode -1)                        ; deactivate the menubar
 (tool-bar-mode -1)                        ; deactivate the toolbar
@@ -25,21 +24,21 @@
 (setq-default truncate-lines t)                     ; always truncate lines ;hello
 (setq large-file-warning-threshold (* 15 1024 1024))                ; increase theshold for larger files
 (fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
-(setq-default abbrev-mode t)                      ; turn on abbreviations by default
+;; (setq-default abbrev-mode t)                      ; turn on abbreviations by default
 (setq recenter-positions '(middle top bottom))                    ; recenter from the top instead of the middle
-(put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
-(put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
+ ;; (put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
+ ;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
 (when (fboundp 'winner-mode)                      ; when you can find 'winner-mode'
   (winner-mode 1))                        ; activate winner mode
-(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
+;;(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
 (setq echo-keystrokes 0.05)                     ; when to echo keystrokes
-(setq frame-resize-pixelwise t)                     ; resize based on pixels to remove annoying gaps
+;;(setq frame-resize-pixelwise t)                     ; resize based on pixels to remove annoying gaps
 (setq-default tab-width 2)                        ; default tab width
 (show-paren-mode 1)                     ; hightlight pharentheses and shit
-(setq x-super-keysym 'meta)             ;use super as meta
+;; (setq x-super-keysym 'meta)             ;use super as meta
 (setq shell-file-name "bash")           ; shell name to bash
 (setq shell-command-switch "-c")        ; use my .bashrc aliases
-(setq initial-buffer-choice t)
+(setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 ;; (server-start)
 ;; (setq debug-on-error t)
 ;; (setq split-width-threshold 'nil)
@@ -293,12 +292,24 @@
   :ensure t
   )
 
-(use-package smooth-scroll
-  :ensure t
-  :config
-  (smooth-scroll-mode)
-  )
+;; (use-package smooth-scroll
+;;   :ensure t
+;;   :config
+;;   (smooth-scroll-mode)
+;;   )
 
+;; jump to definition
+
+(use-package ag
+	:ensure t )
+
+(use-package dumb-jump
+	:ensure t 
+	:config
+	(global-set-key (kbd "M-.") 'dumb-jump-go)
+	(global-set-key (kbd "M-,") 'dumb-jump-back)
+	(add-hook 'dumb-jump-after-jump-hook 'hl-line-flash)
+	)
 
 ;; (use-package multiple-cursors
 ;;   :bind (("M-RET" . mc/edit-lines)
@@ -368,7 +379,11 @@
 ;; magit package
 
 (use-package magit 
-  :ensure t) 
+  :ensure t
+	:config
+	(define-key magit-mode-map (kbd "<escape>") 'magit-mode-bury-buffer) 
+	(define-key magit-mode-map (kbd "C-g") 'magit-mode-bury-buffer) 
+	) 
 
 ;; exex path from shell to fix stuff with bash and shit
 
@@ -404,14 +419,14 @@ buffer is not visiting a file."
   (setq
    ranger-show-hidden nil
    ranger-override-dired-mode t
-   ranger-cleanup-on-disable t)
+   ranger-cleanup-on-disable t
+	 ranger-cleanup-eagerly t
+	 )
 	(add-hook 'ranger-mode-hook
 						(lambda ()
 							(local-unset-key "\C-f")
 							(local-unset-key "\C-b")
-							(setq-local helm-descbinds-window-style 'same-window 
-										helm-split-window-inside-p nil ; make helm occupy window, just for ranger
-										)))
+							(local-unset-key "\C-h")))
 	:config 
 	(define-key ranger-mode-map "C-f" 'nil)
 	(define-key ranger-mode-map "C-h" 'nil)
@@ -423,6 +438,8 @@ buffer is not visiting a file."
   (define-key ranger-normal-mode-map (kbd "h") 'ranger-goto-mark)
   (define-key ranger-mode-map ";" 'ranger-find-file)
   (define-key ranger-normal-mode-map ";" 'ranger-find-file) 
+	(define-key ranger-mode-map (kbd "C-g") 'ranger-close)
+	(define-key ranger-mode-map (kbd "<escape>") 'ranger-close)
 	)
 
 ;; let's define some ghetoo keybindings
@@ -440,6 +457,7 @@ buffer is not visiting a file."
 	(make-frame))
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
+;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
 (define-key ctl-x-5-map (kbd "n") 'vmake-frame)
 (define-key ctl-x-5-map (kbd "N") 'hmake-frame)
 (define-key ctl-x-5-map (kbd "b") 'switch-to-buffer-other-frame)
@@ -449,11 +467,20 @@ buffer is not visiting a file."
 (define-key ctl-x-5-map (kbd "C-i") 'other-frame)
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
 
+(define-prefix-command 'mikus-search-map)
+(evil-leader/set-key "s" 'mikus-search-map)
+(define-key mikus-search-map (kbd "f") 'fzf-directory)
+(define-key mikus-search-map (kbd "g") 'projectile-grep)
+(define-key mikus-search-map (kbd "a") 'projectile-ag)
 
 
 
+;; (define-prefix-command 'space-map)
+;; (global-set-key (kbd "SPC") 'space-map) 
 
-
+(define-prefix-command 'helm-utils-map) 
+(evil-leader/set-key "h" 'helm-utils-map)
+(define-key helm-utils-map (kbd "c") 'helm-colors)
 
 
 (custom-set-variables
@@ -466,7 +493,7 @@ buffer is not visiting a file."
 		("bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" "75c5c39809c52d48cb9dcbf1694bf2d27d5f6fd053777c194e0b69d8e49031c0" default)))
  '(package-selected-packages
 	 (quote
-		(hl-line+ nav-flash zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode json-mode js2-refactor js-doc ivy indium hydra helm-projectile gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-leader evil-easymotion editorconfig diminish company-tern ace-window))))
+		(helm-ag ag dumb-jump hl-line+ nav-flash zerodark-theme xterm-color which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode json-mode js2-refactor js-doc ivy indium hydra helm-projectile gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-leader evil-easymotion editorconfig diminish company-tern ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
