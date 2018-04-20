@@ -57,6 +57,7 @@
 	(setq web-mode-code-indent-offset 2)
 	:config
 	(setq web-mode-auto-quote-style nil)
+	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
 	)
 
 (use-package tern

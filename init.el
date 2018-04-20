@@ -8,7 +8,7 @@
 ;;(setq delete-old-versions -1)                     ; delete excess backup versions silently
 ;;(setq version-control t)                      ; use version control for backups
 ;;(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))             ; which directory to put backups file
-(setq make-backup-files nil)
+(setq make-backup-files nil)						;Don't write backup files
 (setq inhibit-startup-screen t)                     ; inhibit useless and old-school startup screen
 (setq visible-bell nil)                       ; no visible bell for errors
 (setq ring-bell-function 'ignore)                   ; silent bell when you make a mistake
@@ -243,6 +243,10 @@
 
 ;;; Shell mode
 
+;; better help
+
+(require 'help-fns+)
+
 ;;; helm sys
 (require 'helm-sys)
 
@@ -255,13 +259,19 @@
          ("<s-right>" . buf-move-right)))
 
 
+
 ;; autocompletion
 
 (use-package company
   :init (progn
           (add-hook 'prog-mode-hook 'company-mode))
+	:diminish
   :config (progn
-            (setq company-idle-delay 0.5)
+						(setq company-selection-wrap-around t)
+						(define-key company-active-map [tab] 'company-complete)
+						(define-key company-active-map (kbd "C-n") 'company-select-next)
+						(define-key company-active-map (kbd "C-p") 'company-select-previous)
+            (setq company-idle-delay 0.2)
             (setq company-tooltip-limit 10)
             (setq company-minimum-prefix-length 2)
             (setq company-tooltip-flip-when-above t)
@@ -406,8 +416,8 @@ buffer is not visiting a file."
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;;; unset some keys
-(global-set-key (kbd "<f3>") nil)
- 
+(global-set-key (kbd "<f3>") nil) 
+(global-unset-key (kbd "C-z"))
 
 ;; Use ranger dired extension for best file management
 
@@ -433,7 +443,7 @@ buffer is not visiting a file."
 	(define-key ranger-mode-map "C-b" 'nil) 
   (define-key ranger-normal-mode-map "k" 'ranger-next-file)
   (define-key ranger-normal-mode-map "l" 'ranger-prev-file) 
-  (define-key ranger-normal-mode-map "j" 'ranger-up-directory) 
+  (define-key ranger-normal-mode-map "j" 'ranger-up-directory)
   (define-key ranger-mode-map ":" ranger-dired-map) 
   (define-key ranger-normal-mode-map (kbd "h") 'ranger-goto-mark)
   (define-key ranger-mode-map ";" 'ranger-find-file)
@@ -481,19 +491,14 @@ buffer is not visiting a file."
 (define-prefix-command 'helm-utils-map) 
 (evil-leader/set-key "h" 'helm-utils-map)
 (define-key helm-utils-map (kbd "c") 'helm-colors)
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-	 (quote
-		("bce3ae31774e626dce97ed6d7781b4c147c990e48a35baedf67e185ebc544a56" "75c5c39809c52d48cb9dcbf1694bf2d27d5f6fd053777c194e0b69d8e49031c0" default)))
  '(package-selected-packages
 	 (quote
-		(helm-ag ag dumb-jump hl-line+ nav-flash zerodark-theme xterm-color which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode json-mode js2-refactor js-doc ivy indium hydra helm-projectile gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-leader evil-easymotion editorconfig diminish company-tern ace-window))))
+		(help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-leader evil-easymotion editorconfig dumb-jump diminish company-tern ag ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
