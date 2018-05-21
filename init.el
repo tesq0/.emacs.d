@@ -29,7 +29,7 @@
  ;; (put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
  ;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
 (when (fboundp 'winner-mode)                      ; when you can find 'winner-mode'
-  (winner-mode 1))                        ; activate winner mode
+	(winner-mode 1))                        ; activate winner mode
 ;;(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
 (setq echo-keystrokes 0.05)                     ; when to echo keystrokes
 ;;(setq frame-resize-pixelwise t)                     ; resize based on pixels to remove annoying gaps
@@ -41,6 +41,14 @@
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
 (add-to-list 'default-frame-alist '(font . "Hack" ))
+
+;; line number mode;
+;;(setq display-line-numbers-current-absolute nil)
+;;(set-cursor-color "#FFFFFF")
+;;(blink-cursor-mode)
+
+;; (global-display-line-numbers-mode)
+;;(setq display-line-numbers-type 'relative)
 ;; (server-start)
 ;; (setq debug-on-error t)
 ;; (setq split-width-threshold 'nil)
@@ -75,8 +83,8 @@
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
 (setq package-archives '(("org"       . "https://orgmode.org/elpa/")
-                         ("gnu"       . "https://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")))
+												 ("gnu"       . "https://elpa.gnu.org/packages/")
+												 ("melpa"     . "https://melpa.org/packages/")))
 
 ;; initialize the packages
 (setq package-check-signature nil)
@@ -87,15 +95,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+	(package-refresh-contents)
+	(package-install 'use-package))
 (eval-when-compile
-  (require 'use-package))
-(require 'bind-key)       
+	(require 'use-package))
+(require 'bind-key)
 
 (use-package diminish
-  :ensure t
-  :defer t)
+	:ensure t
+	:defer t)
 
 
 
@@ -107,66 +115,66 @@
 
 ;; pdf/image viewing
 (use-package doc-view
-  :hook ((doc-view-mode . doc-view-fir-page-to-window)
-         (doc-view-minor-mode . doc-view-fir-page-to-window))
-  :init
-  (setq doc-view-continuous t))
+	:hook ((doc-view-mode . doc-view-fir-page-to-window)
+				 (doc-view-minor-mode . doc-view-fir-page-to-window))
+	:init
+	(setq doc-view-continuous t))
 
 ;; builtin version control
 (use-package vc
-  :init
-  (setq vc-make-backup-files t
-        vc-follow-symlinks t))
+	:init
+	(setq vc-make-backup-files t
+				vc-follow-symlinks t))
 
 ;; diff management
 (use-package ediff
-  :init
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain
-        ediff-split-window-function 'split-window-horizontally))
+	:init
+	(setq ediff-window-setup-function 'ediff-setup-windows-plain
+				ediff-split-window-function 'split-window-horizontally))
 
 ;; abbrev
 (use-package abbrev
-  :diminish abbrev-mode
-  :init
-  (setq save-abbrevs 'silently)
-  :config
-  (if (file-exists-p abbrev-file-name)
-      (quietly-read-abbrev-file)))
+	:diminish abbrev-mode
+	:init
+	(setq save-abbrevs 'silently)
+	:config
+	(if (file-exists-p abbrev-file-name)
+			(quietly-read-abbrev-file)))
 
 
 ;; auto fill mode
 (use-package simple
-  :diminish auto-fill-function)
+	:diminish auto-fill-function)
 
 ;; auto revert mode
 (use-package autorevert
-  :defer t
-  :diminish auto-revert-mode)
+	:defer t
+	:diminish auto-revert-mode)
 
 ;; ;; documentation helper
 ;; (use-package eldoc
 ;;   :hook (prog-mode . eldoc-mode)
 ;;   :diminish eldoc-mode)
 
-;; spell check 
+;; spell check
 (use-package flyspell
-  :bind (:map flyspell-mode-map
-              ("C-;" . nil))
-  :init (progn
-          ;; (add-hook 'prog-mode-hook #'flyspell-prog-mode)
-          (dolist (mode-hook '(text-mode-hook org-mode-hook LaTeX-mode-hook))
-            (add-hook mode-hook #'flyspell-mode))))
+	:bind (:map flyspell-mode-map
+							("C-;" . nil))
+	:init (progn
+					;; (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+					(dolist (mode-hook '(text-mode-hook org-mode-hook LaTeX-mode-hook))
+						(add-hook mode-hook #'flyspell-mode))))
 
 ;; save history
 (use-package savehist
-  :defer t
-  :config
-  (savehist-mode 1))
+	:defer t
+	:config
+	(savehist-mode 1))
 
 
 (use-package fzf
-  :defer t
-  :config 
+	:defer t
+	:config
 	(progn
 		(setq fzf/directory-start "/")
 		)
@@ -174,7 +182,7 @@
 
 (use-package term
 						 :config
-						 (progn 
+						 (progn
 							 (define-key term-mode-map "\C-n" 'term-next-input)
 							 (define-key term-mode-map "\C-p" 'term-previous-input)
 							 )
@@ -187,47 +195,47 @@
 
 ;; extra functions
 (add-to-list 'load-path
-             (expand-file-name "defuns" user-emacs-directory))
+						 (expand-file-name "defuns" user-emacs-directory))
 
 ;; other configuration
 (add-to-list 'load-path
-             (expand-file-name "config" user-emacs-directory))
+						 (expand-file-name "config" user-emacs-directory))
 
 ;; manually installed packages
 (add-to-list 'load-path
-             (expand-file-name "local" user-emacs-directory))
+						 (expand-file-name "local" user-emacs-directory))
 
 ;; themes
 (add-to-list 'load-path
-             (expand-file-name "themes" user-emacs-directory))
+						 (expand-file-name "themes" user-emacs-directory))
 
 (use-package async
-  :ensure t
-  :config 
-  (autoload 'dired-async-mode "dired-async.el" nil t)
-  (dired-async-mode 1)
-  )
+	:ensure t
+	:config
+	(autoload 'dired-async-mode "dired-async.el" nil t)
+	(dired-async-mode 1)
+	)
 
 
 ;; hint for bindings
 (use-package which-key
-  :ensure t
-  :demand t
-  :diminish which-key-mode
-  :bind* (("C-c ?" . which-key-show-top-level))
-  :config
-  ;; workaround for emacs 26
-  (if (version< emacs-version "26")
-      (message "Tracking stable Emacs")
-    (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window))
-  ;; turn on which key and add some names for default/common prefixes
-  (which-key-enable-god-mode-support)
-  (which-key-mode))
+	:ensure t
+	:demand t
+	:diminish which-key-mode
+	:bind* (("C-c ?" . which-key-show-top-level))
+	:config
+	;; workaround for emacs 26
+	(if (version< emacs-version "26")
+			(message "Tracking stable Emacs")
+		(defalias 'display-buffer-in-major-side-window 'window--make-major-side-window))
+	;; turn on which key and add some names for default/common prefixes
+	(which-key-enable-god-mode-support)
+	(which-key-mode))
 
 
 (use-package restart-emacs
-  :ensure t
-  :bind* (("C-x C" . restart-emacs)))
+	:ensure t
+	:bind* (("C-x C" . restart-emacs)))
 
 ;;configs
 (require 'mikus-evil)
@@ -260,24 +268,24 @@
 ;; autocompletion
 
 (use-package company
-  :init (progn
-          (add-hook 'prog-mode-hook 'company-mode))
+	:init (progn
+					(add-hook 'prog-mode-hook 'company-mode))
 	:diminish
-  :config (progn
+	:config (progn
 						(setq company-selection-wrap-around t)
 						(define-key company-active-map [tab] 'company-complete)
 						(define-key company-active-map (kbd "C-n") 'company-select-next)
 						(define-key company-active-map (kbd "C-p") 'company-select-previous)
-            (setq company-idle-delay 0.2)
-            (setq company-tooltip-limit 10)
-            (setq company-minimum-prefix-length 2)
-            (setq company-tooltip-flip-when-above t)
-            (add-to-list 'company-backends '( company-keywords company-capf company-files company-omnisharp))))
+						(setq company-idle-delay 0.2)
+						(setq company-tooltip-limit 10)
+						(setq company-minimum-prefix-length 2)
+						(setq company-tooltip-flip-when-above t)
+						(add-to-list 'company-backends '( company-keywords company-capf company-files company-omnisharp))))
 
 (use-package company-dabbrev
-  :config (progn
-            (setq company-dabbrev-ignore-case t)
-            (setq company-dabbrev-downcase nil)))
+	:config (progn
+						(setq company-dabbrev-ignore-case t)
+						(setq company-dabbrev-downcase nil)))
 
 
 (use-package slime-company
@@ -291,23 +299,23 @@
 
 
 (use-package editorconfig
-  :ensure t
-  :config (editorconfig-mode 1))
+	:ensure t
+	:config (editorconfig-mode 1))
 
 (use-package elec-pair
-  :ensure t
-  :config (electric-pair-mode t))
+	:ensure t
+	:config (electric-pair-mode t))
 
-  
+
 (use-package company-tern
-  :ensure t
-  )
+	:ensure t
+	)
 
-;; (use-package smooth-scroll
-;;   :ensure t
-;;   :config
-;;   (smooth-scroll-mode)
-;;   )
+(use-package smooth-scroll
+	:ensure t
+	:config
+	(smooth-scroll-mode)
+	)
 
 ;; jump to definition
 
@@ -315,7 +323,7 @@
 	:ensure t )
 
 (use-package dumb-jump
-	:ensure t 
+	:ensure t
 	:config
 	(global-set-key (kbd "M-.") 'dumb-jump-go)
 	(global-set-key (kbd "M-,") 'dumb-jump-back)
@@ -325,22 +333,27 @@
 
 
 (use-package rainbow-mode
-  :ensure t)
+	:ensure t)
 
 
 (use-package org
-  :ensure t)
+	:ensure t)
 
-;; defuns 
+;; defuns
 
 (require 'reindent-buffer)
 
 
 
 ;; colortheme
-(load-theme 'dracula t)
+;;(load-theme 'dracula t)
 
-
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame
+                  (load-theme 'dracula t))))
+  (load-theme 'dracula t))
 
 
 ;; (use-package gruvbox-theme
@@ -352,7 +365,7 @@
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'zerodark t)
-;;   (zerodark-setup-modeline-format) 
+;;   (zerodark-setup-modeline-format)
 ;;   )
 
 ;; (use-package zerodark-theme
@@ -375,17 +388,20 @@
 
 ;; magit package
 
-(use-package magit 
-  :ensure t
+(use-package magit
+	:ensure t
 	:config
-	(define-key magit-mode-map (kbd "<escape>") 'magit-mode-bury-buffer) 
-	(define-key magit-mode-map (kbd "C-g") 'magit-mode-bury-buffer) 
+	(define-key magit-mode-map (kbd "<escape>") 'magit-mode-bury-buffer)
+	(define-key magit-mode-map (kbd "C-g") 'magit-mode-bury-buffer)
 	;; SMERGE
 	(define-key smerge-mode-map (kbd "C-c m") (lookup-key smerge-mode-map (kbd "C-c ^")))
-	) 
+	)
 
 
-
+(defun byte-compile-emacs ()
+	"A function to byte compile Emacs dir."
+	(interactive)
+	(byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
 
 ;; exex path from shell to fix stuff with bash and shit
 
@@ -393,22 +409,22 @@
 ;;   :ensure t
 ;;  :init
 ;;  (exec-path-from-shell-initialize)
-;;  ) 
+;;  )
 
 (defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
+	"Edit currently visited file as root.
 
 With a prefix ARG prompt for a file to visit.
 Will also prompt for a file to visit if current
 buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+	(interactive "P")
+	(if (or arg (not buffer-file-name))
+			(find-file (concat "/sudo:root@localhost:"
+												 (ido-read-file-name "Find file(as root): ")))
+		(find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;;; unset some keys
-(global-set-key (kbd "<f3>") nil) 
+(global-set-key (kbd "<f3>") nil)
 (global-unset-key (kbd "C-z"))
 
 
@@ -417,8 +433,8 @@ buffer is not visiting a file."
 (use-package origami
 	:ensure t
 	:config
-	(define-prefix-command	'origami-prefix) 
-	(define-prefix-command	'origami-prefix-all) 
+	(define-prefix-command	'origami-prefix)
+	(define-prefix-command	'origami-prefix-all)
 	(define-key origami-mode-map (kbd "C-o") 'origami-prefix)
 	(define-key origami-prefix (kbd "<tab>") 'origami-recursively-toggle-node)
 	(define-key origami-prefix (kbd "O") 'origami-show-only-node)
@@ -451,15 +467,15 @@ buffer is not visiting a file."
 
 ;; Use ranger dired extension for best file management
 
-(use-package ranger 
-  :ensure t
-  :commands (deer)
-  :bind (("<f3>" . deer))
-  :init
-  (setq
-   ranger-show-hidden nil
-   ranger-override-dired-mode t
-   ranger-cleanup-on-disable t
+(use-package ranger
+	:ensure t
+	:commands (deer)
+	:bind (("<f3>" . deer))
+	:init
+	(setq
+	 ranger-show-hidden nil
+	 ranger-override-dired-mode t
+	 ranger-cleanup-on-disable t
 	 ranger-cleanup-eagerly t
 	 )
 	(add-hook 'ranger-mode-hook
@@ -467,17 +483,17 @@ buffer is not visiting a file."
 							(local-unset-key "\C-f")
 							(local-unset-key "\C-b")
 							(local-unset-key "\C-h")))
-	:config 
+	:config
 	(define-key ranger-mode-map "C-f" 'nil)
 	(define-key ranger-mode-map "C-h" 'nil)
-	(define-key ranger-mode-map "C-b" 'nil) 
-  (define-key ranger-normal-mode-map "k" 'ranger-next-file)
-  (define-key ranger-normal-mode-map "l" 'ranger-prev-file) 
-  (define-key ranger-normal-mode-map "j" 'ranger-up-directory)
-  (define-key ranger-mode-map ":" ranger-dired-map) 
-  (define-key ranger-normal-mode-map (kbd "h") 'ranger-goto-mark)
-  (define-key ranger-mode-map ";" 'ranger-find-file)
-  (define-key ranger-normal-mode-map ";" 'ranger-find-file) 
+	(define-key ranger-mode-map "C-b" 'nil)
+	(define-key ranger-normal-mode-map "k" 'ranger-next-file)
+	(define-key ranger-normal-mode-map "l" 'ranger-prev-file)
+	(define-key ranger-normal-mode-map "j" 'ranger-up-directory)
+	(define-key ranger-mode-map ":" ranger-dired-map)
+	(define-key ranger-normal-mode-map (kbd "h") 'ranger-goto-mark)
+	(define-key ranger-mode-map ";" 'ranger-find-file)
+	(define-key ranger-normal-mode-map ";" 'ranger-find-file)
 	(define-key ranger-mode-map (kbd "C-g") 'ranger-close)
 	(define-key ranger-mode-map (kbd "<escape>") 'ranger-close)
 	(define-key ranger-mode-map (kbd "<f7>") 'dired-create-directory)
@@ -489,17 +505,21 @@ buffer is not visiting a file."
 
 ;; let's define some ghetoo keybindings
 
-;; (define-prefix-command	'frame-map) 
+;; (define-prefix-command	'frame-map)
 (defun vmake-frame ()
 	"Make an Emacs horizontal frame in i3 window manager."
 	(interactive)
 	(shell-command "i3-msg split v")
-	(make-frame)) 
+	(make-frame))
 (defun hmake-frame ()
 	"Make an Emacs horizontal frame in i3 window manager."
 	(interactive)
 	(shell-command "i3-msg split h")
 	(make-frame))
+
+(define-prefix-command	'toggle-map)
+(global-set-key (kbd "C-c o") 'toggle-map)
+(define-key toggle-map (kbd "l") 'linum-mode)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 ;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
@@ -535,9 +555,9 @@ buffer is not visiting a file."
 
 
 ;; (define-prefix-command 'space-map)
-;; (global-set-key (kbd "SPC") 'space-map) 
+;; (global-set-key (kbd "SPC") 'space-map)
 
-(define-prefix-command 'helm-utils-map) 
+(define-prefix-command 'helm-utils-map)
 (evil-leader/set-key "h" 'helm-utils-map)
 (define-key helm-utils-map (kbd "c") 'helm-colors)
 (custom-set-variables

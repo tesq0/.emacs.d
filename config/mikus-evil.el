@@ -52,8 +52,8 @@
 
 (use-package linum-relative
 	:ensure t
-	:config
-	(setq linum-relative-backend 'display-line-numbers-mode)
+	;; :config
+	;; (setq linum-relative-backend 'display-line-numbers-mode)
 	)
 
 (use-package helm
