@@ -39,7 +39,8 @@
 (setq shell-file-name "bash")           ; shell name to bash
 (setq shell-command-switch "-c")        ; use my .bashrc aliases
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
-(set-face-attribute 'default t :font "Hack-11" )
+
+(add-to-list 'default-frame-alist '(font . "Hack" ))
 ;; (server-start)
 ;; (setq debug-on-error t)
 ;; (setq split-width-threshold 'nil)

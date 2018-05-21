@@ -53,7 +53,7 @@
 (use-package linum-relative
 	:ensure t
 	:config
-	(setq linum-relative-global-mode t)
+	(setq linum-relative-backend 'display-line-numbers-mode)
 	)
 
 (use-package helm
