@@ -5,6 +5,7 @@
 
 ;;; Code:
 
+(define-prefix-command 'javascript-prefix)
 
 (defun setup-tide-mode ()
   (interactive)
@@ -76,6 +77,22 @@
 	:ensure t
 	)
 
+;; javascript interpreter in a window
+(use-package js-comint
+	:ensure t)
+
+(use-package prettier-js
+	:ensure t
+	:init
+	(setq prettier-js-args '("--use-tabs" "true" "--bracket-spacing" "false" "--print-width" "100"))
+	:config
+	(define-key 'javascript-prefix (kbd "p") 'prettier-js)
+	)
+
+(use-package emmet-mode
+	:ensure t
+	)
+
 ;; (use-package xref-js2
 ;; 	:ensure t
 ;; 	)
@@ -123,6 +140,7 @@
 					)
 
 
+
 (add-hook 'web-mode-hook
 					(lambda () 
 						;; selecting flycheck checkers based on file modes
@@ -141,6 +159,8 @@
 							(add-to-list (make-local-variable 'company-backends)
 													 'company-tern)
 							(tern-mode t) 
+							(prettier-js-mode)
+							(local-set-key (kbd "C-j") 'javascript-prefix)
 							(company-mode))
 						)
 					

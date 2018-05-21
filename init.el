@@ -39,6 +39,7 @@
 (setq shell-file-name "bash")           ; shell name to bash
 (setq shell-command-switch "-c")        ; use my .bashrc aliases
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
+(set-face-attribute 'default t :font "Hack-11" )
 ;; (server-start)
 ;; (setq debug-on-error t)
 ;; (setq split-width-threshold 'nil)
@@ -195,6 +196,9 @@
 (add-to-list 'load-path
              (expand-file-name "local" user-emacs-directory))
 
+;; themes
+(add-to-list 'load-path
+             (expand-file-name "themes" user-emacs-directory))
 
 (use-package async
   :ensure t
@@ -240,6 +244,8 @@
 
 
 (require 'mikus-webmode)
+(require 'mikus-csharp)
+
 
 ;;; Shell mode
 
@@ -249,16 +255,6 @@
 
 ;;; helm sys
 (require 'helm-sys)
-
-
-
-(use-package buffer-move
-  :bind (("<s-up>" . buf-move-up)
-         ("<s-down>" . buf-move-down)
-         ("<s-left>" . buf-move-left)
-         ("<s-right>" . buf-move-right)))
-
-
 
 ;; autocompletion
 
@@ -275,12 +271,16 @@
             (setq company-tooltip-limit 10)
             (setq company-minimum-prefix-length 2)
             (setq company-tooltip-flip-when-above t)
-            (add-to-list 'company-backends '( company-keywords company-capf company-files))))
+            (add-to-list 'company-backends '( company-keywords company-capf company-files company-omnisharp))))
 
 (use-package company-dabbrev
   :config (progn
             (setq company-dabbrev-ignore-case t)
             (setq company-dabbrev-downcase nil)))
+
+
+(use-package slime-company
+	:ensure t)
 
 ;; (use-package ediff
 ;;   :config (progn
@@ -321,30 +321,14 @@
 	(add-hook 'dumb-jump-after-jump-hook 'hl-line-flash)
 	)
 
-;; (use-package multiple-cursors
-;;   :bind (("M-RET" . mc/edit-lines)
-;;          ("C-<" . mc/mark-previous-like-this)
-;;          ("C->" . mc/mark-next-like-this)
-;;          ("C-M-<" . mc/unmark-next-like-this)
-;;          ("C-M->" . mc/unmark-previous-like-this)
-;;          ("C-c C-<" . mc/mark-all-like-this)))
 
 
 (use-package rainbow-mode
-  :ensure t
-  )
+  :ensure t)
 
 
 (use-package org
-  :ensure t
-  :config
-  (global-set-key "\M-n" 'org-metadown)
-  (global-set-key "\M-p" 'org-metaup)
-  (global-set-key "\M-ol" 'org-store-link)
-  (global-set-key "\M-oa" 'org-agenda)
-  (global-set-key "\M-oc" 'org-capture)
-  (global-set-key "\M-ob" 'org-iswitchb)
-  )
+  :ensure t)
 
 ;; defuns 
 
@@ -352,9 +336,11 @@
 
 
 
-
 ;; colortheme
-(load-theme 'deeper-blue)
+(load-theme 'dracula t)
+
+
+
 
 ;; (use-package gruvbox-theme
 ;;   :ensure t
@@ -393,7 +379,12 @@
 	:config
 	(define-key magit-mode-map (kbd "<escape>") 'magit-mode-bury-buffer) 
 	(define-key magit-mode-map (kbd "C-g") 'magit-mode-bury-buffer) 
+	;; SMERGE
+	(define-key smerge-mode-map (kbd "C-c m") (lookup-key smerge-mode-map (kbd "C-c ^")))
 	) 
+
+
+
 
 ;; exex path from shell to fix stuff with bash and shit
 
@@ -418,6 +409,44 @@ buffer is not visiting a file."
 ;;; unset some keys
 (global-set-key (kbd "<f3>") nil) 
 (global-unset-key (kbd "C-z"))
+
+
+
+;; ORIGAMI HEHE
+(use-package origami
+	:ensure t
+	:config
+	(define-prefix-command	'origami-prefix) 
+	(define-prefix-command	'origami-prefix-all) 
+	(define-key origami-mode-map (kbd "C-o") 'origami-prefix)
+	(define-key origami-prefix (kbd "<tab>") 'origami-recursively-toggle-node)
+	(define-key origami-prefix (kbd "O") 'origami-show-only-node)
+	(define-key origami-prefix (kbd "u") 'origami-undo)
+	(define-key origami-prefix (kbd "r") 'origami-redo)
+	(define-key origami-prefix (kbd "s") 'origami-show-node)
+	(define-key origami-prefix (kbd "t") 'origami-toggle-node)
+	(define-key origami-prefix (kbd "f") 'origami-forward-toggle-node)
+	(define-key origami-prefix (kbd "o") 'origami-open-node)
+	(define-key origami-prefix (kbd "C-o") 'origami-open-node-recursively)
+	(define-key origami-prefix (kbd "c") 'origami-close-node)
+	(define-key origami-prefix (kbd "C-c") 'origami-close-node-recursively)
+
+	(define-key origami-prefix (kbd "n") 'origami-next-fold)
+	(define-key origami-prefix (kbd "C-n") 'origami-forward-next-fold)
+	(define-key origami-prefix (kbd "M-n") 'origami-forward-fold-same-level)
+	(define-key origami-prefix (kbd "p") 'origami-previous-fold)
+	(define-key origami-prefix (kbd "C-p") 'origami-forward-previous-fold)
+	(define-key origami-prefix (kbd "M-p") 'origami-backward-fold-same-level)
+
+	(define-key origami-prefix (kbd "R") 'origami-reset)
+
+	(define-key origami-prefix (kbd "a") 'origami-prefix-all)
+	(define-key origami-prefix-all (kbd "o") 'origami-open-all-nodes)
+	(define-key origami-prefix-all (kbd "c") 'origami-close-all-nodes)
+	(define-key origami-prefix-all (kbd "t") 'origami-toggle-all-nodes)
+
+	)
+
 
 ;; Use ranger dired extension for best file management
 
@@ -450,6 +479,11 @@ buffer is not visiting a file."
   (define-key ranger-normal-mode-map ";" 'ranger-find-file) 
 	(define-key ranger-mode-map (kbd "C-g") 'ranger-close)
 	(define-key ranger-mode-map (kbd "<escape>") 'ranger-close)
+	(define-key ranger-mode-map (kbd "<f7>") 'dired-create-directory)
+	(define-key ranger-mode-map (kbd "<f8>") 'dired-do-delete)
+	(define-key ranger-mode-map (kbd "cw") 'dired-do-rename)
+	(define-key ranger-mode-map (kbd "cm") 'dired-do-chmod)
+	(define-key ranger-mode-map (kbd "cx") 'dired-do-compress)
 	)
 
 ;; let's define some ghetoo keybindings
@@ -484,6 +518,20 @@ buffer is not visiting a file."
 (define-key mikus-search-map (kbd "a") 'projectile-ag)
 
 
+;; languages config
+(use-package common-lisp-snippets
+	:ensure t )
+(use-package slime
+	:ensure t
+	:config
+	(setq inferior-lisp-program "/bin/sbcl"))
+(use-package cl-lib
+	:ensure t)
+
+
+
+
+
 
 ;; (define-prefix-command 'space-map)
 ;; (global-set-key (kbd "SPC") 'space-map) 
@@ -496,9 +544,12 @@ buffer is not visiting a file."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+	 (quote
+		("eecacf3fb8efc90e6f7478f6143fd168342bbfa261654a754c7d47761cec07c8" default)))
  '(package-selected-packages
 	 (quote
-		(help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-leader evil-easymotion editorconfig dumb-jump diminish company-tern ag ace-window))))
+		(omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

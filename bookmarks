@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("ranger-t"
+(("ranger-a"
+ (filename . "/run/media/mikus/DATA/mikusRice/.config/Scripts/")
+ (front-context-string . "shortcuts.py\n  -")
+ (rear-context-string . "3K Feb 17 01:23 ")
+ (position . 542))
+("ranger-m"
+ (filename . "/run/media/")
+ (front-context-string)
+ (rear-context-string . "60 May 20 10:35 ")
+ (position . 86))
+("ranger-t"
  (filename . "~/back/dubiex/")
  (front-context-string)
  (rear-context-string . "1K Mar 27 13:00 ")

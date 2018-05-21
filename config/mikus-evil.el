@@ -5,12 +5,12 @@
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'image-mode 'emacs)
-	(setq evil-emacs-state-cursor '("#B22222" box))
-	(setq evil-normal-state-cursor '("green" box))
-	(setq evil-visual-state-cursor '("purple" box))
-	(setq evil-insert-state-cursor '("orange" bar))
-	(setq evil-replace-state-cursor '("red" bar))
-	(setq evil-operator-state-cursor '("red" hollow))
+	;; (setq evil-emacs-state-cursor '("#B22222" box))
+	;; (setq evil-normal-state-cursor '("green" box))
+	;; (setq evil-visual-state-cursor '("purple" box))
+	;; (setq evil-insert-state-cursor '("orange" bar))
+	;; (setq evil-replace-state-cursor '("red" bar))
+	;; (setq evil-operator-state-cursor '("red" hollow))
 	;; :init
 	;; (add-hook 'indium-repl-mode-hook 'evil-mode nil)
 	)
@@ -34,6 +34,27 @@
 
 ;; helm-split-window-inside-p           t
 
+;; text manipulation.
+
+(use-package drag-stuff
+	:ensure t
+	:config
+	(define-key evil-normal-state-map (kbd "M-n") 'drag-stuff-down)
+	(define-key evil-normal-state-map (kbd "M-p") 'drag-stuff-up)
+	(define-key evil-normal-state-map (kbd "M-f") 'drag-stuff-right)
+	(define-key evil-normal-state-map (kbd "M-b") 'drag-stuff-left)
+	(define-key evil-visual-state-map (kbd "M-n") 'drag-stuff-down)
+	(define-key evil-visual-state-map (kbd "M-p") 'drag-stuff-up)
+	(define-key evil-visual-state-map (kbd "M-f") 'drag-stuff-right)
+	(define-key evil-visual-state-map (kbd "M-b") 'drag-stuff-left)
+	)
+
+
+(use-package linum-relative
+	:ensure t
+	:config
+	(setq linum-relative-global-mode t)
+	)
 
 (use-package helm
 	:ensure t
@@ -93,8 +114,9 @@
 	:init
 	(projectile-mode)
 	(helm-projectile-on)
-	(helm-add-action-to-source "Switch to buffer `M-b'" #'helm-projectile-switch-to-buffer helm-source-projectile-projects)
-	(helm-projectile-define-key helm-projectile-projects-map (kbd "M-b") #'helm-projectile-switch-to-buffer))
+	(helm-add-action-to-source "Oper deer ranger in project `M-r'" #'deer helm-source-projectile-projects)
+	(define-key projectile-command-map (kbd "<ESC>") nil)
+	(helm-projectile-define-key helm-projectile-projects-map (kbd "M-r") #'deer))
 (use-package evil-visualstar
 	:ensure t)
 
@@ -139,45 +161,13 @@
 
 (evil-mode 1)
 
-(defun move-text-internal (arg)
-	(cond
-	 ((and mark-active transient-mark-mode)
-		(if (> (point) (mark))
-				(exchange-point-and-mark))
-		(let ((column (current-column))
-					(text (delete-and-extract-region (point) (mark))))
-			(forward-line arg)
-			(move-to-column column t)
-			(set-mark (point))
-			(insert text)
-			(exchange-point-and-mark)
-			(setq deactivate-mark nil)))
-	 (t
-		(beginning-of-line)
-		(when (or (> arg 0) (not (bobp)))
-			(forward-line)
-			(when (or (< arg 0) (not (eobp)))
-				(transpose-lines arg))
-			(forward-line -1)))))
-
-(defun move-text-down (arg)
-	"Move region (transient-mark-mode active) or current line
-	arg lines down."
-	(interactive "*p")
-	(move-text-internal arg))
-
-(defun move-text-up (arg)
-	"Move region (transient-mark-mode active) or current line
-	arg lines up."
-	(interactive "*p")
-	(move-text-internal (- arg)))
-
 (defun my/evil-switch-emacs-state ()
 	"Switch between Emacs and evil state."
 	(interactive)
 	(if (evil-emacs-state-p)
 			(evil-exit-emacs-state)
 		(evil-emacs-state)))
+
 
 (defun my/make-newline-before (times)
 	"Insert newline before TIMES."
@@ -193,8 +183,8 @@
 		(move-end-of-line 1)
 		(newline times)))
 
-(with-eval-after-load 'evil-maps
 
+(with-eval-after-load 'evil-maps
 
 
 
@@ -204,7 +194,7 @@
 	(evil-define-motion move-2-lines-up ()
 		(evil-previous-visual-line 2))
 
-	(define-key evil-motion-state-map (kbd "C-b") nil)
+	(global-set-key (kbd "<f9>") 'repeat-complex-command)
 
 	(define-key evil-motion-state-map (kbd "C-;")  (lambda () (interactive) (evil-scroll-column-right 20)))
 	(define-key evil-motion-state-map (kbd "C-j")  (lambda () (interactive) (evil-scroll-column-left 20)))
@@ -223,41 +213,34 @@
 	(define-key evil-motion-state-map (kbd "C-l")  (lambda () (interactive) (evil-scroll-line-up 3)))
 	(define-key evil-motion-state-map (kbd "C-e")  (lambda () (interactive) (evil-scroll-line-down 3)))
 	(define-key evil-motion-state-map (kbd "C-y")  (lambda () (interactive) (evil-scroll-line-up 3)))
-	(define-key evil-motion-state-map (kbd "M-k")  'evil-avy-goto-line-below)
-	(define-key evil-motion-state-map (kbd "M-l")  'evil-avy-goto-line-above)
 
-	(define-key evil-motion-state-map (kbd "M-o") 'my/make-newline-after)
-	(define-key evil-motion-state-map (kbd "M-O") 'my/make-newline-before)
-	(define-key evil-motion-state-map (kbd "<C-tab>") 'evil-jump-backward)
-	(define-key evil-motion-state-map (kbd "<tab>") 'evil-jump-forward)
+	;; (define-key evil-motion-state-map (kbd "<C-tab>") 'evil-jump-backward)
+	;; (define-key evil-motion-state-map (kbd "<tab>") 'evil-jump-forward)
 	(global-set-key (kbd "M-J") 'join-line)
 	(global-set-key (kbd "M-j") 'evil-join)
 	(define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
+	(define-key evil-motion-state-map (kbd "M-o") 'my/make-newline-after)
+	(define-key evil-motion-state-map (kbd "M-O") 'my/make-newline-before)
+	(define-key evil-motion-state-map (kbd "C-o") nil)
 
-	(define-key evil-motion-state-map (kbd "K")  'evil-avy-goto-line-below)
-	(define-key evil-motion-state-map (kbd "L")  'evil-avy-goto-line-above)
+	(define-key evil-motion-state-map (kbd "K")  'forward-paragraph)
+	(define-key evil-motion-state-map (kbd "L")  'backward-paragraph)
+	(define-key evil-visual-state-map (kbd "K")  'forward-paragraph)
+	(define-key evil-visual-state-map (kbd "L")  'backward-paragraph)
+	(define-key evil-motion-state-map (kbd "M-k")  'forward-paragraph)
+	(define-key evil-motion-state-map (kbd "M-l")  'backward-paragraph)
+	(define-key evil-visual-state-map (kbd "M-k")  'forward-paragraph)
+	(define-key evil-visual-state-map (kbd "M-l")  'backward-paragraph)
 
-	;; same for visual
-	(define-key evil-visual-state-map (kbd "K")  'evil-avy-goto-line-below)
-	(define-key evil-visual-state-map (kbd "L")  'evil-avy-goto-line-above)
-	(define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up)
+
 	(define-key evil-motion-state-map "&" 'evil-end-of-line)
 	(define-key evil-normal-state-map "&" 'evil-end-of-line)
 	(define-key evil-visual-state-map "&" 'evil-end-of-line)
 
-
-	(define-key evil-motion-state-map "g&" 'evil-end-of-visual-line)
-	(define-key evil-normal-state-map "g&" 'evil-end-of-visual-line)
-	(define-key evil-visual-state-map "g&" 'evil-end-of-visual-line)
-
-	(define-key evil-motion-state-map "$" 'evil-beginning-of-line)
-	(define-key evil-motion-state-map (kbd "K")  'evil-avy-goto-line-below)
-	(define-key evil-motion-state-map (kbd "L")  'evil-avy-goto-line-above)
-
-	;; same for visual
-	(define-key evil-visual-state-map (kbd "K")  'evil-avy-goto-line-below)
-	(define-key evil-visual-state-map (kbd "L")  'evil-avy-goto-line-above)
+	(define-key	evil-normal-state-map (kbd "C-n") nil)
+	(define-key	evil-normal-state-map (kbd "C-p") nil)
+	(define-key evil-motion-state-map (kbd "C-b") nil)
 	(define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up)
 	(define-key evil-motion-state-map "&" 'evil-end-of-line)
 	(define-key evil-normal-state-map "&" 'evil-end-of-line)
@@ -344,14 +327,13 @@
 	(define-key evil-motion-state-map   (kbd "C-e") #'go-end-of-line)
 	(define-key evil-motion-state-map   (kbd "ge") #'go-end-of-visual-line)
 
-	(define-key evil-motion-state-map   (kbd "C-b") #'go-start-of-line)
 	(define-key evil-motion-state-map   (kbd "gb") #'go-start-of-visual-line)
+	(define-key evil-motion-state-map   (kbd "C-b") #'go-start-of-line)
 
-	(define-key evil-motion-state-map   (kbd "M-b") #'backward-word)
+	;; (define-key evil-motion-state-map   (kbd "M-b") #'backward-word)
 
 	(define-key evil-motion-state-map   (kbd "M-h") #'avy-pop-mark)
 	(define-key evil-motion-state-map   (kbd "M-y") #'avy-copy-line)
-	(define-key evil-motion-state-map   (kbd "M-m") #'avy-move-line)
 
 	;; esc quits
 	(defun minibuffer-keyboard-quit ()
@@ -385,12 +367,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(define-key evil-normal-state-map "S" 'evil-avy-goto-char)
 
 	(global-set-key (kbd "M-s") 'evil-avy-goto-char-in-line)
-
-	;;; Visual mode
-	(define-key evil-normal-state-map (kbd "[ e") 'move-text-up)
-	(define-key evil-normal-state-map (kbd "] e") 'move-text-down)
-	(define-key evil-visual-state-map (kbd "[ e") ":move'<--1")
-	(define-key evil-visual-state-map (kbd "] e") ":move'>+1")
 
 
 
