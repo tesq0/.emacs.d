@@ -42,6 +42,8 @@
 
 (add-to-list 'default-frame-alist '(font . "Hack" ))
 
+;;(setq display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
+
 ;; line number mode;
 ;;(setq display-line-numbers-current-absolute nil)
 ;;(set-cursor-color "#FFFFFF")
@@ -258,6 +260,7 @@
 
 ;;; Shell mode
 
+
 ;; better help
 
 (require 'help-fns+)
@@ -342,6 +345,7 @@
 ;; defuns
 
 (require 'reindent-buffer)
+(require 'utils)
 
 
 
@@ -349,11 +353,11 @@
 ;;(load-theme 'dracula t)
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame
-                  (load-theme 'dracula t))))
-  (load-theme 'dracula t))
+		(add-hook 'after-make-frame-functions
+							(lambda (frame)
+								(with-selected-frame frame
+									(load-theme 'dracula t))))
+	(load-theme 'dracula t))
 
 
 ;; (use-package gruvbox-theme
@@ -429,40 +433,78 @@ buffer is not visiting a file."
 
 
 
-;; ORIGAMI HEHE
-(use-package origami
+;; TEXT FOLDING
+
+
+(use-package hideshow
 	:ensure t
 	:config
-	(define-prefix-command	'origami-prefix)
-	(define-prefix-command	'origami-prefix-all)
-	(define-key origami-mode-map (kbd "C-o") 'origami-prefix)
-	(define-key origami-prefix (kbd "<tab>") 'origami-recursively-toggle-node)
-	(define-key origami-prefix (kbd "O") 'origami-show-only-node)
-	(define-key origami-prefix (kbd "u") 'origami-undo)
-	(define-key origami-prefix (kbd "r") 'origami-redo)
-	(define-key origami-prefix (kbd "s") 'origami-show-node)
-	(define-key origami-prefix (kbd "t") 'origami-toggle-node)
-	(define-key origami-prefix (kbd "f") 'origami-forward-toggle-node)
-	(define-key origami-prefix (kbd "o") 'origami-open-node)
-	(define-key origami-prefix (kbd "C-o") 'origami-open-node-recursively)
-	(define-key origami-prefix (kbd "c") 'origami-close-node)
-	(define-key origami-prefix (kbd "C-c") 'origami-close-node-recursively)
+	(defvar hs-special-modes-alist
+	(mapcar 'purecopy
+	'((c-mode "{" "}" "/[*/]" nil nil)
+		(c++-mode "{" "}" "/[*/]" nil nil)
+		(bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
+		(java-mode "{" "}" "/[*/]" nil nil)
+		(js-mode "{" "}" "/[*/]" nil))))
 
-	(define-key origami-prefix (kbd "n") 'origami-next-fold)
-	(define-key origami-prefix (kbd "C-n") 'origami-forward-next-fold)
-	(define-key origami-prefix (kbd "M-n") 'origami-forward-fold-same-level)
-	(define-key origami-prefix (kbd "p") 'origami-previous-fold)
-	(define-key origami-prefix (kbd "C-p") 'origami-forward-previous-fold)
-	(define-key origami-prefix (kbd "M-p") 'origami-backward-fold-same-level)
+	(define-prefix-command	'fold-prefix)
 
-	(define-key origami-prefix (kbd "R") 'origami-reset)
+	(evil-leader/set-key "/" 'toggle-hiding)
+	(add-hook 'c-mode-common-hook   'hs-minor-mode)
+	(add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
+	(add-hook 'java-mode-hook       'hs-minor-mode)
+	(add-hook 'lisp-mode-hook       'hs-minor-mode)
+	(add-hook 'perl-mode-hook       'hs-minor-mode)
+	(add-hook 'sh-mode-hook         'hs-minor-mode)
+	(add-hook 'csharp-mode-hook      'hs-minor-mode)
+	(add-hook 'web-mode-hook         'hs-minor-mode)
+	(evil-leader/set-key "2" 'fold-prefix)
 
-	(define-key origami-prefix (kbd "a") 'origami-prefix-all)
-	(define-key origami-prefix-all (kbd "o") 'origami-open-all-nodes)
-	(define-key origami-prefix-all (kbd "c") 'origami-close-all-nodes)
-	(define-key origami-prefix-all (kbd "t") 'origami-toggle-all-nodes)
+	(define-key fold-prefix (kbd "t") 'toggle-hiding)
+	(define-key fold-prefix (kbd "s") 'hs-show-block)
+	(define-key fold-prefix (kbd "h") 'hs-hide-block)
+	(define-key fold-prefix (kbd "S") 'hs-show-all)
+	(define-key fold-prefix (kbd "H") 'hs-hide-all)
+	(define-key fold-prefix (kbd "l") 'hs-hide-level)
+	(define-key fold-prefix (kbd "L") 'hs-hide-level-recursive)
+
 
 	)
+
+
+;; (use-package origami
+;;	:ensure t
+;;	:config
+;;	(define-prefix-command	'origami-prefix)
+;;	(define-prefix-command	'origami-prefix-all)
+;;	(define-key origami-mode-map (kbd "C-o") 'origami-prefix)
+;;	(define-key origami-prefix (kbd "<tab>") 'origami-recursively-toggle-node)
+;;	(define-key origami-prefix (kbd "O") 'origami-show-only-node)
+;;	(define-key origami-prefix (kbd "u") 'origami-undo)
+;;	(define-key origami-prefix (kbd "r") 'origami-redo)
+;;	(define-key origami-prefix (kbd "s") 'origami-show-node)
+;;	(define-key origami-prefix (kbd "t") 'origami-toggle-node)
+;;	(define-key origami-prefix (kbd "f") 'origami-forward-toggle-node)
+;;	(define-key origami-prefix (kbd "o") 'origami-open-node)
+;;	(define-key origami-prefix (kbd "C-o") 'origami-open-node-recursively)
+;;	(define-key origami-prefix (kbd "c") 'origami-close-node)
+;;	(define-key origami-prefix (kbd "C-c") 'origami-close-node-recursively)
+
+;;	(define-key origami-prefix (kbd "n") 'origami-next-fold)
+;;	(define-key origami-prefix (kbd "C-n") 'origami-forward-next-fold)
+;;	(define-key origami-prefix (kbd "M-n") 'origami-forward-fold-same-level)
+;;	(define-key origami-prefix (kbd "p") 'origami-previous-fold)
+;;	(define-key origami-prefix (kbd "C-p") 'origami-forward-previous-fold)
+;;	(define-key origami-prefix (kbd "M-p") 'origami-backward-fold-same-level)
+
+;;	(define-key origami-prefix (kbd "R") 'origami-reset)
+
+;;	(define-key origami-prefix (kbd "a") 'origami-prefix-all)
+;;	(define-key origami-prefix-all (kbd "o") 'origami-open-all-nodes)
+;;	(define-key origami-prefix-all (kbd "c") 'origami-close-all-nodes)
+;;	(define-key origami-prefix-all (kbd "t") 'origami-toggle-all-nodes)
+
+;;	)
 
 
 ;; Use ranger dired extension for best file management
@@ -517,9 +559,15 @@ buffer is not visiting a file."
 	(shell-command "i3-msg split h")
 	(make-frame))
 
+;; override this fucking shit ESC
+(define-key ctl-x-map (kbd "<ESC>" ) nil)
+
 (define-prefix-command	'toggle-map)
 (global-set-key (kbd "C-c o") 'toggle-map)
 (define-key toggle-map (kbd "l") 'linum-mode)
+(define-prefix-command	'fast-ex-map)
+(evil-leader/set-key "x" 'fast-ex-map)
+(define-key fast-ex-map (kbd "e") 'shell-other-window)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 ;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
@@ -539,6 +587,8 @@ buffer is not visiting a file."
 (define-key mikus-search-map (kbd "a") 'projectile-ag)
 
 
+(require 'csharp-hs-forward-sexp)
+
 ;; languages config
 (use-package common-lisp-snippets
 	:ensure t )
@@ -548,10 +598,16 @@ buffer is not visiting a file."
 	(setq inferior-lisp-program "/bin/sbcl"))
 (use-package cl-lib
 	:ensure t)
+(use-package markdown-mode
+	:ensure t)
 
 
 
-
+;; snippets
+(use-package yasnippet
+	:ensure t
+	:config
+	(setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 
 ;; (define-prefix-command 'space-map)
@@ -568,9 +624,10 @@ buffer is not visiting a file."
  '(custom-safe-themes
 	 (quote
 		("eecacf3fb8efc90e6f7478f6143fd168342bbfa261654a754c7d47761cec07c8" default)))
+ '(delete-selection-mode nil)
  '(package-selected-packages
 	 (quote
-		(omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
+		(markdown-mode omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

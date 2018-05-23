@@ -149,11 +149,13 @@
 	"o"  'helm-occur
 	"O"  'projectile-multi-occur
 	"t"  'helm-top
-	"x"  'helm-M-x
 	"ef" 'flycheck-buffer
 	"el" 'flycheck-list-errors
 	"en" 'flycheck-next-error
 	"ep" 'flycheck-previous-error
+	"jf" 'evil-jump-forward
+	"jb" 'evil-jump-backward
+	"js" 'evil-jump-backward-swap
 	"r"  'evil-use-register
 	"<SPC>" 'whitespace-cleanup
 
@@ -233,6 +235,8 @@
 	(define-key evil-visual-state-map (kbd "M-k")  'forward-paragraph)
 	(define-key evil-visual-state-map (kbd "M-l")  'backward-paragraph)
 
+
+	(define-key evil-insert-state-map (kbd "C-\'") 'yas-expand)
 
 	(define-key evil-motion-state-map "&" 'evil-end-of-line)
 	(define-key evil-normal-state-map "&" 'evil-end-of-line)

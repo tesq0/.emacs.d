@@ -19,14 +19,17 @@
 	(setq tab-width 4)
 	(setq evil-shift-width 4)
 
+
+
 	;; (local-set-key (kbd "M-.") 'omnisharp-go-to-definition)
 	;; (local-set-key (kbd "M-,") 'omnisharp-))
 	(local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
+
 (use-package omnisharp
 	:ensure t
-	:config
+	:config 
 	(add-hook 'csharp-mode-hook 'initCsharp t)
 	)
 

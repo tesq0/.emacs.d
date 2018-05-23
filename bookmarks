@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("ranger-a"
+(("ranger-"
+ (filename . "~/.config/systemd/")
+ (front-context-string)
+ (rear-context-string . "0K May 22 02:07 ")
+ (position . 90))
+("ranger-p"
+ (filename . "~/Projects/")
+ (front-context-string . "dubiex-api\n  drw")
+ (rear-context-string . "0K May 21 04:24 ")
+ (position . 90))
+("ranger-a"
  (filename . "/run/media/mikus/DATA/mikusRice/.config/Scripts/")
  (front-context-string . "shortcuts.py\n  -")
  (rear-context-string . "3K Feb 17 01:23 ")
@@ -28,10 +38,10 @@
  (rear-context-string . "82 Mar 11 19:00 ")
  (position . 138))
 ("ranger-c"
- (filename . "~/.config/i3/")
- (front-context-string)
- (rear-context-string . "1K Dec 12 16:22 ")
- (position . 137))
+ (filename . "~/.config/")
+ (front-context-string . "akonadi\n  drwxr-")
+ (rear-context-string . "0K May 21 22:29 ")
+ (position . 91))
 ("ranger-e"
  (filename . "~/.emacs.d/")
  (front-context-string . "init.el\n  -rw---")
