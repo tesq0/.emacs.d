@@ -216,6 +216,9 @@
 	(define-key evil-motion-state-map (kbd "C-e")  (lambda () (interactive) (evil-scroll-line-down 3)))
 	(define-key evil-motion-state-map (kbd "C-y")  (lambda () (interactive) (evil-scroll-line-up 3)))
 
+
+
+
 	;; (define-key evil-motion-state-map (kbd "<C-tab>") 'evil-jump-backward)
 	;; (define-key evil-motion-state-map (kbd "<tab>") 'evil-jump-forward)
 	(global-set-key (kbd "M-J") 'join-line)
