@@ -49,8 +49,11 @@
 ;;(set-cursor-color "#FFFFFF")
 ;;(blink-cursor-mode)
 
+
+
 ;; (global-display-line-numbers-mode)
-;;(setq display-line-numbers-type 'relative)
+;(setq display-line-numbers-type 'relative)
+
 ;; (server-start)
 ;; (setq debug-on-error t)
 ;; (setq split-width-threshold 'nil)
@@ -195,6 +198,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+(setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))
 ;; extra functions
 (add-to-list 'load-path
 						 (expand-file-name "defuns" user-emacs-directory))
@@ -348,16 +352,17 @@
 (require 'utils)
 
 
+(require 'dracula-theme)
 
-;; colortheme
-;;(load-theme 'dracula t)
+;;colortheme
+(load-theme 'dracula t)
 
-(if (daemonp)
-		(add-hook 'after-make-frame-functions
-							(lambda (frame)
-								(with-selected-frame frame
-									(load-theme 'dracula t))))
-	(load-theme 'dracula t))
+;; (if (daemonp)
+;;		(add-hook 'after-make-frame-functions
+;;							(lambda (frame)
+;;								(with-selected-frame frame
+;;									(load-theme 'dracula t))))
+;;	(load-theme 'dracula t))
 
 
 ;; (use-package gruvbox-theme
@@ -402,10 +407,15 @@
 	)
 
 
+
+(use-package fzf
+	:ensure t)
+
+
 (defun byte-compile-emacs ()
 	"A function to byte compile Emacs dir."
 	(interactive)
-	(byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
+	(byte-recompile-directory (expand-file-name user-emacs-directory) 0))
 
 ;; exex path from shell to fix stuff with bash and shit
 
@@ -543,6 +553,70 @@ buffer is not visiting a file."
 	(define-key ranger-mode-map (kbd "cw") 'dired-do-rename)
 	(define-key ranger-mode-map (kbd "cm") 'dired-do-chmod)
 	(define-key ranger-mode-map (kbd "cx") 'dired-do-compress)
+
+
+
+	(defun ranger-go (path)
+	"Go subroutine"
+	(interactive
+	 (list
+		(read-char-choice
+		 "e   : /etc
+u   : /usr
+d   : Downloads
+l   : follow directory link
+L   : follow selected file
+o   : /opt
+v   : /var
+h   : ~/
+m   : /media
+M   : /mnt
+s   : /srv
+r,/ : /
+R   : ranger . el location
+> "
+		 '(?q ?e ?u ?d ?l ?L ?o ?v ?m ?M ?s ?r ?R ?/ ?h ?g ?D ?j ?k ?T ?t ?n ?c))))
+	(message nil)
+	(let* ((c (char-to-string path))
+				 (new-path
+					(cl-case (intern c)
+						('e "/etc")
+						('u "/usr")
+						('d (concat (getenv-internal "HOME") "\Downloads")))
+						('l (file-truename default-directory))
+						('L (file-truename (dired-get-filename)))
+						('o "/opt")
+						('v "/var")
+						('m "/media")
+						('M "/mnt")
+						('s "/srv")
+						('r "/")
+						('R (file-truename (file-name-directory (find-library-name "ranger.el"))))
+						('h  (getenv-internal "HOME"))
+						('/ "/")))
+				 (alt-option
+					(cl-case (intern c)
+						;; Subdir Handlng
+						('j 'ranger-next-subdir)
+						('k 'ranger-prev-subdir)
+						;; Tab Handling
+						('n 'ranger-new-tab)
+						('T 'ranger-prev-tab)
+						('t 'ranger-next-tab)
+						('c 'ranger-close-tab)
+						('g 'ranger-goto-top))))
+		(when (string-equal c "q")
+			(keyboard-quit))
+		(when (and new-path (file-directory-p new-path))
+			(ranger-find-file new-path))
+		(when (eq system-type 'windows-nt)
+			(when (string-equal c "D")
+				(ranger-show-drives)))
+		(when alt-option
+			(call-interactively alt-option)))
+
+
+
 	)
 
 ;; let's define some ghetoo keybindings
