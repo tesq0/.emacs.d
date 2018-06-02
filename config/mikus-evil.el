@@ -214,8 +214,9 @@
 	(define-key evil-motion-state-map (kbd "C-k")  (lambda () (interactive) (evil-scroll-line-down 3)))
 	(define-key evil-motion-state-map (kbd "C-l")  (lambda () (interactive) (evil-scroll-line-up 3)))
 	(define-key evil-motion-state-map (kbd "C-e")  (lambda () (interactive) (evil-scroll-line-down 3)))
-	(define-key evil-motion-state-map (kbd "C-y")  (lambda () (interactive) (evil-scroll-line-up 3)))
 
+	(define-key evil-motion-state-map (kbd "C-y") nil)
+	(define-key evil-insert-state-map (kbd "C-y") nil)
 
 
 

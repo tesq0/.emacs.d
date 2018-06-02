@@ -683,6 +683,14 @@ R   : ranger . el location
 	:config
 	(setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
+(define-prefix-command 'yas-map)
+(global-set-key (kbd "C-y") 'yas-map)
+(define-key yas-map (kbd "i") 'yas-insert-snippet)
+
+
+(use-package perspective
+	:ensure t)
+
 
 ;; (define-prefix-command 'space-map)
 ;; (global-set-key (kbd "SPC") 'space-map)
@@ -701,7 +709,7 @@ R   : ranger . el location
  '(delete-selection-mode nil)
  '(package-selected-packages
 	 (quote
-		(markdown-mode omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
+		(perspective markdown-mode omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
