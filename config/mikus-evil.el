@@ -230,6 +230,16 @@
 	(define-key evil-motion-state-map (kbd "M-O") 'my/make-newline-before)
 	(define-key evil-motion-state-map (kbd "C-o") nil)
 
+
+	;; (define-key evil-motion-state-map (kbd "K")  'forward-paragraph)
+	;; (define-key evil-motion-state-map (kbd "L")  'backward-paragraph)
+	;; (define-key evil-visual-state-map (kbd "K")  'forward-paragraph)
+	;; (define-key evil-visual-state-map (kbd "L")  'backward-paragraph)
+	(define-key evil-motion-state-map (kbd "C-M-k")  'evil-avy-goto-line-below)
+	(define-key evil-motion-state-map (kbd "C-M-l")  'evil-avy-goto-line-above)
+	(define-key evil-visual-state-map (kbd "C-M-k")  'evil-avy-goto-line-below)
+	(define-key evil-visual-state-map (kbd "C-M-l")  'evil-avy-goto-line-above)
+
 	(define-key evil-motion-state-map (kbd "K")  'forward-paragraph)
 	(define-key evil-motion-state-map (kbd "L")  'backward-paragraph)
 	(define-key evil-visual-state-map (kbd "K")  'forward-paragraph)
