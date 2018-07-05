@@ -98,13 +98,13 @@
 ;; 	)
 
 ;; disable jshint, we will use eslint instead
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint))) 
-
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(json-jsonlist)))
+;;(setq-default flycheck-disabled-checkers
+;;  (append flycheck-disabled-checkers
+;;    '(javascript-jshint)))
+;;
+;;(setq-default flycheck-disabled-checkers
+;;  (append flycheck-disabled-checkers
+;;    '(json-jsonlist)))
 
 
 ;; use web-mode for js,jsx and css files
@@ -218,5 +218,5 @@
 
 
 
-(provide 'mikus-webmode)
+(provide 'init-webmode)
 ;;; mikus-webmode.el ends here

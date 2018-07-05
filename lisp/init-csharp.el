@@ -33,5 +33,5 @@
 	(add-hook 'csharp-mode-hook 'initCsharp t)
 	)
 
-(provide 'mikus-csharp)
+(provide 'init-csharp)
 ;;; mikus-csharp.el ends here

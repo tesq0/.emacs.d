@@ -14,12 +14,9 @@
 (setq ring-bell-function 'ignore)                   ; silent bell when you make a mistake
 (setq coding-system-for-read 'utf-8)                    ; use utf-8 by default for reading
 (setq coding-system-for-write 'utf-8)                   ; use utf-8 by default for writing
-(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
 (setq initial-scratch-message "")                             ; print nothing and leave screen at insert mode
-(menu-bar-mode -1)                        ; deactivate the menubar
-(tool-bar-mode -1)                        ; deactivate the toolbar
-(scroll-bar-mode -1)                        ; deactivate the scrollbar
-(tooltip-mode -1)                       ; deactivate the tooltip
+
+
 (defun display-startup-echo-area-message () (message "Good morning, Logic is always number 1"))     ; change the default startup echo message
 (setq-default truncate-lines t)                     ; always truncate lines ;hello
 (setq large-file-warning-threshold (* 15 1024 1024))                ; increase theshold for larger files
@@ -36,167 +33,41 @@
 (setq-default tab-width 2)                        ; default tab width
 (show-paren-mode 1)                     ; hightlight pharentheses and shit
 ;; (setq x-super-keysym 'meta)             ;use super as meta
-(setq shell-file-name "bash")           ; shell name to bash
-(setq shell-command-switch "-c")        ; use my .bashrc aliases
+
+
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
-(set-face-attribute 'default nil
-                    :family "Consolas" :height 115)
 
-;;(setq display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
+(defmacro local-require (pkg)
+  `(load (file-truename (format "~/.emacs.d/site-lisp/%s/%s" ,pkg ,pkg))))
 
-;; line number mode;
-;;(setq display-line-numbers-current-absolute nil)
-;;(set-cursor-color "#FFFFFF")
-;;(blink-cursor-mode)
+(defmacro require-init (pkg)
+  `(load (file-truename (format "~/.emacs.d/lisp/%s" ,pkg))))
 
 
+(let ((file-name-handler-alist nil))
 
-;; (global-display-line-numbers-mode)
-;(setq display-line-numbers-type 'relative)
+	(require-init 'init-package)
+	(require-init 'init-const)
+	(require-init 'init-ui)
+	(require-init 'init-gui-frames)
+	(require-init 'init-modeline)
+	(require-init 'init-evil)
+	(require-init 'init-helm)
+	(require-init 'init-hydra)
+	(require-init 'init-csharp)
+	(require-init 'init-webmode)
 
-;; (server-start)
-;; (setq debug-on-error t)
-;; (setq split-width-threshold 'nil)
+	(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
-;; ANSI colors in shell
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+	)
 
-
-;; scroll one line at a time (less "jumpy" than defaults)
-
-(setq mouse-wheel-scroll-amount '(4 ((shift) . 4))) ;; one line at a time
-
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-
-(setq scroll-step 4) ;; keyboard scroll one line at a time
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Package management    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Include the module to install packages
-(require 'package)
-
-;; tells emacs not to load any packages before starting up
-(setq package-enable-at-startup nil)
-
-;; the following lines tell emacs where on the internet to look up
-;; for new packages.
-(setq package-archives '(("org"       . "https://orgmode.org/elpa/")
-												 ("gnu"       . "https://elpa.gnu.org/packages/")
-												 ("melpa"     . "https://melpa.org/packages/")))
-
-;; initialize the packages
-(setq package-check-signature nil)
-(package-initialize)
-
-;;;;;;;;;;;;;;;;;;;;;;;
-;;    use-package    ;;
-;;;;;;;;;;;;;;;;;;;;;;;
-
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
-(eval-when-compile
-	(require 'use-package))
-(require 'bind-key)
-
-(use-package diminish
-	:ensure t
-	:defer t)
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Built-in packages    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-;; pdf/image viewing
-(use-package doc-view
-	:hook ((doc-view-mode . doc-view-fir-page-to-window)
-				 (doc-view-minor-mode . doc-view-fir-page-to-window))
-	:init
-	(setq doc-view-continuous t))
-
-;; builtin version control
-(use-package vc
-	:init
-	(setq vc-make-backup-files t
-				vc-follow-symlinks t))
-
-;; diff management
-(use-package ediff
-	:init
-	(setq ediff-window-setup-function 'ediff-setup-windows-plain
-				ediff-split-window-function 'split-window-horizontally))
-
-;; abbrev
-(use-package abbrev
-	:diminish abbrev-mode
-	:init
-	(setq save-abbrevs 'silently)
-	:config
-	(if (file-exists-p abbrev-file-name)
-			(quietly-read-abbrev-file)))
-
-
-;; auto fill mode
-(use-package simple
-	:diminish auto-fill-function)
 
 ;; auto revert mode
 (use-package autorevert
 	:defer t
 	:diminish auto-revert-mode)
 
-;; ;; documentation helper
-;; (use-package eldoc
-;;   :hook (prog-mode . eldoc-mode)
-;;   :diminish eldoc-mode)
-
-;; spell check
-(use-package flyspell
-	:bind (:map flyspell-mode-map
-							("C-;" . nil))
-	:init (progn
-					;; (add-hook 'prog-mode-hook #'flyspell-prog-mode)
-					(dolist (mode-hook '(text-mode-hook org-mode-hook LaTeX-mode-hook))
-						(add-hook mode-hook #'flyspell-mode))))
-
-;; save history
-(use-package savehist
-	:defer t
-	:config
-	(savehist-mode 1))
-
-
-(use-package fzf
-	:defer t
-	:config
-	(progn
-		(setq fzf/directory-start "/")
-		)
-	)
-
-(use-package term
-						 :config
-						 (progn
-							 (define-key term-mode-map "\C-n" 'term-next-input)
-							 (define-key term-mode-map "\C-p" 'term-previous-input)
-							 )
-						 )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Third party packages    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))
@@ -204,24 +75,11 @@
 (add-to-list 'load-path
 						 (expand-file-name "defuns" user-emacs-directory))
 
-;; other configuration
-(add-to-list 'load-path
-						 (expand-file-name "config" user-emacs-directory))
-
 ;; manually installed packages
 (add-to-list 'load-path
-						 (expand-file-name "local" user-emacs-directory))
+						 (expand-file-name "site-lisp" user-emacs-directory))
 
-;; themes
-(add-to-list 'load-path
-						 (expand-file-name "themes" user-emacs-directory))
 
-(use-package async
-	:ensure t
-	:config
-	(autoload 'dired-async-mode "dired-async.el" nil t)
-	(dired-async-mode 1)
-	)
 
 
 ;; hint for bindings
@@ -244,24 +102,11 @@
 	:ensure t
 	:bind* (("C-x C" . restart-emacs)))
 
-;;configs
-(require 'mikus-evil)
-
-(require 'mikus-hydra)
-
-
 
 ;; flash current line
 
 (require 'hl-line+)
 (global-set-key (kbd "<C-return>") 'hl-line-flash)
-
-;; web mode config - eslint, babel, react and shit
-
-
-(require 'mikus-webmode)
-(require 'mikus-csharp)
-
 
 ;;; Shell mode
 
@@ -272,39 +117,6 @@
 
 ;;; helm sys
 (require 'helm-sys)
-
-;; autocompletion
-
-(use-package company
-	:init (progn
-					(add-hook 'prog-mode-hook 'company-mode))
-	:diminish
-	:config (progn
-						(setq company-selection-wrap-around t)
-						(define-key company-active-map [tab] 'company-complete)
-						(define-key company-active-map (kbd "C-n") 'company-select-next)
-						(define-key company-active-map (kbd "C-p") 'company-select-previous)
-						(setq company-idle-delay 0.2)
-						(setq company-tooltip-limit 10)
-						(setq company-minimum-prefix-length 2)
-						(setq company-tooltip-flip-when-above t)
-						(add-to-list 'company-backends '( company-keywords company-capf company-files company-omnisharp))))
-
-
-(use-package company-dabbrev
-	:config (progn
-						(setq company-dabbrev-ignore-case t)
-						(setq company-dabbrev-downcase nil)))
-
-
-(use-package slime-company
-	:ensure t)
-
-;; (use-package ediff
-;;   :config (progn
-;;             ;; window positioning & frame setup
-;;             (setq ediff-window-setup-function 'ediff-setup-windows-plain
-;;                   ediff-split-window-function 'split-window-horizontally)))
 
 
 (use-package editorconfig
@@ -318,12 +130,6 @@
 
 (use-package company-tern
 	:ensure t
-	)
-
-(use-package smooth-scroll
-	:ensure t
-	:config
-	(smooth-scroll-mode)
 	)
 
 ;; jump to definition
@@ -354,10 +160,11 @@
 (require 'utils)
 
 
-(require 'dracula-theme)
+;; (require 'dracula-theme)
+
 
 ;;colortheme
-(load-theme 'dracula t)
+;; (load-theme 'dracula t)
 
 ;; (if (daemonp)
 ;;		(add-hook 'after-make-frame-functions
@@ -484,41 +291,6 @@ buffer is not visiting a file."
 	)
 
 
-;; (use-package origami
-;;	:ensure t
-;;	:config
-;;	(define-prefix-command	'origami-prefix)
-;;	(define-prefix-command	'origami-prefix-all)
-;;	(define-key origami-mode-map (kbd "C-o") 'origami-prefix)
-;;	(define-key origami-prefix (kbd "<tab>") 'origami-recursively-toggle-node)
-;;	(define-key origami-prefix (kbd "O") 'origami-show-only-node)
-;;	(define-key origami-prefix (kbd "u") 'origami-undo)
-;;	(define-key origami-prefix (kbd "r") 'origami-redo)
-;;	(define-key origami-prefix (kbd "s") 'origami-show-node)
-;;	(define-key origami-prefix (kbd "t") 'origami-toggle-node)
-;;	(define-key origami-prefix (kbd "f") 'origami-forward-toggle-node)
-;;	(define-key origami-prefix (kbd "o") 'origami-open-node)
-;;	(define-key origami-prefix (kbd "C-o") 'origami-open-node-recursively)
-;;	(define-key origami-prefix (kbd "c") 'origami-close-node)
-;;	(define-key origami-prefix (kbd "C-c") 'origami-close-node-recursively)
-
-;;	(define-key origami-prefix (kbd "n") 'origami-next-fold)
-;;	(define-key origami-prefix (kbd "C-n") 'origami-forward-next-fold)
-;;	(define-key origami-prefix (kbd "M-n") 'origami-forward-fold-same-level)
-;;	(define-key origami-prefix (kbd "p") 'origami-previous-fold)
-;;	(define-key origami-prefix (kbd "C-p") 'origami-forward-previous-fold)
-;;	(define-key origami-prefix (kbd "M-p") 'origami-backward-fold-same-level)
-
-;;	(define-key origami-prefix (kbd "R") 'origami-reset)
-
-;;	(define-key origami-prefix (kbd "a") 'origami-prefix-all)
-;;	(define-key origami-prefix-all (kbd "o") 'origami-open-all-nodes)
-;;	(define-key origami-prefix-all (kbd "c") 'origami-close-all-nodes)
-;;	(define-key origami-prefix-all (kbd "t") 'origami-toggle-all-nodes)
-
-;;	)
-
-
 ;; Use ranger dired extension for best file management
 
 (use-package ranger
@@ -638,21 +410,6 @@ buffer is not visiting a file."
 (define-prefix-command 'helm-utils-map)
 (evil-leader/set-key "h" 'helm-utils-map)
 (define-key helm-utils-map (kbd "c") 'helm-colors)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-	 (quote
-		("eecacf3fb8efc90e6f7478f6143fd168342bbfa261654a754c7d47761cec07c8" default)))
- '(delete-selection-mode nil)
- '(package-selected-packages
-	 (quote
-		(perspective markdown-mode omnisharp drag-stuff linum-relative move-text emmet-mode emmet origami smerge dracula-theme slime-company slime common-lisp-snippets company-slime js-comint prettier-js help-fns+ help-mode+ zerodark-theme xterm-color xref-js2 which-key web-mode use-package tide smooth-scrolling smooth-scroll rjsx-mode restart-emacs ranger rainbow-mode nav-flash json-mode js2-refactor js-doc ivy indium hydra helm-projectile helm-ag gruvbox-theme fzf exwm exec-path-from-shell evil-visualstar evil-surround evil-snipe evil-nerd-commenter evil-matchit evil-leader editorconfig dumb-jump diminish company-tern ag ace-window))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
+(load custom-file 'noerror)

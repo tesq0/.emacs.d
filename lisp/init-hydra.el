@@ -93,4 +93,4 @@ h - home
 
 
 
-(provide 'mikus-hydra)
+(provide 'init-hydra)
