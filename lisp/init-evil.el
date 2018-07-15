@@ -22,6 +22,13 @@
 
 (use-package avy
 	:ensure t
+	:init
+	;; This is the default
+	;; (setq avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+	;; Any lower-case letter or number.  Numbers are specified in the keyboard
+	;; number-row order, so that the candidate following '9' will be '0'.
+	(setq avy-keys (number-sequence ?a ?z))
+
 	)
 
 (use-package evil-surround
@@ -157,12 +164,25 @@
 	(define-key evil-motion-state-map (kbd "C-y") nil)
 	(define-key evil-insert-state-map (kbd "C-y") nil)
 
-
-
 	;; (define-key evil-motion-state-map (kbd "<C-tab>") 'evil-jump-backward)
 	;; (define-key evil-motion-state-map (kbd "<tab>") 'evil-jump-forward)
+
+	
+	(evil-define-operator evil-join-and-indent (beg end)
+		"Join the selected lines."
+		:motion evil-line
+		(let ((count (count-lines beg end)))
+			(when (> count 1)
+				(setq count (1- count)))
+			(goto-char beg)
+			(dotimes (var count)
+				(progn
+					(join-line 1)
+					(c-indent-command))
+				)))
+
 	(global-set-key (kbd "M-J") 'join-line)
-	(global-set-key (kbd "M-j") 'evil-join)
+	(global-set-key (kbd "M-j") 'evil-join-and-indent)
 	(define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
 	(define-key evil-motion-state-map (kbd "M-o") 'my/make-newline-after)
@@ -237,7 +257,11 @@
 					(windmove-down))
 	 )
 
-
+	(general-define-key
+	 :keymaps 'insert
+	 "C-n" 'next-line
+	 "C-p" 'previous-line)
+	
 
 
 	;;; Insert mode

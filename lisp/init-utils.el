@@ -5,7 +5,7 @@
     "After FEATURE is loaded, evaluate BODY."
     (declare (indent defun))
     `(eval-after-load ,feature
-'(progn ,@body))))
+			 '(progn ,@body))))
 
 
 ;;----------------------------------------------------------------------------
@@ -33,7 +33,7 @@
 (defun path-in-directory-p (file directory)
   "FILE is in DIRECTORY."
   (let* ((pattern (concat "^" (file-name-as-directory directory))))
-(if (string-match-p pattern file) file)))
+		(if (string-match-p pattern file) file)))
 
 
 (defmacro my-select-from-kill-ring (fn &optional n)
@@ -65,7 +65,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
                     candidates)
                    :action #',fn))))
     ((= ,n 1)
-(browse-kill-ring))))
+		 (browse-kill-ring))))
 
 (defun my-insert-str (str)
   ;; ivy8 or ivy9
@@ -95,6 +95,21 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   (if (region-active-p) (my-selected-str)
     (if (string= "" hint) (thing-at-point 'symbol)
       (read-string hint))))
+
+;;Some other manipulation utils
+
+;; (defun next-line-and-indent
+;; 		)
+
+
+(defun kill-and-join-forward (&optional arg)
+  (interactive "P")
+  (if (and (eolp) (not (bolp)))
+      (progn (end-of-line);;(forward-char 1)
+             (just-one-space 0)
+             (backward-char 1)
+             (kill-line arg))
+    (kill-line arg)))
 
 
 (defun shell-other-window ()
@@ -143,29 +158,29 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 
 (defun rename-file-and-buffer (new-name)
- "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
- (let ((name (buffer-name))
-	(filename (buffer-file-name)))
- (if (not filename)
-	(message "Buffer '%s' is not visiting a file!" name)
- (if (get-buffer new-name)
-	 (message "A buffer named '%s' already exists!" new-name)
-	(progn 	 (rename-file filename new-name 1) 	 (rename-buffer new-name) 	 (set-visited-file-name new-name) 	 (set-buffer-modified-p nil)))))) ;;
+	"Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
+	(let ((name (buffer-name))
+				(filename (buffer-file-name)))
+		(if (not filename)
+				(message "Buffer '%s' is not visiting a file!" name)
+			(if (get-buffer new-name)
+					(message "A buffer named '%s' already exists!" new-name)
+				(progn 	 (rename-file filename new-name 1) 	 (rename-buffer new-name) 	 (set-visited-file-name new-name) 	 (set-buffer-modified-p nil)))))) ;;
 
 ;; Never understood why Emacs doesn't have this function, either.
 ;;
 (defun move-buffer-file (dir)
- "Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
- (let* ((name (buffer-name))
-	 (filename (buffer-file-name))
-	 (dir
-	 (if (string-match dir "\\(?:/\\|\\\\)$")
-	 (substring dir 0 -1) dir))
-	 (newname (concat dir "/" name)))
+	"Moves both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
+	(let* ((name (buffer-name))
+				 (filename (buffer-file-name))
+				 (dir
+					(if (string-match dir "\\(?:/\\|\\\\)$")
+							(substring dir 0 -1) dir))
+				 (newname (concat dir "/" name)))
 
- (if (not filename)
-	(message "Buffer '%s' is not visiting a file!" name)
- (progn 	(copy-file filename newname 1) 	(delete-file filename) 	(set-visited-file-name nil))))) 
+		(if (not filename)
+				(message "Buffer '%s' is not visiting a file!" name)
+			(progn 	(copy-file filename newname 1) 	(delete-file filename) 	(set-visited-file-name nil))))) 
 
 
 

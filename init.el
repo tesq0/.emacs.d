@@ -54,6 +54,7 @@
 
 (require 'init-package)
 (require 'init-const)
+(require 'init-system)
 (require 'init-ui)
 (require 'init-utils)
 (require 'init-gui-frames)
@@ -156,6 +157,8 @@
 
 (require 'reindent-buffer)
 
+
+(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)

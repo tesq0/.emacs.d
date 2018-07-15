@@ -5,6 +5,7 @@
 	(("C-c C-r" . ivy-resume)
 	 ("C-x b" . ivy-switch-buffer)
 	 ("C-r" . 'counsel-expression-history)
+	 ("C-c q" . 'counsel-browse-kill-ring)
 	 :map ivy-minibuffer-map
 	 ("<escape>" . 'minibuffer-keyboard-quit))
 	:config
@@ -22,6 +23,8 @@
 	;; @see https://github.com/abo-abo/swiper/issues/828
 	(setq ivy-display-style 'fancy)
 	)
+
+
 
 
 (use-package counsel
