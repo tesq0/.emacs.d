@@ -38,39 +38,9 @@
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
 
-(defmacro local-require (pkg)
-  `(load (file-truename (format "~/.emacs.d/site-lisp/%s/%s" ,pkg ,pkg))))
-
-(defmacro require-init (pkg)
-  `(load (file-truename (format "~/.emacs.d/lisp/%s" ,pkg))))
-
-
-(let ((file-name-handler-alist nil))
-
-	(require-init 'init-package)
-	(require-init 'init-const)
-	(require-init 'init-ui)
-	(require-init 'init-gui-frames)
-	(require-init 'init-modeline)
-	(require-init 'init-evil)
-	(require-init 'init-helm)
-	(require-init 'init-hydra)
-	(require-init 'init-csharp)
-	(require-init 'init-webmode)
-
-	(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-
-	)
-
-
-;; auto revert mode
-(use-package autorevert
-	:defer t
-	:diminish auto-revert-mode)
-
-
 
 (setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))
+
 ;; extra functions
 (add-to-list 'load-path
 						 (expand-file-name "defuns" user-emacs-directory))
@@ -78,6 +48,33 @@
 ;; manually installed packages
 (add-to-list 'load-path
 						 (expand-file-name "site-lisp" user-emacs-directory))
+
+(add-to-list 'load-path
+						 (expand-file-name "lisp" user-emacs-directory))
+
+(require 'init-package)
+(require 'init-const)
+(require 'init-ui)
+(require 'init-utils)
+(require 'init-gui-frames)
+(require 'init-modeline)
+(require 'init-general)
+(require 'init-evil)
+(require 'init-ivy)
+(require 'init-ibuffer)
+(require 'init-dired)
+(require 'init-company)
+(require 'init-csharp)
+(require 'init-hydra)
+(require 'init-webmode)
+(require 'init-magit)
+(require 'init-hideshow)
+(require 'init-projectile)
+
+;; auto revert mode
+(use-package autorevert
+	:defer t
+	:diminish auto-revert-mode)
 
 
 
@@ -132,6 +129,7 @@
 	:ensure t
 	)
 
+
 ;; jump to definition
 
 (use-package ag
@@ -157,192 +155,7 @@
 ;; defuns
 
 (require 'reindent-buffer)
-(require 'utils)
 
-
-;; (require 'dracula-theme)
-
-
-;;colortheme
-;; (load-theme 'dracula t)
-
-;; (if (daemonp)
-;;		(add-hook 'after-make-frame-functions
-;;							(lambda (frame)
-;;								(with-selected-frame frame
-;;									(load-theme 'dracula t))))
-;;	(load-theme 'dracula t))
-
-
-;; (use-package gruvbox-theme
-;;   :ensure t
-;;  :init
-;;  (load-theme 'gruvbox-dark-hard t)
-;;  )
-
-;;   :ensure t
-;;   :config
-;;   (load-theme 'zerodark t)
-;;   (zerodark-setup-modeline-format)
-;;   )
-
-;; (use-package zerodark-theme
-;;   :ensure t
-;;   :config
-;;   (progn
-;;     (defun set-selected-frame-dark ()
-;;       (interactive)
-;;       (let ((frame-name (cdr (assq 'name (frame-parameters (selected-frame))))))
-;;         (call-process-shell-command
-;;          (format
-;;           "xprop -f _GTK_THEME_VARIANT 8u -set _GTK_THEME_VARIANT 'dark' -name '%s'"
-;;           frame-name))))
-
-;;     (when (window-system)
-;;       (load-theme 'zerodark t)
-;;       (zerodark-setup-modeline-format)
-;;       (set-selected-frame-dark)
-;;       (setq frame-title-format '(buffer-file-name "%f" ("%b"))))))
-
-;; magit package
-
-(use-package magit
-	:ensure t
-	:config
-	(define-key magit-mode-map (kbd "<escape>") 'magit-mode-bury-buffer)
-	(define-key magit-mode-map (kbd "C-g") 'magit-mode-bury-buffer)
-	;; SMERGE
-	(define-key smerge-mode-map (kbd "C-c m") (lookup-key smerge-mode-map (kbd "C-c ^")))
-	)
-
-
-
-(use-package fzf
-	:ensure t)
-
-
-(defun byte-compile-emacs ()
-	"A function to byte compile Emacs dir."
-	(interactive)
-	(byte-recompile-directory (expand-file-name user-emacs-directory) 0))
-
-;; exex path from shell to fix stuff with bash and shit
-
-;; (use-package exec-path-from-shell
-;;   :ensure t
-;;  :init
-;;  (exec-path-from-shell-initialize)
-;;  )
-
-(defun sudo-edit (&optional arg)
-	"Edit currently visited file as root.
-
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-	(interactive "P")
-	(if (or arg (not buffer-file-name))
-			(find-file (concat "/sudo:root@localhost:"
-												 (ido-read-file-name "Find file(as root): ")))
-		(find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
-;;; unset some keys
-(global-set-key (kbd "<f3>") nil)
-(global-unset-key (kbd "C-z"))
-
-
-
-;; TEXT FOLDING
-
-
-(use-package hideshow
-	:ensure t
-	:config
-	(defvar hs-special-modes-alist
-	(mapcar 'purecopy
-	'((c-mode "{" "}" "/[*/]" nil nil)
-		(c++-mode "{" "}" "/[*/]" nil nil)
-		(bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
-		(java-mode "{" "}" "/[*/]" nil nil)
-		(js-mode "{" "}" "/[*/]" nil))))
-
-	(define-prefix-command	'fold-prefix)
-
-	(evil-leader/set-key "/" 'toggle-hiding)
-	(add-hook 'c-mode-common-hook   'hs-minor-mode)
-	(add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
-	(add-hook 'java-mode-hook       'hs-minor-mode)
-	(add-hook 'lisp-mode-hook       'hs-minor-mode)
-	(add-hook 'perl-mode-hook       'hs-minor-mode)
-	(add-hook 'sh-mode-hook         'hs-minor-mode)
-	(add-hook 'csharp-mode-hook      'hs-minor-mode)
-	(add-hook 'web-mode-hook         'hs-minor-mode)
-	(evil-leader/set-key "2" 'fold-prefix)
-
-	(define-key fold-prefix (kbd "t") 'toggle-hiding)
-	(define-key fold-prefix (kbd "s") 'hs-show-block)
-	(define-key fold-prefix (kbd "h") 'hs-hide-block)
-	(define-key fold-prefix (kbd "S") 'hs-show-all)
-	(define-key fold-prefix (kbd "H") 'hs-hide-all)
-	(define-key fold-prefix (kbd "l") 'hs-hide-level)
-	(define-key fold-prefix (kbd "L") 'hs-hide-level-recursive)
-
-
-	)
-
-
-;; Use ranger dired extension for best file management
-
-(use-package ranger
-	:ensure t
-	:commands (deer)
-	:bind (("<f3>" . deer))
-	:init
-	(setq
-	 ranger-show-hidden nil
-	 ranger-override-dired-mode t
-	 ranger-cleanup-on-disable t
-	 ranger-cleanup-eagerly t
-	 )
-	(add-hook 'ranger-mode-hook
-						(lambda ()
-							(local-unset-key "\C-f")
-							(local-unset-key "\C-b")
-							(local-unset-key "\C-h")))
-	:config
-	(define-key ranger-mode-map "C-f" 'nil)
-	(define-key ranger-mode-map "C-h" 'nil)
-	(define-key ranger-mode-map "C-b" 'nil)
-	(define-key ranger-normal-mode-map "k" 'ranger-next-file)
-	(define-key ranger-normal-mode-map "l" 'ranger-prev-file)
-	(define-key ranger-normal-mode-map "j" 'ranger-up-directory)
-	(define-key ranger-mode-map ":" ranger-dired-map)
-	(define-key ranger-normal-mode-map (kbd "h") 'ranger-goto-mark)
-	(define-key ranger-mode-map ";" 'ranger-find-file)
-	(define-key ranger-normal-mode-map ";" 'ranger-find-file)
-	(define-key ranger-mode-map (kbd "C-g") 'ranger-close)
-	(define-key ranger-mode-map (kbd "<escape>") 'ranger-close)
-	(define-key ranger-mode-map (kbd "<f7>") 'dired-create-directory)
-	(define-key ranger-mode-map (kbd "<f8>") 'dired-do-delete)
-	(define-key ranger-mode-map (kbd "cw") 'dired-do-rename)
-	(define-key ranger-mode-map (kbd "cm") 'dired-do-chmod)
-	(define-key ranger-mode-map (kbd "cx") 'dired-do-compress)
-
-	)
-
-;; let's define some ghetoo keybindings
-
-;; (define-prefix-command	'frame-map)
-(defun vmake-frame ()
-	"Make an Emacs horizontal frame in i3 window manager."
-	(interactive)
-	(shell-command "i3-msg split v")
-	(make-frame))
-(defun hmake-frame ()
-	"Make an Emacs horizontal frame in i3 window manager."
-	(interactive)
-	(shell-command "i3-msg split h")
-	(make-frame))
 
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
@@ -374,18 +187,9 @@ buffer is not visiting a file."
 
 (require 'csharp-hs-forward-sexp)
 
-;; languages config
-(use-package common-lisp-snippets
-	:ensure t )
-(use-package slime
-	:ensure t
-	:config
-	(setq inferior-lisp-program "/bin/sbcl"))
-(use-package cl-lib
-	:ensure t)
+
 (use-package markdown-mode
 	:ensure t)
-
 
 
 ;; snippets
@@ -402,14 +206,6 @@ buffer is not visiting a file."
 (use-package perspective
 	:ensure t)
 
-
-
-;; (define-prefix-command 'space-map)
-;; (global-set-key (kbd "SPC") 'space-map)
-
-(define-prefix-command 'helm-utils-map)
-(evil-leader/set-key "h" 'helm-utils-map)
-(define-key helm-utils-map (kbd "c") 'helm-colors)
 
 (setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)

@@ -26,8 +26,8 @@
 
 (use-package evil-surround
 	:ensure t
-	:config
-	(global-evil-surround-mode 1))
+	:init
+	(global-evil-surround-mode))
 
 
 (use-package evil-nerd-commenter
@@ -36,19 +36,6 @@
 ;; helm-split-window-inside-p           t
 
 ;; text manipulation.
-
-(use-package drag-stuff
-	:ensure t
-	:config
-	(define-key evil-normal-state-map (kbd "M-n") 'drag-stuff-down)
-	(define-key evil-normal-state-map (kbd "M-p") 'drag-stuff-up)
-	(define-key evil-normal-state-map (kbd "M-f") 'drag-stuff-right)
-	(define-key evil-normal-state-map (kbd "M-b") 'drag-stuff-left)
-	(define-key evil-visual-state-map (kbd "M-n") 'drag-stuff-down)
-	(define-key evil-visual-state-map (kbd "M-p") 'drag-stuff-up)
-	(define-key evil-visual-state-map (kbd "M-f") 'drag-stuff-right)
-	(define-key evil-visual-state-map (kbd "M-b") 'drag-stuff-left)
-	)
 
 
 (use-package linum-relative
@@ -74,18 +61,11 @@
 	"\\" 'evilnc-comment-operator ; if you prefer backslash key
 	"w"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-window/body)))
 	"g"  'magit-status
-	"b"  'helm-buffers-list
 	"p"  'projectile-command-map
-	"k"  'helm-register
 	"a"  'ace-window
 	;;"f"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-fzf/body)))
-	"f"  'fzf-directory
 	"k"  'kill-buffer
-	"q"  'helm-show-kill-ring
-	"m"  'helm-all-mark-rings
-	"o"  'helm-occur
 	"O"  'projectile-multi-occur
-	"t"  'helm-top
 	"ef" 'flycheck-buffer
 	"el" 'flycheck-list-errors
 	"en" 'flycheck-next-error
@@ -96,6 +76,9 @@
 	"r"  'evil-use-register
 	"<SPC>" 'whitespace-cleanup
 
+	
+	"b" 'ivy-switch-buffer
+	"f" 'counsel-find-file
 	)
 
 (evil-mode 1)
@@ -122,9 +105,28 @@
 		(move-end-of-line 1)
 		(newline times)))
 
+(use-package drag-stuff
+	:ensure t
+	)
+
+
 
 (with-eval-after-load 'evil-maps
 
+
+
+	
+	(define-key evil-normal-state-map (kbd "M-n") 'drag-stuff-down)
+	(define-key evil-normal-state-map (kbd "M-p") 'drag-stuff-up)
+	(define-key evil-normal-state-map (kbd "M-f") 'drag-stuff-right)
+	(define-key evil-normal-state-map (kbd "M-b") 'drag-stuff-left)
+	(define-key evil-visual-state-map (kbd "M-n") 'drag-stuff-down)
+	(define-key evil-visual-state-map (kbd "M-p") 'drag-stuff-up)
+	(define-key evil-visual-state-map (kbd "M-f") 'drag-stuff-right)
+	(define-key evil-visual-state-map (kbd "M-b") 'drag-stuff-left)
+
+	(global-set-key (kbd "C-S-v") 'evil-paste-after)
+	(global-set-key (kbd "C-S-c") 'evil-yank)
 
 
 	;;; Motion
@@ -223,6 +225,19 @@
 	(define-key evil-window-map "L" 'evil-window-move-very-top)
 	(define-key evil-window-map ";" 'evil-window-right)
 	(define-key evil-window-map ":" 'evil-window-move-far-right)
+	(general-define-key
+	 :keymaps 'evil-window-map
+	 "|" (lambda ()
+					(interactive)
+					(split-window-right)
+					(windmove-right))
+   "_" (lambda ()
+					(interactive)
+					(split-window-below)
+					(windmove-down))
+	 )
+
+
 
 
 	;;; Insert mode

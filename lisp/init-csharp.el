@@ -18,9 +18,15 @@
 	(setq truncate-lines t)
 	(setq tab-width 4)
 	(setq evil-shift-width 4)
+	(setq omnisharp-server-executable-path (expand-file-name "~/.emacs.d/omnisharp/start-omnisharp.sh"))
+	;; (setq omnisharp-server-executable-path "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe")
+	(setq omnisharp-debug t)
 
 
 
+	(general-define-key
+	 :keymaps 'csharp-mode-map
+	 "M-." 'omnisharp-go-to-definition)
 	;; (local-set-key (kbd "M-.") 'omnisharp-go-to-definition)
 	;; (local-set-key (kbd "M-,") 'omnisharp-))
 	(local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
