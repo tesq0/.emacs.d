@@ -132,7 +132,7 @@
 	(define-key evil-visual-state-map (kbd "M-f") 'drag-stuff-right)
 	(define-key evil-visual-state-map (kbd "M-b") 'drag-stuff-left)
 
-	(global-set-key (kbd "C-S-v") 'evil-paste-after)
+	(global-set-key (kbd "C-S-v") 'evil-paste-before)
 	(global-set-key (kbd "C-S-c") 'evil-yank)
 
 
@@ -256,14 +256,22 @@
 					(split-window-below)
 					(windmove-down))
 	 )
-
+	
+	
+	;;slowly start introducting general
 	(general-define-key
 	 :keymaps 'insert
-	 "C-n" 'next-line
-	 "C-p" 'previous-line)
+	 "M-k" 'next-line
+	 "M-l" 'previous-line
+	 "C-;" 'c-indent-command
+	 "C-n" 'hippie-expand)
 	
-
-
+	
+	
+	
+	
+	
+	
 	;;; Insert mode
 
 	(define-key evil-motion-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this

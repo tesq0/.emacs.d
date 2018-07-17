@@ -35,6 +35,7 @@
 ;; (setq x-super-keysym 'meta)             ;use super as meta
 
 
+(setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
 
@@ -58,12 +59,14 @@
 (require 'init-ui)
 (require 'init-utils)
 (require 'init-gui-frames)
+(require 'init-search)
 (require 'init-modeline)
 (require 'init-general)
-(require 'init-evil)
 (require 'init-ivy)
+(require 'init-evil)
 (require 'init-ibuffer)
 (require 'init-dired)
+(require 'init-org)
 (require 'init-company)
 (require 'init-csharp)
 (require 'init-hydra)
@@ -103,11 +106,10 @@
 
 ;; flash current line
 
-(require 'hl-line+)
 (global-set-key (kbd "<C-return>") 'hl-line-flash)
 
-;;; Shell mode
 
+(require 'hl-line+)
 
 ;; better help
 
@@ -149,10 +151,6 @@
 (use-package rainbow-mode
 	:ensure t)
 
-
-(use-package org
-	:ensure t)
-
 ;; defuns
 
 (require 'reindent-buffer)
@@ -166,6 +164,7 @@
 (define-prefix-command	'toggle-map)
 (global-set-key (kbd "C-c o") 'toggle-map)
 (define-key toggle-map (kbd "l") 'linum-mode)
+(define-key toggle-map (kbd "t") 'toggle-truncate-lines)
 (define-prefix-command	'fast-ex-map)
 (evil-leader/set-key "x" 'fast-ex-map)
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
@@ -180,12 +179,6 @@
 (define-key ctl-x-5-map (kbd "f") 'find-file)
 (define-key ctl-x-5-map (kbd "C-i") 'other-frame)
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
-
-(define-prefix-command 'mikus-search-map)
-(evil-leader/set-key "s" 'mikus-search-map)
-(define-key mikus-search-map (kbd "f") 'fzf-directory)
-(define-key mikus-search-map (kbd "g") 'projectile-grep)
-(define-key mikus-search-map (kbd "a") 'projectile-ag)
 
 
 (require 'csharp-hs-forward-sexp)

@@ -14,19 +14,31 @@
 	(setq-local yas-indent-line 'fixed)
 	(yas-minor-mode)
 
-	(setq indent-tabs-mode nil)
-	(setq c-syntactic-indentation t)
-	(c-set-style "ellemtel")
-	(setq c-basic-offset 4)
-	(setq truncate-lines t)
+
+	(c-add-style "mikus-csharp"
+							 '("ellemtel"
+								 (c-basic-offset . 4)
+								 (c-offsets-alist
+									(innamespace . -)
+									(inline-open . 0)
+									(inher-cont . c-lineup-multi-inher)
+									(arglist-cont-nonempty . +)
+									(arglist-intro . +)
+									(arglist-close . c-lineup-close-paren)
+									(template-args-cont . +))))
+
+	(setq c-default-style "mikus-csharp")
 	(setq-local tab-width 4)
-	;; (setq omnisharp-server-executable-path (expand-file-name "~/.emacs.d/omnisharp/start-omnisharp.sh"))
-	;; (setq omnisharp-server-executable-path "C:\\Bin\\omnisharp-roslyn\\OmniSharp.exe")
+	(setq c-syntactic-indentation 1)
+	(setq indent-tabs-mode t)
+	(c-set-style "mikus-csharp")
 	(setq omnisharp-debug t)
 
 	(cl-pushnew 'company-omnisharp company-backends)
 
-	(electric-indent-local-mode -1)
+	;; (electric-pair-local-mode 1)
+
+	;; (electric-indent-local-mode -1)
 
 
 	;; (local-set-key (kbd "M-.") 'omnisharp-go-to-definition)
@@ -39,10 +51,13 @@
 	:ensure t
 	:init
 	(progn
-	(add-hook 'csharp-mode-hook 'initCsharp t)
-	(general-define-key
-	 :keymaps 'csharp-mode-map
-	 "M-." 'omnisharp-go-to-definition))
+		(add-hook 'csharp-mode-hook 'initCsharp t)
+		(general-define-key
+		 :keymaps 'csharp-mode-map
+	   "M-." 'omnisharp-go-to-definition
+		 "C-c u" 'omnisharp-find-usages
+		 "C-c i" 'omnisharp-find-implementations
+		 ))
 	)
 
 (provide 'init-csharp)

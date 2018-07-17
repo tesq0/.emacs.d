@@ -66,17 +66,11 @@
 						))
 
 
-;; message-mode use company-bbdb.
-;; So we should NOT turn on company-ispell
-;; }}
-
-(eval-after-load 'company-etags
-	'(progn
-		 ;; insert major-mode not inherited from prog-mode
-		 ;; to make company-etags work
+(require 'company-etags)
+(after-load 'company-etags
+	(progn
 		 (add-to-list 'company-etags-modes 'csharp-mode)
 		 (add-to-list 'company-etags-modes 'web-mode)
 		 (add-to-list 'company-etags-modes 'lua-mode)))
-
 
 (provide 'init-company)
