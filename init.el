@@ -64,6 +64,7 @@
 (require 'init-general)
 (require 'init-ivy)
 (require 'init-evil)
+(require 'init-magit)
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-org)
@@ -71,7 +72,6 @@
 (require 'init-csharp)
 (require 'init-hydra)
 (require 'init-webmode)
-(require 'init-magit)
 (require 'init-hideshow)
 (require 'init-projectile)
 
@@ -166,7 +166,11 @@
 (define-key toggle-map (kbd "l") 'linum-mode)
 (define-key toggle-map (kbd "t") 'toggle-truncate-lines)
 (define-prefix-command	'fast-ex-map)
-(evil-leader/set-key "x" 'fast-ex-map)
+(mikus-leader
+ :states 'normal
+ :keymaps 'override
+ "x" 'fast-ex-map
+ )
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)

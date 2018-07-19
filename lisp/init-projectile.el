@@ -5,7 +5,11 @@
 		(counsel-projectile-mode)
 		(setq projectile-indexing-method 'alien)
 		(define-prefix-command 'mikus-search-map)
-		(evil-leader/set-key "s" 'mikus-search-map)
+		(mikus-leader
+		 :states 'normal
+		 :keymaps 'override
+		 "s" 'mikus-search-map
+		 )
 		(general-define-key
 		 :keymaps 'mikus-search-map
 		 "f" 'fzf-directory

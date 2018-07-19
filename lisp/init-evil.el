@@ -6,19 +6,17 @@
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'image-mode 'emacs)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
-	;; (setq evil-emacs-state-cursor '("#B22222" box))
-	;; (setq evil-normal-state-cursor '("green" box))
-	;; (setq evil-visual-state-cursor '("purple" box))
-	;; (setq evil-insert-state-cursor '("orange" bar))
-	;; (setq evil-replace-state-cursor '("red" bar))
-	;; (setq evil-operator-state-cursor '("red" hollow))
+	(setq evil-emacs-state-cursor '("#B22222" box))
+	(setq evil-normal-state-cursor '("green" box))
+	(setq evil-visual-state-cursor '("purple" box))
+	(setq evil-insert-state-cursor '("orange" bar))
+	(setq evil-replace-state-cursor '("red" bar))
+	(setq evil-operator-state-cursor '("red" hollow))
 	;; :init
 	;; (add-hook 'indium-repl-mode-hook 'evil-mode nil)
 	)
 
 
-(use-package evil-leader
-	:ensure t)
 
 (use-package avy
 	:ensure t
@@ -27,7 +25,9 @@
 	;; (setq avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 	;; Any lower-case letter or number.  Numbers are specified in the keyboard
 	;; number-row order, so that the candidate following '9' will be '0'.
+	(progn
 	(setq avy-keys (number-sequence ?a ?z))
+	(setq avy-all-windows 'all-frames))
 
 	)
 
@@ -54,9 +54,12 @@
 
 
 ;;; Start evil
-(global-evil-leader-mode)
-(evil-leader/set-leader "<SPC>")
-(evil-leader/set-key
+(general-create-definer mikus-leader
+	:prefix "SPC")
+
+(mikus-leader
+ :states 'normal
+ :keymaps 'override
 	"ci" 'evilnc-comment-or-uncomment-lines
 	"cl" 'evilnc-quick-comment-or-uncomment-to-the-line
 	"ll" 'evilnc-quick-comment-or-uncomment-to-the-line
@@ -67,11 +70,10 @@
 	"."  'evilnc-copy-and-comment-operator
 	"\\" 'evilnc-comment-operator ; if you prefer backslash key
 	"w"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-window/body)))
-	"g"  'magit-status
 	"p"  'projectile-command-map
 	"a"  'ace-window
-	;;"f"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-fzf/body)))
 	"k"  'kill-buffer
+	"g"	 'mikus-magit-map
 	"O"  'projectile-multi-occur
 	"ef" 'flycheck-buffer
 	"el" 'flycheck-list-errors
@@ -82,11 +84,11 @@
 	"js" 'evil-jump-backward-swap
 	"r"  'evil-use-register
 	"<SPC>" 'whitespace-cleanup
-
-	
 	"b" 'ivy-switch-buffer
 	"f" 'counsel-find-file
-	)
+ 
+ )
+
 
 (evil-mode 1)
 
@@ -122,7 +124,7 @@
 
 
 
-	
+
 	(define-key evil-normal-state-map (kbd "M-n") 'drag-stuff-down)
 	(define-key evil-normal-state-map (kbd "M-p") 'drag-stuff-up)
 	(define-key evil-normal-state-map (kbd "M-f") 'drag-stuff-right)
@@ -167,7 +169,7 @@
 	;; (define-key evil-motion-state-map (kbd "<C-tab>") 'evil-jump-backward)
 	;; (define-key evil-motion-state-map (kbd "<tab>") 'evil-jump-forward)
 
-	
+
 	(evil-define-operator evil-join-and-indent (beg end)
 		"Join the selected lines."
 		:motion evil-line
@@ -251,27 +253,31 @@
 					(interactive)
 					(split-window-right)
 					(windmove-right))
-   "_" (lambda ()
+	 "_" (lambda ()
 					(interactive)
 					(split-window-below)
 					(windmove-down))
 	 )
-	
-	
+
+
 	;;slowly start introducting general
 	(general-define-key
 	 :keymaps 'insert
 	 "M-k" 'next-line
 	 "M-l" 'previous-line
-	 "C-;" 'c-indent-command
+	 "C-k" 'next-line
+	 "C-l" 'previous-line
+	 "C-j" 'backward-char
+	 "C-;" 'forward-char
+	 "M-i" 'c-indent-command
 	 "C-n" 'hippie-expand)
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	;;; Insert mode
 
 	(define-key evil-motion-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this
