@@ -9,7 +9,11 @@
 		(define-prefix-command 'mikus-magit-map)
 		(define-prefix-command 'mikus-magit-blame-map)
 
-		(setq magit-blame--style (cadr magit-blame-styles))
+		(defun setup-default-blame-style (type)
+			(setq-local magit-blame--style (cadr magit-blame-styles))
+			)
+		(advice-add 'magit-blame--pre-blame-setup :before #'setup-default-blame-style)
+
 		(general-define-key
 		 :keymaps 'mikus-magit-blame-map
 		 "C-S-c" 'magit-blame-copy-hash
@@ -21,6 +25,7 @@
 		 "P" 'magit-blame-previous-chunk-same-commit
 		 "r" 'magit-blame-removal
 		 "f" 'magit-blame-reverse
+		 "s" 'magit-blame-cycle-style
 		 "c" 'magit-blame-show-commit
 		 "q" 'magit-blame-quit
 		 )

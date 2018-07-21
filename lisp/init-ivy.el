@@ -27,7 +27,6 @@
 
 
 
-
 (use-package counsel
 	:ensure t
 	:bind
@@ -40,7 +39,9 @@
 	 ("C-r" . 'counsel-expression-history))
 	:init
 	(progn
-		(evil-leader/set-key
+		(mikus-leader
+			:states 'normal
+			:keymaps 'override
 			"i" 'counsel-imenu)
 		)
 	:config

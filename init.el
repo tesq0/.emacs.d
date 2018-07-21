@@ -38,9 +38,13 @@
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
-
-
 (setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))
+
+
+(setq desktop-dirname (expand-file-name "save" user-emacs-directory))
+
+;;(desktop-save-mode 1)
+;;(add-hook after-make-frame-functions)
 
 ;; extra functions
 (add-to-list 'load-path
@@ -62,8 +66,8 @@
 (require 'init-search)
 (require 'init-modeline)
 (require 'init-general)
-(require 'init-ivy)
 (require 'init-evil)
+(require 'init-ivy)
 (require 'init-magit)
 (require 'init-ibuffer)
 (require 'init-dired)
