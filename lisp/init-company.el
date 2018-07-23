@@ -3,10 +3,14 @@
 					(add-hook 'prog-mode-hook 'company-mode))
 	:diminish "COMP"
 	:config (progn
-						(define-key company-active-map [tab] 'company-complete)
-						(define-key company-active-map (kbd "C-n") 'company-select-next)
-						(define-key company-active-map (kbd "C-p") 'company-select-previous)
-
+						(general-define-key
+						 :keymaps 'company-active-map
+						 [tab] 'company-complete
+						 "C-n" 'company-select-next
+						 "C-p" 'company-select-previous
+						 "ESC" 'company-abort
+						 "<escape>" 'company-abort
+						 )
 						(setq company-dabbrev-downcase nil
 									;; make previous/next selection in the popup cycles
 									company-selection-wrap-around t
