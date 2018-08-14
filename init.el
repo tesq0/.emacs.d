@@ -23,8 +23,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
 ;; (setq-default abbrev-mode t)                      ; turn on abbreviations by default
 (setq recenter-positions '(middle top bottom))                    ; recenter from the top instead of the middle
- ;; (put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
- ;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
+;; (put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
+;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
 (when (fboundp 'winner-mode)                      ; when you can find 'winner-mode'
 	(winner-mode 1))                        ; activate winner mode
 ;;(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
@@ -78,6 +78,7 @@
 (require 'init-webmode)
 (require 'init-hideshow)
 (require 'init-projectile)
+(require 'init-diff)
 
 ;; auto revert mode
 (use-package autorevert
@@ -144,10 +145,14 @@
 
 (use-package dumb-jump
 	:ensure t
-	:config
-	(global-set-key (kbd "M-.") 'dumb-jump-go)
-	(global-set-key (kbd "M-,") 'dumb-jump-back)
-	(add-hook 'dumb-jump-after-jump-hook 'hl-line-flash)
+	:init
+	(progn
+		(general-define-key
+		 "M-." 'dumb-jump-go
+		 "M-," 'dumb-jump-back)
+		(add-hook 'dumb-jump-after-jump-hook 'hl-line-flash)
+		(setq dumb-jump-prefer-searcher 'rg)
+		)
 	)
 
 
@@ -162,6 +167,9 @@
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
+(global-set-key (kbd "C-z") 'undo-tree-undo)
+(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
 
@@ -171,10 +179,10 @@
 (define-key toggle-map (kbd "t") 'toggle-truncate-lines)
 (define-prefix-command	'fast-ex-map)
 (mikus-leader
- :states 'normal
- :keymaps 'override
- "x" 'fast-ex-map
- )
+	:states 'normal
+	:keymaps 'override
+	"x" 'fast-ex-map
+	)
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
@@ -187,6 +195,14 @@
 (define-key ctl-x-5-map (kbd "f") 'find-file)
 (define-key ctl-x-5-map (kbd "C-i") 'other-frame)
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
+
+(define-prefix-command	'fast-buffer-map)
+(global-set-key (kbd "C-b") 'fast-buffer-map)
+(general-define-key
+ :keymaps 'fast-buffer-map
+ "p" 'previous-buffer
+ "n" 'next-buffer)
+
 
 
 (require 'csharp-hs-forward-sexp)
@@ -205,6 +221,7 @@
 (define-prefix-command 'yas-map)
 (global-set-key (kbd "C-y") 'yas-map)
 (define-key yas-map (kbd "i") 'yas-insert-snippet)
+(define-key yas-map (kbd "e") 'yas-expand)
 
 
 (use-package perspective

@@ -1,4 +1,3 @@
-
 (use-package ivy
 	:ensure t
 	:bind
@@ -19,7 +18,7 @@
 	(setq ivy-use-selectable-prompt t)
 
 
-	
+
 	;; work around ivy issue.
 	;; @see https://github.com/abo-abo/swiper/issues/828
 	(setq ivy-display-style 'fancy)
@@ -226,10 +225,10 @@ Or else, find files since 24 weeks (6 months) ago."
 														 (buffer-string))
 													 "\n"
 													 t))))
-      (ivy-read (format "Bash history:") collection
-                :action (lambda (val)
-                          (kill-new val)
-                          (message "%s => kill-ring" val)))))
+			(ivy-read (format "Bash history:") collection
+								:action (lambda (val)
+													(kill-new val)
+													(message "%s => kill-ring" val)))))
 
 	(defun counsel-recent-directory (&optional n)
 		"Goto recent directories.
@@ -237,11 +236,11 @@ If N is not nil, only list directories in current project."
 		(interactive "P")
 		(unless recentf-mode (recentf-mode 1))
 		(let* ((cands (delete-dups
-                   (append my-dired-directory-history
-                           (mapcar 'file-name-directory recentf-list)
-                           ;; fasd history
-                           (if (executable-find "fasd")
-                               (nonempty-lines (shell-command-to-string "fasd -ld"))))))
+									 (append my-dired-directory-history
+													 (mapcar 'file-name-directory recentf-list)
+													 ;; fasd history
+													 (if (executable-find "fasd")
+															 (nonempty-lines (shell-command-to-string "fasd -ld"))))))
 					 (root-dir (if (ffip-project-root) (file-truename (ffip-project-root)))))
 			(when (and n root-dir)
 				(setq cands (delq nil (mapcar (lambda (f) (path-in-directory-p f root-dir)) cands))))
@@ -294,6 +293,9 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 
 	)
+
+(use-package counsel-etags
+	:ensure t)
 
 
 

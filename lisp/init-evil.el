@@ -203,7 +203,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		:prefix "SPC")
 
 	(mikus-leader
-		:states 'normal
+		:states '(normal motion visual)
 		:keymaps 'override
 		"ci" 'evilnc-comment-or-uncomment-lines
 		"cl" 'evilnc-quick-comment-or-uncomment-to-the-line
@@ -231,6 +231,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"<SPC>" 'whitespace-cleanup
 		"b" 'ivy-switch-buffer
 		"f" 'counsel-find-file
+		"<tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
 		)
 
@@ -260,13 +261,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-e" #'go-end-of-line
 	 "ge" #'go-end-of-visual-line
 	 "gb" #'go-start-of-visual-line
-	 "C-b" #'go-start-of-line
+	 "C-b" 'nil
 	 "M-b" #'backward-word
 	 "}" 'evil-repeat-find-char
 	 "{" 'evil-repeat-find-char-reverse
 	 "<" 'evil-jump-backward
 	 ">" 'evil-jump-forward
-	 
+
+	 "<C-tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
 	 "M-." nil
 	 "M-," nil
@@ -296,20 +298,24 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-O" 'my/make-newline-before
 	 "M-J" 'join-line
 	 "M-j" 'evil-join-and-indent
+	 "C-b" nil
 	 "C-p" nil
 	 "C-n" nil
 	 )
 
-	(general-imap
-		"M-k" 'next-line
-		"M-l" 'previous-line
-		"C-k" 'next-line
-		"C-l" 'previous-line
-		"C-j" 'backward-char
-		"C-;" 'forward-char
-		"M-i" 'c-indent-command
-		"C-n" 'hippie-expand
-		"C-y" nil)
+	(general-define-key
+	 :states 'insert
+	 "M-k" 'next-line
+	 "M-l" 'previous-line
+	 "C-k" 'next-line
+	 "C-l" 'previous-line
+	 "C-j" 'backward-char
+	 "C-;" 'forward-char
+	 "M-i" 'c-indent-command
+	 "C-n" 'hippie-expand
+	 "C-y" nil
+	 "<escape>" 'evil-normal-state
+	 )
 	
 	(general-define-key
 	 :states '(motion visual)
