@@ -214,6 +214,21 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 						(error "Dead window %S" win)))
 			(message "Couldn't find a suitable window to switch to"))))
 
+;; (defun switch-to-recently-selected-buffer ()
+;; 	(interactive)
+;; 	(let* ((buflist (buffer-list))      ;   get all buffer list  -- before (selected-frame)
+;; 				 (buflist (delq (current-buffer) buflist)))     ; if there are multiple windows showing same buffer.
+;; 		(if buflist
+;; 				(let (buf (car buflist))
+;; 					(switch-to-buffer buf))
+;; 			(message "Couldn't find a suitable buffer to switch to"))))
+
+(defun switch-to-recently-selected-buffer ()
+  "Switch to other buffer"
+  (interactive)
+  (switch-to-buffer (other-buffer)))
+
+
 (defun byte-compile-emacs ()
 	"A function to byte compile Emacs dir."
 	(interactive)

@@ -71,14 +71,16 @@
 (require 'init-magit)
 (require 'init-ibuffer)
 (require 'init-dired)
-(require 'init-org)
 (require 'init-company)
+(require 'init-org)
 (require 'init-csharp)
 (require 'init-hydra)
 (require 'init-webmode)
 (require 'init-hideshow)
 (require 'init-projectile)
 (require 'init-diff)
+(require 'init-shackle)
+(require 'init-mc)
 
 ;; auto revert mode
 (use-package autorevert
@@ -197,11 +199,11 @@
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
 
 (define-prefix-command	'fast-buffer-map)
-(global-set-key (kbd "C-b") 'fast-buffer-map)
-(general-define-key
- :keymaps 'fast-buffer-map
- "p" 'previous-buffer
- "n" 'next-buffer)
+;; (global-set-key (kbd "C-b") 'fast-buffer-map)
+;; (general-define-key
+;;  :keymaps 'fast-buffer-map
+;;  "p" 'previous-buffer
+;;  "n" 'next-buffer)
 
 
 

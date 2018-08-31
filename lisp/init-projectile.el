@@ -15,6 +15,9 @@
 		 "s" 'mikus-search-map
 		 )
 		(general-define-key
+		 :keymaps 'projectile-command-map
+		 "R" 'projectile-regenerate-tags-async)
+		(general-define-key
 		 :keymaps 'mikus-search-map
 		 "f" 'fzf-directory
 		 "g" 'projectile-grep

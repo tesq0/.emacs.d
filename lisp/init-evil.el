@@ -7,6 +7,7 @@
 					evil-normal-state-cursor '(box "White")
 					evil-visual-state-cursor '(box "#F86155"))
 		(setq evil-move-cursor-back nil)
+		(setq evil-search-module 'evil-search)
 		(setq evil-want-C-d-scroll nil
 					evil-want-C-u-scroll nil)
 		)
@@ -31,7 +32,7 @@
 	;; number-row order, so that the candidate following '9' will be '0'.
 	(progn
 		(setq avy-keys (number-sequence ?a ?z))
-		(setq avy-all-windows 'all-frames))
+		(setq avy-all-windows nil))
 	:config
 	(defun avy-goto-paren-left ()
 		(interactive)
@@ -191,8 +192,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 							minibuffer-local-ns-map
 							minibuffer-local-completion-map
 							minibuffer-local-must-match-map
-							minibuffer-local-isearch-map)
-	 [escape] 'minibuffer-keyboard-quit)
+							minibuffer-local-isearch-map
+							minibuffer-inactive-mode-map
+							)
+	 [escape] 'minibuffer-keyboard-quit
+	 "C-w" 'ivy-backward-kill-word
+	 )
 
 	(global-set-key [escape] 'keyboard-quit) ;;evil-exit-emacs-state
 	
@@ -231,7 +236,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"<SPC>" 'whitespace-cleanup
 		"b" 'ivy-switch-buffer
 		"f" 'counsel-find-file
-		"<tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
+		"<tab>" 'switch-to-recently-selected-buffer
 
 		)
 
@@ -258,10 +263,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-l"  (lambda () (interactive) (evil-scroll-line-up 3))
 	 "C-e"  (lambda () (interactive) (evil-scroll-line-down 3))
 	 "C-y" nil
-	 "C-e" #'go-end-of-line
+	 "C-e" #'evil-last-non-blank
 	 "ge" #'go-end-of-visual-line
 	 "gb" #'go-start-of-visual-line
-	 "C-b" 'nil
+	 "C-b" 'evil-first-non-blank
 	 "M-b" #'backward-word
 	 "}" 'evil-repeat-find-char
 	 "{" 'evil-repeat-find-char-reverse
@@ -289,9 +294,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 ")"  'evil-avy-goto-paren-right
 
 	 )
-
 	
-
 	(general-define-key
 	 :states '(motion insert)
 	 "M-o" 'my/make-newline-after
@@ -300,7 +303,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-j" 'evil-join-and-indent
 	 "C-b" nil
 	 "C-p" nil
-	 "C-n" nil
+	 "C-o" nil
 	 )
 
 	(general-define-key
@@ -312,7 +315,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-j" 'backward-char
 	 "C-;" 'forward-char
 	 "M-i" 'c-indent-command
-	 "C-n" 'hippie-expand
+	 "C-n" 'evil-complete-next
 	 "C-y" nil
 	 "<escape>" 'evil-normal-state
 	 )

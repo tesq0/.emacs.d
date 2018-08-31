@@ -6,7 +6,23 @@
 	 ("C-r" . 'counsel-expression-history)
 	 ("C-c q" . 'counsel-browse-kill-ring)
 	 :map ivy-minibuffer-map
-	 ("<escape>" . 'minibuffer-keyboard-quit))
+	 ("<escape>" . 'minibuffer-keyboard-quit)
+	 )
+	:init
+	(progn
+	(general-define-key
+	 :keymaps 'ivy-minibuffer-map
+	 "C-w" 'ivy-backward-kill-word
+	 "C-M-=" 'ivy-next-line-and-call
+	 )
+	(general-define-key
+	 :keymaps 'ivy-occur-grep-mode-map
+	 "k" 'ivy-occur-next-line
+	 "l" 'ivy-occur-previous-line
+	 "j" 'backward-char
+	 ";" 'forward-char
+	 )
+	)
 	:config
 	(ivy-mode)
 	;; better performance on everything (especially windows), ivy-0.10.0 required
@@ -34,6 +50,7 @@
 	 ("C-h v" . 'counsel-describe-variable)
 	 ("C-s" . 'swiper)
 	 ("C-x C-f" . 'counsel-find-file)
+	 ("M-x" . 'counsel-M-x)
 	 :map read-expression-map
 	 ("C-r" . 'counsel-expression-history))
 	:init
@@ -295,6 +312,9 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	)
 
 (use-package counsel-etags
+	:ensure t)
+
+(use-package wgrep
 	:ensure t)
 
 
