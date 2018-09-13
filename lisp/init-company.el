@@ -8,6 +8,7 @@
 						 [tab] 'company-complete
 						 "C-n" 'company-select-next
 						 "C-p" 'company-select-previous
+						 "C-w" 'evil-delete-backward-word
 						 "ESC" 'company-abort
 						 "<escape>" 'company-abort
 						 )
@@ -19,7 +20,7 @@
 									company-dabbrev-ignore-case nil
 									;; press M-number to choose candidate
 									company-show-numbers t
-									company-idle-delay nil
+									company-idle-delay 0.3
 									company-minimum-prefix-length 4
 									company-clang-insert-arguments nil
 									company-require-match nil

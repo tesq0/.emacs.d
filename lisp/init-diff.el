@@ -13,5 +13,7 @@
 (eval-after-load "diff-mode"
   '(update-diff-refine-colors))
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 
 (provide 'init-diff)

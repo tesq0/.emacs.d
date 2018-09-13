@@ -58,7 +58,7 @@
 		(mikus-leader
 			:states 'normal
 			:keymaps 'override
-			"i" 'counsel-imenu)
+			"i" 'imenu)
 		)
 	:config
 

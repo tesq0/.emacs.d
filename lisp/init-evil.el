@@ -10,6 +10,7 @@
 		(setq evil-search-module 'evil-search)
 		(setq evil-want-C-d-scroll nil
 					evil-want-C-u-scroll nil)
+		(setq evil-ex-search-persistent-highlight nil)
 		)
 	:config
 	(evil-set-initial-state 'term-mode 'emacs)
@@ -169,6 +170,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				(c-indent-command))
 			)))
 
+(defun evil-enter-insert-and-intent ()
+	(interactive)
+	(c-indent-command)
+	(when (not (evil-insert-state-p))
+		(evil-insert-state))
+	)
+
 (evil-define-avy-motion avy-goto-paren-left inclusive)
 (evil-define-avy-motion avy-goto-paren-right inclusive)
 (evil-define-avy-motion avy-goto-word-1-in-line inclusive)
@@ -247,9 +255,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	 [escape] 'keyboard-quit
 
-	 "C-;"  (lambda () (interactive) (evil-scroll-column-right 20))
-	 "C-j"  (lambda () (interactive) (evil-scroll-column-left 20))
-	 "M-;"  (lambda () (interactive) (evil-scroll-column-right 20))
+	 "C-;"  (lambda () (interactive) (evil-scroll-column-right 5))
+	 "C-j"  (lambda () (interactive) (evil-scroll-column-left 5))
+	 "M-;"  (lambda () (interactive) (evil-scroll-column-right 5))
 	 "M-v" 'evil-visual-line
 
 	 "k" 'evil-next-visual-line
@@ -261,7 +269,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-f" nil
 	 "C-k"  (lambda () (interactive) (evil-scroll-line-down 3))
 	 "C-l"  (lambda () (interactive) (evil-scroll-line-up 3))
-	 "C-e"  (lambda () (interactive) (evil-scroll-line-down 3))
+	 "C-S-k" 'evil-scroll-page-down
+	 "C-S-l" 'evil-scroll-page-up
 	 "C-y" nil
 	 "C-e" #'evil-last-non-blank
 	 "ge" #'go-end-of-visual-line
@@ -301,6 +310,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-O" 'my/make-newline-before
 	 "M-J" 'join-line
 	 "M-j" 'evil-join-and-indent
+	 "M-i" 'evil-enter-insert-and-intent
 	 "C-b" nil
 	 "C-p" nil
 	 "C-o" nil
@@ -314,7 +324,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-l" 'previous-line
 	 "C-j" 'backward-char
 	 "C-;" 'forward-char
-	 "M-i" 'c-indent-command
 	 "C-n" 'evil-complete-next
 	 "C-y" nil
 	 "<escape>" 'evil-normal-state
@@ -365,7 +374,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	
 
 	(global-unset-key (kbd "C-SPC"))
-	(global-set-key (kbd "C-SPC") 'company-complete-common)
+	;; (global-set-key (kbd "C-SPC") 'company-complete-common)
 	
 	)
 

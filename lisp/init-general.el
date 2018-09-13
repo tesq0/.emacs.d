@@ -12,6 +12,7 @@
 
 (general-define-key
  :keymaps 'compilation-mode-map
+ :states '(motion normal)
  "C-n" 'compilation-next-error
  "C-p" 'compilation-previous-error
  )

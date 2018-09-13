@@ -34,6 +34,14 @@
 (show-paren-mode 1)                     ; hightlight pharentheses and shit
 ;; (setq x-super-keysym 'meta)             ;use super as meta
 
+;; Save all tempfiles in $TMPDIR/emacs$UID/                                                        
+(defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+(setq backup-directory-alist
+			`((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+			`((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+			emacs-tmp-dir)
 
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
@@ -72,6 +80,7 @@
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
+;; (require 'init-autocomplete)
 (require 'init-org)
 (require 'init-csharp)
 (require 'init-hydra)
@@ -81,6 +90,7 @@
 (require 'init-diff)
 (require 'init-shackle)
 (require 'init-mc)
+(require 'init-dict)
 
 ;; auto revert mode
 (use-package autorevert

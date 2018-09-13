@@ -18,6 +18,7 @@
 	(omnisharp-mode)
 
 	;; (ide-bridge-setup)
+	;; (auto-complete-mode)
 
 	(flycheck-mode)
 
@@ -44,10 +45,12 @@
 	(c-set-style "mikus-csharp")
 	;; (setq omnisharp-debug t)
 
-	(cl-pushnew 'company-omnisharp company-backends)
+	;; (add-to-list 'ac-sources 'ac-source-yasnippet)
+	;; (cl-pushnew 'company-omnisharp company-backends)
+
+
 
   
-	(local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
 
@@ -61,8 +64,8 @@
 		(setq omnisharp-imenu-support t)
 		(setq omnisharp-eldoc-support nil)
 		(setq omnisharp-auto-complete-want-documentation nil)
-		;; (setq omnisharp-debug t)
-		(setq omnisharp-server-executable-path "C:\\Users\\mikol\\AppData\\Roaming\\.emacs.d\\.cache\\omnisharp-win-x86\\OmniSharp.exe")
+		;; (setq omnisharp-debug nil)
+		(setq omnisharp-server-executable-path "C:\\Users\\mikol\\AppData\\Roaming\\.emacs.d\\.cache\\1.30.1\\OmniSharp.exe")
 
 		(general-define-key
 		 :keymaps 'csharp-mode-map
@@ -70,14 +73,10 @@
 	   "M->" 'omnisharp-go-to-definition-other-window
 		 "C-c u" 'omnisharp-find-usages
 		 "C-c i" 'omnisharp-find-implementations
-		 ;; "C-SPC" 'ide-bridge-complete
+		 "C-c r" 'omnisharp-navigate-to-region
+		 ;; "C-SPC" 'ac-complete-omnisharp
+		 "C-SPC" 'company-omnisharp
 		 )
-		;; (general-define-key
-		;;  :keymaps 'csharp-mode-map
-		;;  :states 'insert
-		;;  "C-n" 'ide-bridge-completion-next-line
-		;;  "C-p" 'ide-bridge-completion-previous-line
-		;;  )
 		)
 	)
 

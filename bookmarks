@@ -1,55 +1,10 @@
-;;;; Emacs Bookmark Format Version 1 ;;;;
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8 -*- 
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("ranger-"
- (filename . "~/.config/systemd/")
- (front-context-string)
- (rear-context-string . "0K May 22 02:07 ")
- (position . 90))
-("ranger-p"
- (filename . "~/Projects/")
- (front-context-string . "dubiex-api\n  drw")
- (rear-context-string . "0K May 21 04:24 ")
- (position . 90))
-("ranger-a"
- (filename . "/run/media/mikus/DATA/mikusRice/.config/Scripts/")
- (front-context-string . "shortcuts.py\n  -")
- (rear-context-string . "3K Feb 17 01:23 ")
- (position . 542))
-("ranger-m"
- (filename . "/run/media/")
- (front-context-string)
- (rear-context-string . "60 May 20 10:35 ")
- (position . 86))
-("ranger-t"
- (filename . "~/back/dubiex/")
- (front-context-string)
- (rear-context-string . "1K Mar 27 13:00 ")
- (position . 142))
-("ranger-n"
- (filename . "~/Notes/")
- (front-context-string . "kappa.js\n  -rw-r")
- (rear-context-string . "9K Mar  4 04:20 ")
- (position . 142))
-("ranger-s"
- (filename . "~/.config/Scripts/")
- (front-context-string . "dx.sh\n  -rw-r--r")
- (rear-context-string . "82 Mar 11 19:00 ")
- (position . 138))
-("ranger-c"
- (filename . "~/.config/")
- (front-context-string . "akonadi\n  drwxr-")
- (rear-context-string . "0K May 21 22:29 ")
- (position . 91))
-("ranger-e"
- (filename . "~/.emacs.d/")
- (front-context-string . "init.el\n  -rw---")
- (rear-context-string . "1K Mar 12 16:29 ")
- (position . 677))
-("ranger-x"
- (filename . "~/Projects/dubiex-webserver/dubiex/")
- (front-context-string . "public\n  drwxr-x")
- (rear-context-string . "0K Mar  4 21:56 ")
- (position . 245))
+(("Notes"
+ (filename . "d:/Stuff/Notes/")
+ (front-context-string . "Cards.html\n  -rw")
+ (rear-context-string . "921 08-31 17:03 ")
+ (position . 262))
 )
