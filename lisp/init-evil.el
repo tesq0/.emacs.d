@@ -215,6 +215,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(general-create-definer mikus-leader
 		:prefix "SPC")
 
+	(general-define-key
+	 :keymaps '( compilation-mode-map compilation-minor-mode-map )
+	 ;; :states '(motion normal)
+	 "C-n" 'compilation-next-error
+	 "C-p" 'compilation-previous-error
+	 )
+	
+
 	(mikus-leader
 		:states '(normal motion visual)
 		:keymaps 'override
@@ -260,8 +268,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-;"  (lambda () (interactive) (evil-scroll-column-right 5))
 	 "M-v" 'evil-visual-line
 
-	 "k" 'evil-next-visual-line
-	 "l" 'evil-previous-visual-line
+	 "k" 'evil-next-line
+	 "l" 'evil-previous-line
 	 "`" 'evil-paste-from-register
 	 ";" 'evil-forward-char
 	 "j" 'evil-backward-char
@@ -333,8 +341,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 :states '(motion visual)
 	 "C-M-k"  'evil-avy-goto-line-below
 	 "C-M-l"  'evil-avy-goto-line-above
-	 "K"  'forward-paragraph
-	 "L"  'backward-paragraph
+	 "K"  'evil-next-visual-line
+	 "L"  'evil-previous-visual-line
 	 "M-k"  'forward-paragraph
 	 "M-l"  'backward-paragraph
 	 "M-n" 'drag-stuff-down

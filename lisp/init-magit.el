@@ -1,6 +1,7 @@
 
 ;; magit package
 
+
 (use-package magit
 	:ensure t
 	:init
@@ -10,8 +11,8 @@
 		(define-prefix-command 'mikus-magit-blame-map)
 
 		(defun setup-default-blame-style (type)
-			(setq-local magit-blame--style (cadr magit-blame-styles))
-			)
+			(setq-local magit-blame--style (cadr magit-blame-styles)))
+
 		(advice-add 'magit-blame--pre-blame-setup :before #'setup-default-blame-style)
 
 		(general-define-key
@@ -34,14 +35,14 @@
 			"g" 'magit-status
 			"b" 'mikus-magit-blame-map)
 		)
-	:config
-	;; SMERGE
-	(progn
-		(general-define-key
-		 "<escape>" 'magit-mode-bury-buffer
-		 "C-g"  'magit-mode-bury-buffer
-		 "C-c m" '(lookup-key smerge-mode-map (kbd "C-c ^")))
-		)
+
 	)
+(after-load 'smerge-mode
+	(progn
+		 (message "smerge mode loaded")
+		 (general-define-key
+			:keymaps 'smerge-mode-map
+			"C-c m" (lookup-key smerge-mode-map (kbd "C-c ^")))))
+	
 
 (provide 'init-magit)

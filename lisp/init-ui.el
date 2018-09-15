@@ -20,7 +20,7 @@
 (use-package color-theme-sanityinc-tomorrow
 	:ensure t
 	:config
-	(color-theme-sanityinc-tomorrow-night)
+	(color-theme-sanityinc-tomorrow-bright)
 	)
 
 

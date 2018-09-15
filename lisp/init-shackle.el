@@ -14,7 +14,7 @@
 
     (setq shackle-rules
           ;; CONDITION(:regexp)            :select     :inhibit-window-quit   :size+:align|:other     :same|:popup
-          '((compilation-mode              :select nil  				            				 								 )
+          '((compilation-mode              :select t  				            				 								   )
             ("*undo-tree*"                                                    :size 0.25 :align right)
             ("*eshell*"                    :select t                          :other t               )
             ("*Shell Command Output*"      :select nil                                               )
@@ -22,7 +22,7 @@
             (occur-mode                    :select nil                                   :align t    )
             ("*Help*"                      :select t   :inhibit-window-quit t :other t               )
             ("*Completions*"                                                  :size 0.3  :align t    )
-            ("* OmniSharp : Usages *"      :select t                          :size 0.5  :align 'right    )
+            ("\\.*OmniSharp.*Usages.*\\"   :regexp t   :select t                          :size 0.5  :align 'right    )
             ("*Messages*"                  :select nil :inhibit-window-quit t :other t               )
             ("\\*[Wo]*Man.*\\*"    :regexp t :select t   :inhibit-window-quit t :other t               )
             ("\\*poporg.*\\*"      :regexp t :select t                          :other t               )

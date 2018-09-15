@@ -34,7 +34,6 @@
 	(setq ivy-use-selectable-prompt t)
 
 
-
 	;; work around ivy issue.
 	;; @see https://github.com/abo-abo/swiper/issues/828
 	(setq ivy-display-style 'fancy)
@@ -59,6 +58,7 @@
 			:states 'normal
 			:keymaps 'override
 			"i" 'imenu)
+		;; (setcdr (assoc 'counsel-M-x ivy-initial-inputs-alist) "")
 		)
 	:config
 

@@ -59,8 +59,9 @@
 						 (expand-file-name "defuns" user-emacs-directory))
 
 ;; manually installed packages
-(add-to-list 'load-path
-						 (expand-file-name "site-lisp" user-emacs-directory))
+(let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 
 (add-to-list 'load-path
 						 (expand-file-name "lisp" user-emacs-directory))
@@ -91,6 +92,7 @@
 (require 'init-shackle)
 (require 'init-mc)
 (require 'init-dict)
+(require 'init-mouse)
 
 ;; auto revert mode
 (use-package autorevert
@@ -125,6 +127,8 @@
 
 (global-set-key (kbd "<C-return>") 'hl-line-flash)
 
+
+(require 'visual-basic-mode)
 
 (require 'hl-line+)
 

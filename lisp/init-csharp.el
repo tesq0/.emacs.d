@@ -4,6 +4,8 @@
 ;;; Commentary:
 
 ;;; Code:
+
+(require 'jetbrains)
 (require 'ide-bridge)
 
 (defvar ide-bridge-path "C:/Sources/idebridge/bin/IdeBridge.exe")
@@ -12,6 +14,8 @@
 	(interactive)
 	(async-shell-command ide-bridge-path)
 	)
+
+(require 'open-in-msvs)
 
 (defun initCsharp ()
 	"Initate csharp speciifc stuff."
@@ -50,7 +54,8 @@
 
 
 
-  
+
+	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
 
@@ -62,23 +67,23 @@
 	(progn
 		(add-hook 'csharp-mode-hook 'initCsharp t)
 		(setq omnisharp-imenu-support t)
-		(setq omnisharp-eldoc-support nil)
-		(setq omnisharp-auto-complete-want-documentation nil)
+		(setq omnisharp-eldoc-support t)
+		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
 		(setq omnisharp-server-executable-path "C:\\Users\\mikol\\AppData\\Roaming\\.emacs.d\\.cache\\1.30.1\\OmniSharp.exe")
 
 		(general-define-key
 		 :keymaps 'csharp-mode-map
-	   "M-." 'omnisharp-go-to-definition
-	   "M->" 'omnisharp-go-to-definition-other-window
+		 "M-." 'omnisharp-go-to-definition
+		 "M->" 'omnisharp-go-to-definition-other-window
 		 "C-c u" 'omnisharp-find-usages
 		 "C-c i" 'omnisharp-find-implementations
 		 "C-c r" 'omnisharp-navigate-to-region
 		 ;; "C-SPC" 'ac-complete-omnisharp
-		 "C-SPC" 'company-omnisharp
 		 )
 		)
 	)
+
 
 (defvar csharp-org-langs (list "csharp" "cs"))
 
@@ -103,11 +108,11 @@
 ;; (advice-add 'jit-lock-function :before #'csharp-check-fontify)
 
 ;; (defun clear-jit-lock-advices ()
-;; 	(interactive)
-;; 	(let* ((name "jit-lock-function"))
-;; 		(advice-mapc #'(lambda (advice props) (general-remove-advice (intern name) advice)) (intern name))
-;; 		)
-;; 	)
+;;	(interactive)
+;;	(let* ((name "jit-lock-function"))
+;;		(advice-mapc #'(lambda (advice props) (general-remove-advice (intern name) advice)) (intern name))
+;;		)
+;;	)
 
 
 
