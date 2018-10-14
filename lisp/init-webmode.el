@@ -12,6 +12,7 @@
   (tide-setup)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
+	(add-hook 'before-save-hook 'tide-format-before-save)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
@@ -20,7 +21,6 @@
 ;; aligns annotation to the right hand side
 
 ;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
