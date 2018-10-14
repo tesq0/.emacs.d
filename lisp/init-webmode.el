@@ -79,8 +79,6 @@
 
 ;; javascript interpreter in a window
 (use-package js-comint
-(use-package color-theme
-	:ensure t)
 	:ensure t)
 
 (use-package prettier-js
