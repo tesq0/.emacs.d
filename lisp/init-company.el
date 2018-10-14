@@ -1,6 +1,12 @@
 (use-package company
 	:init (progn
-					(add-hook 'prog-mode-hook 'company-mode))
+					(add-hook 'prog-mode-hook 'company-mode)
+					(require 'company-etags)
+					(after-load 'company-etags
+						(progn
+							(add-to-list 'company-etags-modes 'csharp-mode)
+							(add-to-list 'company-etags-modes 'web-mode)
+							(add-to-list 'company-etags-modes 'lua-mode))))
 	:diminish "COMP"
 	:config (progn
 
@@ -131,12 +137,5 @@
 (use-package company-emoji
 	:config
 	(company-emoji-init))
-
-(require 'company-etags)
-(after-load 'company-etags
-	(progn
-		 (add-to-list 'company-etags-modes 'csharp-mode)
-		 (add-to-list 'company-etags-modes 'web-mode)
-		 (add-to-list 'company-etags-modes 'lua-mode)))
 
 (provide 'init-company)
