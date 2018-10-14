@@ -4,7 +4,6 @@
 	:ensure t
 	:init
 	(progn
-		(require 'helm-rg)
 		(general-define-key
 		 :keymaps 'mikus-search-map
 		 "d" 'rg-dwim-current-dir

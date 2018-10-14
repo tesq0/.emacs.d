@@ -7,25 +7,19 @@
 
 (define-prefix-command 'javascript-prefix)
 
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-	(add-hook 'before-save-hook 'tide-format-before-save)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  )
-
-;; aligns annotation to the right hand side
-
-;; formats the buffer before saving
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 (use-package tide
 	:ensure t
+	:init
+	(progn
+		(defun setup-tide-mode ()
+			(interactive)
+			(tide-setup)
+			(eldoc-mode +1)
+			(tide-hl-identifier-mode +1)
+			(add-hook 'before-save-hook 'tide-format-before-save))
+		;; formats the buffer before saving
+		(add-hook 'typescript-mode-hook #'setup-tide-mode))
 	:config
 	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
 	)
