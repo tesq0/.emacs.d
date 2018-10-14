@@ -1,19 +1,43 @@
 (use-package helm
 	:ensure t
+	:init
+	(progn
+		(defun helm-to-grep ()
+			(helm-grep-mode)
+			)
+		(setq helm-follow-mode-persistent t)
+		(general-define-key
+		 :keymaps 'helm-map
+		 "<tab>" 'helm-execute-persistent-action
+		 "C-i" 'helm-execute-persistent-action
+		 "C-z"  'helm-select-action
+		 "<escape>" 'helm-keyboard-quit
+		 "C-w" 'evil-delete-backward-word
+		 "C-S-g" 'helm-end-of-buffer
+		 "C-S-n" 'helm-next-source
+		 "C-S-p" 'helm-previous-source
+		 )
+		(general-define-key
+		 "M-x" 'helm-M-x
+		 "C-x C-f" 'helm-find-files
+		 "C-c q" 'helm-show-kill-ring)
+		(mikus-leader
+			:states '(normal motion visual)
+			:keymaps 'override
+			"i" 'imenu
+			"o" 'helm-occur
+			"b" 'helm-mini
+			"f" 'helm-find-files
+			"q" 'helm-show-kill-ring
+			)
+		(general-define-key
+		 :keymaps '(helm-moccur-mode-map helm-grep-mode-map)
+		 :states '(motion normal visual)
+		 "C-c C-p" 'wgrep-change-to-wgrep-mode
+		 )
+		)
 	:config
-
-	(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-	(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
-	(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-	(global-set-key (kbd "M-x") 'helm-M-x) ; list actions using C-z
-	(define-key helm-map (kbd "<escape>") 'helm-keyboard-quit)
-
 	;; Some nice keybindings
-	(define-key helm-map (kbd "C-g") 'helm-beginning-of-buffer)
-	(define-key helm-map (kbd "C-S-g") 'helm-end-of-buffer)
-
-	(define-key helm-map (kbd "C-S-n") 'helm-next-source)
-	(define-key helm-map (kbd "C-S-p") 'helm-previous-source)
 
 	;;(define-key helm-map (kbd "C-s") 'isearch-forward)
 
@@ -50,17 +74,8 @@
 					'spacemacs//helm-hide-minibuffer-maybe)
 
 
-(use-package helm-projectile
-	:ensure t
-	:diminish
-	:init
-	(projectile-mode)
-	(helm-projectile-on)
-	(helm-add-action-to-source "Oper deer ranger in project `M-r'" #'deer helm-source-projectile-projects)
-	(define-key projectile-command-map (kbd "<ESC>") nil)
-	(helm-projectile-define-key helm-projectile-projects-map (kbd "M-r") #'deer))
-(use-package evil-visualstar
-	:ensure t)
+
+
 
 
 (provide 'init-helm)

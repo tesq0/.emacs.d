@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+﻿;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Change some default settings    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -36,6 +36,10 @@
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/                                                        
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+
+(setq backup-inhibited t)
+(setq auto-save-default nil)
+
 (setq backup-directory-alist
 			`((".*" . ,emacs-tmp-dir)))
 (setq auto-save-file-name-transforms
@@ -45,8 +49,6 @@
 
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
-
-(setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))
 
 
 (setq desktop-dirname (expand-file-name "save" user-emacs-directory))
@@ -72,27 +74,31 @@
 (require 'init-ui)
 (require 'init-utils)
 (require 'init-gui-frames)
-(require 'init-search)
 (require 'init-modeline)
 (require 'init-general)
 (require 'init-evil)
-(require 'init-ivy)
+;; (require 'init-ivy)
 (require 'init-magit)
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
+(require 'init-eldoc)
 ;; (require 'init-autocomplete)
 (require 'init-org)
 (require 'init-csharp)
-(require 'init-hydra)
 (require 'init-webmode)
 (require 'init-hideshow)
+(require 'init-hydra)
 (require 'init-projectile)
+(require 'init-helm)
+(require 'init-search)
 (require 'init-diff)
 (require 'init-shackle)
 (require 'init-mc)
 (require 'init-dict)
 (require 'init-mouse)
+(require 'init-wgrep)
+;;(require 'init-icicles)
 
 ;; auto revert mode
 (use-package autorevert

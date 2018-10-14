@@ -16,6 +16,10 @@
 	)
 
 (require 'open-in-msvs)
+(require 'open-in-vscode)
+
+(defvar csharp-eldoc-commands (obarray-make 1))
+(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
 (defun initCsharp ()
 	"Initate csharp speciifc stuff."
@@ -47,16 +51,14 @@
 	(setq c-syntactic-indentation 1)
 	(setq indent-tabs-mode nil)
 	(c-set-style "mikus-csharp")
+	(setq-local eldoc-message-commands csharp-eldoc-commands)
+	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
-
 	;; (add-to-list 'ac-sources 'ac-source-yasnippet)
 	;; (cl-pushnew 'company-omnisharp company-backends)
-
-
-
-
 	(setq-local company-manual-completion-fn #'company-omnisharp)
-	(local-set-key (kbd "C-c C-c") 'recompile))
+	(local-set-key (kbd "C-c C-c") 'recompile)
+	)
 
 
 
@@ -76,10 +78,10 @@
 		 :keymaps 'csharp-mode-map
 		 "M-." 'omnisharp-go-to-definition
 		 "M->" 'omnisharp-go-to-definition-other-window
-		 "C-c u" 'omnisharp-find-usages
+		 "C-c u" 'omnisharp-helm-find-usages
 		 "C-c i" 'omnisharp-find-implementations
-		 "C-c r" 'omnisharp-navigate-to-region
-		 ;; "C-SPC" 'ac-complete-omnisharp
+		 "C-c r" 'omnisharp-run-code-action-refactoring
+		 "C-c C-r" 'omnisharp-navigate-to-region
 		 )
 		)
 	)

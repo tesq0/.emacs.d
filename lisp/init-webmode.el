@@ -79,6 +79,8 @@
 
 ;; javascript interpreter in a window
 (use-package js-comint
+(use-package color-theme
+	:ensure t)
 	:ensure t)
 
 (use-package prettier-js
@@ -152,6 +154,7 @@
 							) 
 						(when (string-equal "js" (file-name-extension buffer-file-name))
 							(setq-local flycheck-disabled-checkers '( css-csslint ))
+							;; (color-theme-buffer-local 'color-theme-sanityinc-tomorrow-night (current-buffer))
 							;; (setup-tide-mode)
 							(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append) 
 							(flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append) 

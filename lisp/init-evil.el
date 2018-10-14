@@ -11,12 +11,16 @@
 		(setq evil-want-C-d-scroll nil
 					evil-want-C-u-scroll nil)
 		(setq evil-ex-search-persistent-highlight nil)
+		(setq evil-want-fine-undo t)
+		;; (custom-reevaluate-setting 'evil-overriding-maps)
+		
 		)
 	:config
 	(evil-set-initial-state 'term-mode 'emacs)
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'image-mode 'emacs)
+	(cl-pushnew (cons 'wgrep-mode-map nil) evil-overriding-maps)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
 	;; :init
 	;; (add-hook 'indium-repl-mode-hook 'evil-mode nil)
@@ -156,6 +160,51 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			(setq auto-hscroll-mode t))
 	(evil-beginning-of-visual-line))
 
+(defun my/evil-get-substitute-pattern (useExPattern)
+	(or (and evil-ex-search-pattern
+					 (or useExPattern (evil-visual-state-p) )
+					 (replace-regexp-in-string
+						"[\\<>]" "" (car evil-ex-search-pattern )))
+			(word-at-point)))
+
+(defun my/evil-get-substitute-beg-end ()
+	(if (evil-visual-state-p)
+			"'<,'>" ""))
+
+
+(defun my/make-group-pattern (pattern)
+	(format "\\(%s\\)" pattern))
+
+(defun my/evil-substitute (global &optional useExPattern)
+	"Start evil ex with some predefinded text for substitution.
+	 GLOBAL - says whether to use the global %s prefix
+	 USEEXPATTERN - whether to try to use the pattern form evil-ex-search-pattern."
+	(let* ((pattern (my/evil-get-substitute-pattern (and global useExPattern)))
+				(command (format "%s%s/%s/"
+												 (my/evil-get-substitute-beg-end)
+												 (if global "%s" "s")
+												 (my/make-group-pattern pattern)
+												 )))
+		(if pattern
+				(evil-ex command)
+			(message "pattern is nil"))))
+
+(defun my/evil-line-substitute ()
+	"Substitute in a line."
+		(interactive)
+		(my/evil-substitute nil))
+
+(defun my/evil-global-substitute (x)
+	"Substitute globally."
+		(interactive "p")
+		(my/evil-substitute t (not (eq x 1))))
+
+
+(defun evil-join-and-indent-upwards ()
+	(interactive)
+	(join-line)
+	(c-indent-command))
+
 
 (evil-define-operator evil-join-and-indent (beg end)
 	"Join the selected lines."
@@ -204,12 +253,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 							minibuffer-inactive-mode-map
 							)
 	 [escape] 'minibuffer-keyboard-quit
-	 "C-w" 'ivy-backward-kill-word
+	 "C-w" 'evil-delete-backward-word
 	 )
 
 	(global-set-key [escape] 'keyboard-quit) ;;evil-exit-emacs-state
-	
-	
+
+
 	(define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
 	(general-create-definer mikus-leader
@@ -221,7 +270,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-n" 'compilation-next-error
 	 "C-p" 'compilation-previous-error
 	 )
-	
+
+	(general-define-key
+	 "C-s" 'my/evil-line-substitute
+	 "C-S-s" 'my/evil-global-substitute)
+
 
 	(mikus-leader
 		:states '(normal motion visual)
@@ -240,7 +293,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"a"  'ace-window
 		"k"  'kill-buffer
 		"g"	 'mikus-magit-map
-		"o"	 'swiper
 		"ef" 'flycheck-buffer
 		"el" 'flycheck-list-errors
 		"en" 'flycheck-next-error
@@ -250,8 +302,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"js" 'evil-jump-backward-swap
 		"r"  'evil-use-register
 		"<SPC>" 'whitespace-cleanup
-		"b" 'ivy-switch-buffer
-		"f" 'counsel-find-file
 		"<tab>" 'switch-to-recently-selected-buffer
 
 		)
@@ -311,12 +361,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 ")"  'evil-avy-goto-paren-right
 
 	 )
-	
+
 	(general-define-key
 	 :states '(motion insert)
 	 "M-o" 'my/make-newline-after
 	 "M-O" 'my/make-newline-before
-	 "M-J" 'join-line
+	 "M-J" 'evil-join-and-indent-upwards
 	 "M-j" 'evil-join-and-indent
 	 "M-i" 'evil-enter-insert-and-intent
 	 "C-b" nil
@@ -336,13 +386,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-y" nil
 	 "<escape>" 'evil-normal-state
 	 )
-	
+
 	(general-define-key
 	 :states '(motion visual)
 	 "C-M-k"  'evil-avy-goto-line-below
 	 "C-M-l"  'evil-avy-goto-line-above
 	 "K"  'evil-next-visual-line
 	 "L"  'evil-previous-visual-line
+	 "gK" 'evil-window-bottom
+	 "gL" 'evil-window-top
 	 "M-k"  'forward-paragraph
 	 "M-l"  'backward-paragraph
 	 "M-n" 'drag-stuff-down
@@ -351,7 +403,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-b" 'drag-stuff-left
 	 )
 
-	
+
 	;;; WINDOW
 
 	(general-define-key
@@ -373,21 +425,25 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				 (split-window-below)
 				 (windmove-down))
 	 )
-	
-	
+
+
 
 	(define-key evil-motion-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this
 	(define-key evil-emacs-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this
 	(global-set-key (kbd "<C-f8>") 'my/evil-switch-emacs-state) ; here we map this to f8
-	
+
 
 	(global-unset-key (kbd "C-SPC"))
 	;; (global-set-key (kbd "C-SPC") 'company-complete-common)
-	
+
 	)
 
+(use-package evil-visualstar
+	:ensure t
+	:init
+	(global-evil-visualstar-mode))
 
-(global-evil-visualstar-mode)
+
 
 
 (provide 'init-evil)

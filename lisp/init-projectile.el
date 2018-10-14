@@ -1,29 +1,35 @@
-(use-package counsel-projectile
+(use-package helm-projectile
 	:ensure t
+	:diminish
 	:init
 	(progn
-		(counsel-projectile-mode)
-		(setq projectile-indexing-method 'alien)
-		(define-prefix-command 'mikus-search-map)
-		(general-define-key
-		 :keymaps 'projectile-command-map
-		 "ESC" 'keyboard-quit
-		 "<tab>" 'projectile-project-buffers-other-buffer)
-		(mikus-leader
-		 :states 'normal
-		 :keymaps 'override
-		 "s" 'mikus-search-map
-		 )
-		(general-define-key
-		 :keymaps 'projectile-command-map
-		 "R" 'projectile-regenerate-tags-async)
-		(general-define-key
-		 :keymaps 'mikus-search-map
-		 "f" 'fzf-directory
-		 "g" 'projectile-grep
-		 "a" 'projectile-ag)
+	(projectile-mode)
+	(helm-projectile-on)
+	(define-key projectile-command-map (kbd "<ESC>") nil)
+	(setq projectile-indexing-method 'alien)
+	(setq projectile-globally-ignored-files (append projectile-globally-ignored-files '("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat")))
+	(setq grep-find-ignored-files (append grep-find-ignored-files '("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat")))
+	(define-prefix-command 'mikus-search-map)
+	(general-define-key
+	 :keymaps 'projectile-command-map
+	 "ESC" 'keyboard-quit
+	 "<tab>" 'projectile-project-buffers-other-buffer)
+	(mikus-leader
+		:states 'normal
+		:keymaps 'override
+		"s" 'mikus-search-map
+		)
+	(general-define-key
+	 :keymaps 'projectile-command-map
+	 "R" 'projectile-regenerate-tags-async)
+	(general-define-key
+	 :keymaps 'mikus-search-map
+	 "f" 'fzf-directory
+	 "g" 'projectile-grep
+	 "a" 'projectile-ag)
 		)
 	)
+
 
 ;;;###autoload
 (defun projectile-regenerate-tags-async ()

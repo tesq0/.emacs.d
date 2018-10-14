@@ -4,7 +4,7 @@
 ;; FONT
 
 (set-face-attribute 'default nil
-                    :family "Consolas" :height 115)
+                    :family "Consolas" :height 105)
 
 (setq-default display-line-numbers nil
 							display-line-numbers-widen nil)
@@ -17,11 +17,14 @@
 
 ;; colortheme
 
-(use-package color-theme-sanityinc-tomorrow
-	:ensure t
-	:config
-	(color-theme-sanityinc-tomorrow-bright)
-	)
+;; (use-package color-theme-sanityinc-tomorrow
+;; 	:ensure t
+;; 	:config
+;; 	(color-theme-sanityinc-tomorrow-eighties)
+;; 	)
+
+(load-theme 'manoj-dark)
+
 
 
 ;; initial frame size
