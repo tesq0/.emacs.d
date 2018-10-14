@@ -5,16 +5,6 @@
 
 ;;; Code:
 
-(require 'jetbrains)
-(require 'ide-bridge)
-
-(defvar ide-bridge-path "C:/Sources/idebridge/bin/IdeBridge.exe")
-
-(defun start-IDE-bridge ()
-	(interactive)
-	(async-shell-command ide-bridge-path)
-	)
-
 (require 'open-in-msvs)
 (require 'open-in-vscode)
 
@@ -24,9 +14,6 @@
 (defun initCsharp ()
 	"Initate csharp speciifc stuff."
 	(omnisharp-mode)
-
-	;; (ide-bridge-setup)
-	;; (auto-complete-mode)
 
 	(flycheck-mode)
 
