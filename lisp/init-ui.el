@@ -15,6 +15,15 @@
 (defun mikus:absolute ()
 	(setq-local display-line-numbers t))
 
+(use-package doom-themes
+	:ensure t
+	:init
+	(progn
+		(doom-themes-org-config)
+		(add-hook 'after-init-hook (lambda () (load-theme 'doom-challenger-deep t)))
+		))
+
+
 ;; colortheme
 
 ;; (use-package color-theme-sanityinc-tomorrow
@@ -23,7 +32,6 @@
 ;; 	(color-theme-sanityinc-tomorrow-eighties)
 ;; 	)
 
-(load-theme 'manoj-dark)
 
 
 
