@@ -1,8 +1,3 @@
-﻿;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Change some default settings    ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 (setq user-full-name "Mikołaj Gałkowski")                 ; My name
 ;;(setq gc-cons-threshold (* 500 1024 1024))                  ; increase the threshold for garbage collection - 100 MB
 ;;(setq delete-old-versions -1)                     ; delete excess backup versions silently
