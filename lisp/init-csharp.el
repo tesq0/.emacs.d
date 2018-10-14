@@ -8,8 +8,6 @@
 (require 'open-in-msvs)
 (require 'open-in-vscode)
 
-(defvar csharp-eldoc-commands (obarray-make 1))
-(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
 (defun initCsharp ()
 	"Initate csharp speciifc stuff."
@@ -32,6 +30,9 @@
 									(arglist-intro . +)
 									(arglist-close . c-lineup-close-paren)
 									(template-args-cont . +))))
+
+	(defvar csharp-eldoc-commands (obarray-make 1))
+	(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
 	(setq c-default-style "mikus-csharp")
 	(setq-local tab-width 4)
