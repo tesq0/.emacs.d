@@ -79,7 +79,7 @@
 (require 'init-evil)
 ;; (require 'init-ivy)
 (require 'init-magit)
-(require 'init-ibuffer)
+;; (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
 (require 'init-eldoc)
