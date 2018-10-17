@@ -20,7 +20,7 @@
 	:init
 	(progn
 		(doom-themes-org-config)
-		(add-hook 'after-init-hook (lambda () (load-theme 'doom-challenger-deep t)))
+		(add-hook 'after-init-hook (lambda () (load-theme 'doom-vibrant t)))
 		))
 
 

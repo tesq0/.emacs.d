@@ -7,7 +7,7 @@
 	(helm-projectile-on)
 	(define-key projectile-command-map (kbd "<ESC>") nil)
 	(setq projectile-indexing-method 'alien)
-	(setq projectile-globally-ignored-files (append projectile-globally-ignored-files '("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat")))
+	(setq projectile-globally-ignored-file-suffixes  '("png" "unity" "tga" "psd" "anim" "prefab" "mat" "meta"))
 	(setq grep-find-ignored-files (append grep-find-ignored-files '("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat")))
 	(define-prefix-command 'mikus-search-map)
 	(general-define-key

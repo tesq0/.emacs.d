@@ -51,6 +51,7 @@
 ;;(desktop-save-mode 1)
 ;;(add-hook after-make-frame-functions)
 
+
 ;; extra functions
 (add-to-list 'load-path
 						 (expand-file-name "defuns" user-emacs-directory))
@@ -100,7 +101,7 @@
 	:defer t
 	:diminish auto-revert-mode)
 
-
+(setq debug-on-error nil)
 
 
 ;; hint for bindings
