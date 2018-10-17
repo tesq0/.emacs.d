@@ -60,7 +60,7 @@
 		(setq omnisharp-eldoc-support t)
 		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
-		(setq omnisharp-server-executable-path "C:\\Users\\mikol\\AppData\\Roaming\\.emacs.d\\.cache\\1.30.1\\OmniSharp.exe")
+		(setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\1.30.1\\OmniSharp.exe"))
 
 		(general-define-key
 		 :keymaps 'csharp-mode-map
