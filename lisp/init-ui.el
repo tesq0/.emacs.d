@@ -2,9 +2,13 @@
 
 
 ;; FONT
-
-(set-face-attribute 'default nil
-                    :family "Consolas" :height 105)
+(cond
+ ((or sys/win32p sys/linuxp)
+	(set-face-attribute 'default nil
+											:family "Consolas" :height 105))
+ (sys/macp
+	(set-face-attribute 'default nil
+											:family "Consolas" :height 165)))
 
 (setq-default display-line-numbers nil
 							display-line-numbers-widen nil)
