@@ -51,6 +51,7 @@
 ;;(desktop-save-mode 1)
 ;;(add-hook after-make-frame-functions)
 
+(recentf-mode)
 
 ;; extra functions
 (add-to-list 'load-path
@@ -82,6 +83,8 @@
 ;; (require 'init-autocomplete)
 (require 'init-org)
 (require 'init-csharp)
+(require 'init-cpp)
+(require 'init-java)
 (require 'init-webmode)
 (require 'init-hideshow)
 (require 'init-hydra)
@@ -89,12 +92,14 @@
 (require 'init-helm)
 (require 'init-search)
 (require 'init-diff)
-(require 'init-shackle)
+(require 'init-window)
 (require 'init-mc)
 (require 'init-dict)
 (require 'init-mouse)
 (require 'init-wgrep)
 ;;(require 'init-icicles)
+
+;; (require 'cmd-mode) ;; has errors
 
 ;; auto revert mode
 (use-package autorevert
@@ -246,5 +251,5 @@
 	:ensure t)
 
 
-(setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
+(setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
 (load custom-file 'noerror)

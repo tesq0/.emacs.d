@@ -1,3 +1,14 @@
+(defun mikus-evil-setup-command-props ()
+	(let ((functions '(evil-find-char
+										 evil-find-char-backward
+										 evil-find-char-to
+										 evil-find-char-to-backward
+										 evil-first-non-blank
+										 evil-last-non-blank)))
+		(dolist (fn functions)
+			(evil-add-command-properties fn :jump t))))
+
+
 (use-package evil
 	:ensure t
 	:init
@@ -11,15 +22,18 @@
 		(setq evil-want-C-d-scroll nil
 					evil-want-C-u-scroll nil)
 		(setq evil-ex-search-persistent-highlight nil)
-		(setq evil-want-fine-undo t)
+		(setq evil-want-fine-undo nil)
 		;; (custom-reevaluate-setting 'evil-overriding-maps)
-		
 		)
 	:config
+	(mikus-evil-setup-command-props)
 	(evil-set-initial-state 'term-mode 'emacs)
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'image-mode 'emacs)
+	(evil-set-initial-state 'rg-mode 'normal)
+	(evil-set-initial-state 'helm-occur 'normal)
+	(evil-set-initial-state 'package-menu-mode 'emacs)
 	(cl-pushnew (cons 'wgrep-mode-map nil) evil-overriding-maps)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
 	;; :init
@@ -37,7 +51,7 @@
 	;; number-row order, so that the candidate following '9' will be '0'.
 	(progn
 		(setq avy-keys (number-sequence ?a ?z))
-		(setq avy-all-windows nil))
+		(setq avy-all-windows 'all-frames))
 	:config
 	(defun avy-goto-paren-left ()
 		(interactive)
@@ -238,6 +252,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(evil-previous-visual-line 2))
 
 
+
 (with-eval-after-load 'evil-maps
 
 	(global-set-key (kbd "<f9>") 'repeat-complex-command)
@@ -385,8 +400,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-n" 'evil-complete-next
 	 "C-y" nil
 	 "<escape>" 'evil-normal-state
+	 "C-." 'yas-expand
 	 )
-
+	
 	(general-define-key
 	 :states '(motion visual)
 	 "C-M-k"  'evil-avy-goto-line-below

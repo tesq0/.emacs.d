@@ -8,11 +8,14 @@
  :keymaps 'package-menu-mode-map
  "k" 'evil-next-line
  "l" 'evil-previous-line
+ "C-k" 'evil-scroll-down
+ "C-l" 'evil-scroll-up
  "`" 'evil-paste-from-register
  ";" 'evil-forward-char
  "j" 'evil-backward-char
- "C-s" 'swiper-helm
- )
+ "C-s" 'helm-occur
+ "q" 'quit-window
+ "C-w" 'evil-window-map)
 
 
 

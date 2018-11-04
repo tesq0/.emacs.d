@@ -41,8 +41,8 @@
 						 "C-p" 'company-select-previous
 						 "C-w" 'evil-delete-backward-word
 						 "ESC" 'company-quit
-						 "<escape>" 'company-quit
-						 )
+						 "<escape>" 'company-quit)
+
 						(setq company-dabbrev-downcase nil
 
 									;; make previous/next selection in the popup cycles
@@ -130,6 +130,15 @@
 
 	;; Use `prescient' for Company menus.
 	(company-prescient-mode +1))
+
+(use-package helm-company
+	:demand t
+	:after company
+	:config
+	(progn
+		(general-define-key
+		 :keymaps 'company-active-map
+		 "C-s" 'helm-company)))
 
 
 ;; Add a completion source for emoji. 😸

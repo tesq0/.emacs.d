@@ -5,10 +5,10 @@
 (cond
  ((or sys/win32p sys/linuxp)
 	(set-face-attribute 'default nil
-											:family "Consolas" :height 105))
+											:family "Consolas" :height 110))
  (sys/macp
 	(set-face-attribute 'default nil
-											:family "Consolas" :height 165)))
+											:family "Consolas" :height 180)))
 
 (setq-default display-line-numbers nil
 							display-line-numbers-widen nil)
@@ -24,7 +24,7 @@
 	:init
 	(progn
 		(doom-themes-org-config)
-		(add-hook 'after-init-hook (lambda () (load-theme 'doom-vibrant t)))
+		(add-hook 'after-init-hook (lambda () (load-theme 'doom-molokai t)))
 		))
 
 

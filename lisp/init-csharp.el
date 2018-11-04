@@ -23,7 +23,7 @@
 							 '("c#"
 								 (c-basic-offset . 4)
 								 (c-offsets-alist
-									(innamespace . -)
+									(innamespace . +)
 									(inline-open . 0)
 									(inher-cont . c-lineup-multi-inher)
 									(arglist-cont-nonempty . 0)
@@ -49,6 +49,10 @@
 	)
 
 
+(defun getOmnisharpPath ()
+	(cond
+	 )
+	)
 
 
 (use-package omnisharp
