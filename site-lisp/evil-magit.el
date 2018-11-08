@@ -273,6 +273,8 @@ moment.")
        (,states magit-mode-map "]"     magit-section-forward-sibling  "M-n")
        (,states magit-mode-map "C-n"   magit-section-forward          "n")
        (,states magit-mode-map "C-p"   magit-section-backward         "p")
+       (,states magit-mode-map "M-k"   magit-section-forward          "n")
+       (,states magit-mode-map "M-l"   magit-section-backward         "p")
        (,states magit-mode-map "gl"    magit-section-backward-sibling "M-p")
        (,states magit-mode-map "["     magit-section-backward-sibling "M-p")
        (,states magit-mode-map "gr"    magit-refresh                  "g")
@@ -331,7 +333,7 @@ moment.")
 
      (when evil-magit-want-horizontal-movement
        `((,states magit-mode-map "L"    magit-log-popup         "l")
-         (,states magit-mode-map "C-l"  magit-log-refresh-popup "L")
+         (,states magit-mode-map "C-L"  magit-log-refresh-popup "L")
          (,states magit-mode-map "j"    evil-backward-char)
          (,states magit-mode-map ";"    evil-forward-char)))
 
@@ -526,7 +528,7 @@ evil-magit affects.")
    (when evil-magit-use-z-for-folds
      '((magit-dispatch-popup :actions "z" "Z" magit-stash-popup)))
    (when evil-magit-want-horizontal-movement
-     '((magit-dispatch-popup :actions "L" "\C-l" magit-log-refresh-popup)
+     '((magit-dispatch-popup :actions "L" "\C-L" magit-log-refresh-popup)
        (magit-dispatch-popup :actions "l" "L" magit-log-popup)))
    '((magit-branch-popup :actions "x" "X" magit-branch-reset)
      (magit-branch-popup :actions "k" "x" magit-branch-delete)

@@ -101,6 +101,15 @@
 
 ;; (require 'cmd-mode) ;; has errors
 
+
+;; ERC client
+(after-load 'erc-backend
+	(progn
+		(require 'erc-sasl)
+		;; e.g. irc\\.freenode\\.net, or .* for any host
+		(add-to-list 'erc-sasl-server-regexp-list "irc\\.freenode\\.net")))
+
+
 ;; auto revert mode
 (use-package autorevert
 	:defer t

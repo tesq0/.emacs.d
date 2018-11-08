@@ -30,6 +30,7 @@
 	(evil-set-initial-state 'term-mode 'emacs)
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
+	(evil-set-initial-state 'eww-mode 'emacs)
 	(evil-set-initial-state 'image-mode 'emacs)
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
@@ -124,19 +125,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		(evil-emacs-state)))
 
 
-(defun my/make-newline-before (times)
-	"Insert newline before TIMES."
-	(interactive "p")
-	(save-excursion
-		(move-beginning-of-line 1)
-		(newline times)))
+(defun insert-line-below (times)
+  "Insert an empty line below the current line."
+  (interactive "p")
+  (save-excursion
+    (end-of-line)
+    (open-line times)))
 
-(defun my/make-newline-after (times)
-	"Insert newline before TIMES."
-	(interactive "p")
-	(save-excursion
-		(move-end-of-line 1)
-		(newline times)))
+(defun insert-line-above (times)
+  "Insert an empty line above the current line."
+  (interactive "p")
+  (save-excursion
+    (end-of-line 0)
+    (open-line times)))
 
 (defun evil-keyboard-quit ()
 	"Keyboard quit and force normal state."
@@ -312,15 +313,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"el" 'flycheck-list-errors
 		"en" 'flycheck-next-error
 		"ep" 'flycheck-previous-error
-		"jf" 'evil-jump-forward
-		"jb" 'evil-jump-backward
-		"js" 'evil-jump-backward-swap
 		"r"  'evil-use-register
 		"<SPC>" 'whitespace-cleanup
 		"<tab>" 'switch-to-recently-selected-buffer
-
 		)
 
+	(mikus-leader
+		:states '(normal motion visual)
+		:keymaps 'override
+		"jf" 'evil-jump-forward
+		"jb" 'evil-jump-backward
+		"js" 'evil-jump-backward-swap
+		)
 
 	(general-define-key
 
@@ -379,8 +383,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	(general-define-key
 	 :states '(motion insert)
-	 "M-o" 'my/make-newline-after
-	 "M-O" 'my/make-newline-before
+	 "M-o" 'insert-line-below
+	 "M-O" 'insert-line-above
 	 "M-J" 'evil-join-and-indent-upwards
 	 "M-j" 'evil-join-and-indent
 	 "M-i" 'evil-enter-insert-and-intent

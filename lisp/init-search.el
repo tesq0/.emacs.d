@@ -1,4 +1,6 @@
-
+(defun initClashOfStreamers ()
+	(cl-pushnew "-g !**/Generated*" rg-command-line-flags)
+	(cl-pushnew "-g !**/MessagePack*" rg-command-line-flags))
 
 (use-package rg
 	:ensure t
@@ -22,6 +24,8 @@
 		(setq rg-group-result nil)
 
 		)
+	:config
+	(initClashOfStreamers)
 	)
 
 

@@ -45,14 +45,7 @@
 	;; (add-to-list 'ac-sources 'ac-source-yasnippet)
 	;; (cl-pushnew 'company-omnisharp company-backends)
 	(setq-local company-manual-completion-fn #'company-omnisharp)
-	(local-set-key (kbd "C-c C-c") 'recompile)
-	)
-
-
-(defun getOmnisharpPath ()
-	(cond
-	 )
-	)
+	(local-set-key (kbd "C-c C-c") 'recompile))
 
 
 (use-package omnisharp
@@ -64,7 +57,7 @@
 		(setq omnisharp-eldoc-support t)
 		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
-		(setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\1.30.1\\OmniSharp.exe"))
+		(setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
 
 		(general-define-key
 		 :keymaps 'csharp-mode-map
