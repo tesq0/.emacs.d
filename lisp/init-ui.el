@@ -3,9 +3,12 @@
 
 ;; FONT
 (cond
- ((or sys/win32p sys/linuxp)
+ (sys/win32p 
 	(set-face-attribute 'default nil
 											:family "Consolas" :height 110))
+ (sys/linuxp
+	(set-face-attribute 'default nil
+											:family "Hack" :height 110))
  (sys/macp
 	(set-face-attribute 'default nil
 											:family "Consolas" :height 180)))
