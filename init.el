@@ -219,8 +219,8 @@
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 ;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
-(define-key ctl-x-5-map (kbd "n") 'vmake-frame)
-(define-key ctl-x-5-map (kbd "N") 'hmake-frame)
+(define-key ctl-x-5-map (kbd "n") 'make-frame)
+;; (define-key ctl-x-5-map (kbd "N") 'hmake-frame)
 (define-key ctl-x-5-map (kbd "b") 'switch-to-buffer-other-frame)
 (define-key ctl-x-5-map (kbd "o") 'delete-other-frames)
 (define-key ctl-x-5-map (kbd "c") 'delete-frame)
