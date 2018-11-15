@@ -35,6 +35,8 @@
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
 	(evil-set-initial-state 'package-menu-mode 'emacs)
+	(evil-set-initial-state 'package-menu-mode 'emacs)
+
 	(cl-pushnew (cons 'wgrep-mode-map nil) evil-overriding-maps)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
 	;; :init
@@ -241,6 +243,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		(evil-insert-state))
 	)
 
+(defun mikus-scroll-column-right (&optional times)
+	(interactive)
+	(evil-scroll-column-right (or times 3)))
+
+(defun mikus-scroll-column-left (&optional times)
+	(interactive)
+	(evil-scroll-column-left (or times 3)))
+
+
 (evil-define-avy-motion avy-goto-paren-left inclusive)
 (evil-define-avy-motion avy-goto-paren-right inclusive)
 (evil-define-avy-motion avy-goto-word-1-in-line inclusive)
@@ -315,7 +326,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"ep" 'flycheck-previous-error
 		"r"  'evil-use-register
 		"<SPC>" 'whitespace-cleanup
-		"<tab>" 'switch-to-recently-selected-buffer
+		"<tab>" 'evil-switch-to-windows-last-buffer ;;'switch-to-recently-selected-buffer
 		)
 
 	(mikus-leader
@@ -332,9 +343,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	 [escape] 'keyboard-quit
 
-	 "C-;"  (lambda () (interactive) (evil-scroll-column-right 5))
-	 "C-j"  (lambda () (interactive) (evil-scroll-column-left 5))
-	 "M-;"  (lambda () (interactive) (evil-scroll-column-right 5))
+	 "C-;"  'mikus-scroll-column-right
+	 "C-j"  'mikus-scroll-column-left
+	 "M-;"  nil
 	 "M-v" 'evil-visual-line
 
 	 "k" 'evil-next-line

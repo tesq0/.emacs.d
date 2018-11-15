@@ -251,6 +251,28 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 						(error "Dead window %S" win)))
 			(message "Couldn't find a suitable window to switch to"))))
 
+
+;; (defun switch-to-window-mru ()
+;;   "Move the cursor to the previous (last accessed) buffer in another window.
+;; More precisely, it selects the most recently used buffer that is
+;; shown in some other window, preferably of the current frame, and
+;; is different from the current one."
+;; 	(interactive)
+;;   (catch 'done
+;;     (dolist (buf (buffer-list))
+;;       (let ((win (get-buffer-window buf)))
+;;         (when (and (not (eq buf (current-buffer)))
+;;                    win
+;;                    (not (eq win (selected-window))))
+;; 					(let ((wframe (window-frame win))
+;; 								(sframe (selected-frame)))
+;; 					(when (and (frame-live-p wframe)
+;; 										 (not (eq wframe sframe)))
+;; 						(select-frame-set-input-focus wframe)))
+;; 					(select-window win)
+;;           (throw 'done nil))))))
+
+
 ;; (defun switch-to-recently-selected-buffer ()
 ;; 	(interactive)
 ;; 	(let* ((buflist (buffer-list))      ;   get all buffer list  -- before (selected-frame)

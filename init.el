@@ -97,7 +97,7 @@
 (require 'init-dict)
 (require 'init-mouse)
 (require 'init-wgrep)
-;;(require 'init-icicles)
+;; (require 'init-icicle)
 
 ;; (require 'cmd-mode) ;; has errors
 

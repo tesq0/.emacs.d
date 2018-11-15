@@ -25,7 +25,7 @@
 	(general-define-key
 	 :keymaps 'mikus-search-map
 	 "f" 'fzf-directory
-	 "g" 'projectile-grep
+	 "g" 'helm-grep-do-git-grep
 	 "a" 'projectile-ag)
 		)
 

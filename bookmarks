@@ -2,9 +2,13 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("Notes"
- (filename . "d:/Stuff/Notes/")
- (front-context-string . "Cards.html\n  -rw")
- (rear-context-string . "921 08-31 17:03 ")
- (position . 262))
+(#1=(#("Notes" 0 5
+(bmkp-full-record #1#))
+(end-position . 663)
+(time 23529 26938 741803 0)
+(visits . 1)
+(filename . "d:/Stuff/Notes/")
+(front-context-string . "Cards.html\n  -rw")
+(rear-context-string . "921 08-31 17:03 ")
+(position . 663))
 )

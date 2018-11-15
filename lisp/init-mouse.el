@@ -8,4 +8,8 @@
 
 (setq scroll-step 5) ;; keyboard scroll one line at a time
 
+(general-define-key
+ "<C-wheel-up>" 'mikus-scroll-column-left
+ "<C-wheel-down>" 'mikus-scroll-column-right)
+
 (provide 'init-mouse)
