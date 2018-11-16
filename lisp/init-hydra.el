@@ -45,8 +45,16 @@
 
 (defhydra hydra-window (:color red
                         :hint nil)
-  "windows"
-  ("j" ( hydra-move-splitter-left 10 ))
+  "
+Window operations:
+--------------------------------------------------------------------------------------
+_j_: splitter left    		 _J_ move left          _b_ balance          _u_ winner undo     _m_ ace move
+_;_: splitter right        _:_ move right         _-_ text decrease    _r_ winner redo     _s_ ace swap
+_l_: splitter up           _L_ move top           _=_ text increase    _|_ split right     _da_ ace delete
+_k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split down      _a_ ace
+
+"
+	("j" ( hydra-move-splitter-left 10 ))
   ("k" ( hydra-move-splitter-down 10 ))
   ("l" ( hydra-move-splitter-up 10 ))
   (";" ( hydra-move-splitter-right 10 )) 
@@ -65,20 +73,14 @@
          (interactive)
          (split-window-below)
          (windmove-down)) :exit t)
-  ("v" split-window-right)
-  ("x" split-window-below)
-  ;("t" transpose-frame "'")
   ;; winner-mode must be enabled
   ("u" winner-undo)
   ("m" ace-move-window)
   ("r" winner-redo) ;;Fixme, not working?
-  ("o" delete-other-windows :exit t)
+  ("o" delete-other-windows :exit t )
   ("a" ace-window)
-  ("s" ace-swap-window :exit t)
-  ("da" ace-delete-window)
-  ("dw" delete-window)
-  ("db" kill-this-buffer)
-	)
+  ("s" ace-swap-window :exit t )
+  ("da" ace-delete-window))
 
 (defhydra hydra-fzf (:color red
                         :hint nil)
