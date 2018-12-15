@@ -28,9 +28,14 @@
 	:ensure t
 	) 
 
+(defun setup-json()
+	(setq json-reformat:indent-width 1)
+	)
+
 (use-package json-mode
 	:ensure t
-	)
+	:init
+	(setup-json))
 
 (use-package flycheck
   :ensure t

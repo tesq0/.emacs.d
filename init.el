@@ -3,7 +3,6 @@
 ;;(setq delete-old-versions -1)                     ; delete excess backup versions silently
 ;;(setq version-control t)                      ; use version control for backups
 ;;(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))             ; which directory to put backups file
-(setq make-backup-files nil)						;Don't write backup files
 (setq inhibit-startup-screen t)                     ; inhibit useless and old-school startup screen
 (setq visible-bell nil)                       ; no visible bell for errors
 (setq ring-bell-function 'ignore)                   ; silent bell when you make a mistake
@@ -29,14 +28,17 @@
 (show-paren-mode 1)                     ; hightlight pharentheses and shit
 ;; (setq x-super-keysym 'meta)             ;use super as meta
 
-;; Save all tempfiles in $TMPDIR/emacs$UID/                                                        
+;; Save all tempfiles in $TMPDIR/emacs$UID/
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+(defconst emacs-backup-dir "D:\\backup\\emacs\\")
 
+(setq make-backup-files t)
 (setq backup-inhibited nil)
+(setq backup-directory-alist
+			`((".*" . ,emacs-backup-dir)))
+
 (setq auto-save-default t)
 
-(setq backup-directory-alist
-			`((".*" . ,emacs-tmp-dir)))
 (setq auto-save-file-name-transforms
 			`((".*" ,emacs-tmp-dir t)))
 (setq auto-save-list-file-prefix
@@ -59,8 +61,8 @@
 
 ;; manually installed packages
 (let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+	(normal-top-level-add-to-load-path '("."))
+	(normal-top-level-add-subdirs-to-load-path))
 
 (add-to-list 'load-path
 						 (expand-file-name "lisp" user-emacs-directory))
@@ -98,9 +100,9 @@
 (require 'init-mouse)
 (require 'init-wgrep)
 (require 'init-asm)
+;; (require 'init-tags)
 ;; (require 'init-icicle)
-
-;; (require 'cmd-mode) ;; has errors
+;; (require 'cmd-mode) ;; throws errors
 
 
 ;; ERC client
@@ -165,6 +167,13 @@
 	:ensure t
 	:config (electric-pair-mode t))
 
+(use-package darkroom
+	:ensure t
+	:init
+	(general-define-key
+	 "<C-f11>" 'darkroom-mode))
+
+
 
 (use-package company-tern
 	:ensure t
@@ -217,6 +226,9 @@
 	"x" 'fast-ex-map
 	)
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
+(define-key fast-ex-map (kbd "f") 'explorer)
+
+(define-key ctl-x-map (kbd "D") 'explorer)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 ;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
@@ -230,13 +242,6 @@
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
 
 (define-prefix-command	'fast-buffer-map)
-;; (global-set-key (kbd "C-b") 'fast-buffer-map)
-;; (general-define-key
-;;  :keymaps 'fast-buffer-map
-;;  "p" 'previous-buffer
-;;  "n" 'next-buffer)
-
-
 
 (require 'csharp-hs-forward-sexp)
 
@@ -244,6 +249,8 @@
 (use-package markdown-mode
 	:ensure t)
 
+(use-package google-translate
+	:ensure t)
 
 ;; snippets
 (use-package yasnippet
@@ -255,11 +262,6 @@
 (global-set-key (kbd "C-y") 'yas-map)
 (define-key yas-map (kbd "i") 'yas-insert-snippet)
 (define-key yas-map (kbd "e") 'yas-expand)
-
-
-(use-package perspective
-	:ensure t)
-
 
 (setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
 (load custom-file 'noerror)

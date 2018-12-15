@@ -282,6 +282,27 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 ;; 					(switch-to-buffer buf))
 ;; 			(message "Couldn't find a suitable buffer to switch to"))))
 
+(defun reopen-buffer ()
+	"Kill and open current BUFFER."
+	(interactive)
+	(let ( (buffer (buffer-name))
+				 (file (buffer-file-name)) )
+		(kill-buffer buffer)
+		(find-file file)))
+
+
+(defun dos2unix (buffer)
+	"Convert BUFFER from DOS file format to UNIX."
+	(interactive "*b")
+	(shell-command (format "dos2unix %s" (file-truename buffer))))
+
+(defun explorer ()
+	(interactive)
+	(when sys/win32p
+		(shell-command "explorer .")
+		)
+	)
+
 (defun switch-to-recently-selected-buffer ()
   "Switch to other buffer"
   (interactive)

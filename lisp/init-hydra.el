@@ -50,7 +50,7 @@ Window operations:
 --------------------------------------------------------------------------------------
 _j_: splitter left    		 _J_ move left          _b_ balance          _u_ winner undo     _m_ ace move
 _;_: splitter right        _:_ move right         _-_ text decrease    _r_ winner redo     _s_ ace swap
-_l_: splitter up           _L_ move top           _=_ text increase    _|_ split right     _da_ ace delete
+_l_: splitter up           _L_ move top           _=_ text increase    _|_ split right     _d_ ace delete
 _k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split down      _a_ ace
 
 "
@@ -80,7 +80,7 @@ _k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split d
   ("o" delete-other-windows :exit t )
   ("a" ace-window)
   ("s" ace-swap-window :exit t )
-  ("da" ace-delete-window))
+  ("d" ace-delete-window))
 
 (defhydra hydra-fzf (:color red
                         :hint nil)

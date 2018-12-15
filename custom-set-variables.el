@@ -21,6 +21,7 @@
  '(projectile-globally-ignored-file-suffixes
 	 (quote
 		("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat" "meta")))
+ '(safe-local-variable-values (quote ((eval progn (pp-buffer) (indent-buffer)))))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
 	 (quote

@@ -8,7 +8,6 @@
 (require 'open-in-msvs)
 (require 'open-in-vscode)
 
-
 (defun initCsharp ()
 	"Initate csharp speciifc stuff."
 	(omnisharp-mode)
@@ -47,6 +46,68 @@
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
+(defun post-setup-csharp ()
+	
+	(defun company-omnisharp (command &optional arg &rest ignored)
+		"Override the default function."
+		(interactive '(interactive))
+		"`company-mode' completion back-end using OmniSharp."
+
+		(cl-case command
+			(interactive (company-begin-backend 'company-omnisharp))
+			(prefix (when (bound-and-true-p omnisharp-mode)
+								(omnisharp-company--prefix)))
+
+			(candidates (omnisharp--get-company-candidates arg))
+
+			;; because "" doesn't return everything, and we don't cache if we're handling the filtering
+			(no-cache (or (equal arg "")
+										(not (eq omnisharp-company-match-type 'company-match-simple))))
+
+			(match (if (eq omnisharp-company-match-type 'company-match-simple)
+								 nil
+							 0))
+
+			(annotation (omnisharp--company-annotation arg))
+
+			(meta (omnisharp--get-company-candidate-data arg 'DisplayText))
+
+			(require-match 'never)
+
+			(doc-buffer (let ((doc-buffer (company-doc-buffer
+																		 (omnisharp--get-company-candidate-data
+																			arg 'Description))))
+										(with-current-buffer doc-buffer
+											(visual-line-mode))
+										doc-buffer))
+
+			(ignore-case omnisharp-company-ignore-case)
+
+			(sorted (if (eq omnisharp-company-match-type 'company-match-simple)
+									(not omnisharp-company-sort-results)
+								t))
+
+			;; Check to see if we need to do any templating
+			(post-completion (let* ((json-result (get-text-property 0 'omnisharp-item arg))
+															(allow-templating (get-text-property 0 'omnisharp-allow-templating arg)))
+
+												 (omnisharp--tag-text-with-completion-info arg json-result)
+												 (when allow-templating
+													 ;; Do yasnippet completion
+													 (if (and omnisharp-company-template-use-yasnippet (boundp 'yas-minor-mode) yas-minor-mode)
+															 (-when-let (method-snippet (omnisharp--completion-result-item-get-method-snippet
+																													 json-result))
+																 (omnisharp--snippet-templatify arg method-snippet json-result))
+														 ;; Fallback on company completion but make sure company-template is loaded.
+														 ;; Do it here because company-mode is optional
+														 (require 'company-template)
+														 (let ((method-base (omnisharp--get-method-base json-result)))
+															 (when (and method-base
+																					(string-match-p "([^)]" method-base))
+																 (company-template-c-like-templatify method-base)))))))))
+
+	)
+
 
 (use-package omnisharp
 	:ensure t
@@ -69,7 +130,8 @@
 		 "C-c C-r" 'omnisharp-navigate-to-region
 		 )
 		)
-	)
+	:config
+	(post-setup-csharp))
 
 
 (defvar csharp-org-langs (list "csharp" "cs"))

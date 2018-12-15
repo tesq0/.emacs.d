@@ -10,6 +10,8 @@
 
 (general-define-key
  "<C-wheel-up>" 'mikus-scroll-column-left
- "<C-wheel-down>" 'mikus-scroll-column-right)
+ "<C-wheel-down>" 'mikus-scroll-column-right
+ "<C-S-wheel-up>" 'text-scale-increase
+ "<C-S-wheel-down>" 'text-scale-decrease)
 
 (provide 'init-mouse)

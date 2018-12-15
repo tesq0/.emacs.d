@@ -4,7 +4,11 @@
 										 evil-find-char-to
 										 evil-find-char-to-backward
 										 evil-first-non-blank
-										 evil-last-non-blank)))
+										 evil-last-non-blank
+										 evil-next-close-brace
+										 evil-next-close-paren
+										 evil-previous-open-brace
+										 evil-previous-open-paren)))
 		(dolist (fn functions)
 			(evil-add-command-properties fn :jump t))))
 
@@ -30,10 +34,11 @@
 	(evil-set-initial-state 'term-mode 'emacs)
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
-	(evil-set-initial-state 'eww-mode 'emacs)
+	(evil-set-initial-state 'eww-mode 'normal)
 	(evil-set-initial-state 'image-mode 'emacs)
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
+	(evil-set-initial-state 'debugger-mode 'normal)
 	(evil-set-initial-state 'package-menu-mode 'emacs)
 	(evil-set-initial-state 'package-menu-mode 'emacs)
 
@@ -426,8 +431,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "L"  'evil-previous-visual-line
 	 "gK" 'evil-window-bottom
 	 "gL" 'evil-window-top
-	 "M-k"  'forward-paragraph
-	 "M-l"  'backward-paragraph
+	 "M-k"  'evil-forward-paragraph
+	 "M-l"  'evil-backward-paragraph
 	 "M-n" 'drag-stuff-down
 	 "M-p" 'drag-stuff-up
 	 "M-f" 'drag-stuff-right

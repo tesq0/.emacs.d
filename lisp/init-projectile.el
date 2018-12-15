@@ -28,9 +28,25 @@
 	 "g" 'helm-grep-do-git-grep
 	 "a" 'projectile-ag)
 		)
-
+	(setq projectile-tags-backend '(etags-select))
 	)
 
+(use-package imenu-anywhere
+	:ensure t
+	:init
+	(progn
+	(mikus-leader
+		:states 'normal
+		:keymaps 'override
+		"I" 'imenu-anywhere)))
+
+;; (use-package persp-mode-projectile-bridge
+;; 	:ensure t
+;; 	:init
+;; 	(progn
+;; 		(message "best persp mode")
+;; 		(persp-mode 1)
+;; 		(persp-mode-projectile-bridge-mode 1)))
 
 ;;;###autoload
 (defun projectile-regenerate-tags-async ()
@@ -42,22 +58,17 @@
 				(let* ((ggtags-project-root (projectile-project-root))
 							 (default-directory ggtags-project-root))
 					(ggtags-ensure-project)
-					(ggtags-update-tags t)))
+					(async-start
+					 (ggtags-update-tags t)
+					 (lambda (result)
+						 (message "done generating gtags: %s" result)))))
+
 		(let* ((project-root (projectile-project-root))
 					 (tags-exclude (projectile-tags-exclude-patterns))
 					 (default-directory project-root)
-					 (tags-file (expand-file-name projectile-tags-file-name))
-					 (command (format projectile-tags-command tags-file tags-exclude))
-					 shell-output exit-code)
-			(with-temp-buffer
-				(setq exit-code
-							(async-shell-command command nil (current-buffer))
-							shell-output (projectile-trim-string
-														(buffer-substring (point-min) (point-max)))))
-			(unless (zerop exit-code)
-				(error shell-output))
-			(visit-tags-table tags-file)
-			(message "Regenerated %s" tags-file))))
-
+           (tags-file (expand-file-name projectile-tags-file-name))
+           (command (format projectile-tags-command tags-file tags-exclude default-directory)))
+			(message "regenerate tags command: %s" command)
+			(async-shell-command command))))
 
 (provide 'init-projectile)
