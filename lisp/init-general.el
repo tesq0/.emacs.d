@@ -24,17 +24,23 @@
 
 		(general-define-key
 		 :keymaps 'eww-mode-map
+		 :states '( normal motion )
 		 "<" 'eww-previous-url
-		 ">" 'eww-next-url
+		 ">" 'eww-next-url)
+
+		(general-define-key
+		 :keymaps 'eww-mode-map
 		 "C-c b" 'eww-switch-to-buffer
 		 "C-c s" 'eww-view-source
 		 "C-c d" 'eww-download
 		 "C-c r" 'eww-reload
 		 "C-c R" 'eww-readable
 		 "C-c m" 'eww-add-bookmark
+		 "C-c B" 'eww-list-bookmarks
 		 "C-c f" 'eww-toggle-fonts
 		 "C-c E" 'eww-browse-with-external-browser
-		 "C-c y" 'eww-copy-page-url)
+		 "C-c y" 'eww-copy-page-url
+		 "C-c g" 'eww)
 
 		))
 

@@ -286,9 +286,11 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	"Kill and open current BUFFER."
 	(interactive)
 	(let ( (buffer (buffer-name))
-				 (file (buffer-file-name)) )
+				 (file (buffer-file-name))
+				 (point (point)) )
 		(kill-buffer buffer)
-		(find-file file)))
+		(find-file file)
+		(goto-char point)))
 
 
 (defun dos2unix (buffer)

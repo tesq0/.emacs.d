@@ -67,6 +67,8 @@
 (add-to-list 'load-path
 						 (expand-file-name "lisp" user-emacs-directory))
 
+(if (boundp 'constants) (require 'constants))
+
 (require 'init-package)
 (require 'init-const)
 (require 'init-system)
@@ -78,7 +80,7 @@
 (require 'init-evil)
 ;; (require 'init-ivy)
 (require 'init-magit)
-;; (require 'init-ibuffer)
+(require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
 (require 'init-eldoc)
@@ -120,6 +122,10 @@
 
 (setq debug-on-error nil)
 
+;; server
+
+(setq server-socket-dir (expand-file-name "server/socket" user-emacs-directory))
+(setq server-auth-dir (expand-file-name "server/auth" user-emacs-directory))
 
 ;; hint for bindings
 (use-package which-key
@@ -142,14 +148,33 @@
 	:bind* (("C-x C" . restart-emacs)))
 
 
-;; flash current line
-
-(global-set-key (kbd "<C-return>") 'hl-line-flash)
-
 
 (require 'visual-basic-mode)
 
-(require 'hl-line+)
+(defvar mikus-flash-timer nil)
+
+(defun my/hl-line ()
+	"Highlight line at point."
+	(interactive)
+	(isearch-highlight (point-at-bol) (point-at-eol))
+	(when mikus-flash-timer
+		(cancel-timer mikus-flash-timer))
+	(setq mikus-flash-timer
+				(run-at-time 0.5 nil 'isearch-dehighlight)))
+
+(defun try-hl-line-after-file-opened (buffer &rest args)
+	"Try to highlight line after switching to a BUFFER."
+	(when buffer
+		(my/hl-line)))
+
+(advice-add 'switch-to-buffer :after 'try-hl-line-after-file-opened )
+(advice-add 'evil-jump-backward :after 'my/hl-line )
+(advice-add 'evil-jump-forward :after 'my/hl-line )
+;; (advice-remove 'evil-jump-backward 'try-hl-line-after-file-opened )
+
+;; flash current line
+(global-set-key (kbd "<C-return>") 'my/hl-line)
+
 
 ;; better help
 
@@ -192,7 +217,7 @@
 		(general-define-key
 		 "M-." 'dumb-jump-go
 		 "M-," 'dumb-jump-back)
-		(add-hook 'dumb-jump-after-jump-hook 'hl-line-flash)
+		(add-hook 'dumb-jump-after-jump-hook 'my/hl-line)
 		(setq dumb-jump-prefer-searcher 'rg)
 		)
 	)

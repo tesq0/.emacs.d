@@ -40,7 +40,6 @@
 	(evil-set-initial-state 'helm-occur 'normal)
 	(evil-set-initial-state 'debugger-mode 'normal)
 	(evil-set-initial-state 'package-menu-mode 'emacs)
-	(evil-set-initial-state 'package-menu-mode 'emacs)
 
 	(cl-pushnew (cons 'wgrep-mode-map nil) evil-overriding-maps)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer
@@ -373,8 +372,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "}" 'evil-repeat-find-char
 	 "{" 'evil-repeat-find-char-reverse
 	 "<" 'evil-jump-backward
+	 "<mouse-5>" 'evil-jump-backward
+	 "<drag-mouse-5>" 'evil-jump-backward
 	 ">" 'evil-jump-forward
-
+	 "<mouse-4>" 'evil-jump-forward
+	 "<drag-mouse-4>" 'evil-jump-forward
+	 "<mouse-2>" 'evil-goto-definition
 	 "<C-tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
 	 "M-." nil
@@ -434,7 +437,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-k"  'evil-forward-paragraph
 	 "M-l"  'evil-backward-paragraph
 	 "M-n" 'drag-stuff-down
+	 "<M-wheel-down>" 'drag-stuff-down
 	 "M-p" 'drag-stuff-up
+	 "<M-wheel-up>" 'drag-stuff-up
 	 "M-f" 'drag-stuff-right
 	 "M-b" 'drag-stuff-left
 	 )
@@ -463,14 +468,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 )
 
 
+	;;; Buffer
+
+	(general-define-key
+	 "<f5>" 'reopen-buffer)
+
 
 	(define-key evil-motion-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this
 	(define-key evil-emacs-state-map (kbd "C-z") nil) ;turn off this switch and we will remap this
 	(global-set-key (kbd "<C-f8>") 'my/evil-switch-emacs-state) ; here we map this to f8
 
-
 	(global-unset-key (kbd "C-SPC"))
-	;; (global-set-key (kbd "C-SPC") 'company-complete-common)
 
 	)
 

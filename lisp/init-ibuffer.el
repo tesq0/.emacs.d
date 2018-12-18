@@ -31,6 +31,7 @@
      ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
      (t (format "%8d" (buffer-size))))))
 
+(evil-set-initial-state 'ibuffer-mode 'normal)
 
 ;; Explicitly require ibuffer-vc to get its column definitions, which
 ;; can't be autoloaded
@@ -62,9 +63,9 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(general-define-key
- :keymap 'ibuffer-mode-map
- "<normal-state> k" 'evil-next-line
- "<normal-state> l" 'evil-previous-line)
+;; (general-define-key
+;;  :keymaps 'ibuffer-mode-map
+;;  "k" 'evil-next-line
+;;  "l" 'evil-previous-line)
 
 (provide 'init-ibuffer)
