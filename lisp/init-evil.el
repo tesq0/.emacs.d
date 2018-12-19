@@ -354,6 +354,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	 "k" 'evil-next-line
 	 "l" 'evil-previous-line
+	 "<S-wheel-up>" 'evil-previous-line
+	 "<S-wheel-down>" 'evil-next-line
 	 "`" 'evil-paste-from-register
 	 ";" 'evil-forward-char
 	 "j" 'evil-backward-char
@@ -380,8 +382,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "<mouse-2>" 'evil-goto-definition
 	 "<C-tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
-	 "M-." nil
-	 "M-," nil
+	 "M-." 'nil
+	 "M-," 'evil-jump-backward
 	 "g'" 'goto-last-change
 	 "g," 'goto-last-change-reverse
 	 "^" 'evil-ex-repeat-substitute

@@ -216,7 +216,7 @@
 	(progn
 		(general-define-key
 		 "M-." 'dumb-jump-go
-		 "M-," 'dumb-jump-back)
+		 "M-," 'nil)
 		(add-hook 'dumb-jump-after-jump-hook 'my/hl-line)
 		(setq dumb-jump-prefer-searcher 'rg)
 		)

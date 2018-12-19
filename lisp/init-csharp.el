@@ -47,6 +47,9 @@
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
 (defun post-setup-csharp ()
+
+	(evil-add-command-properties 'omnisharp-go-to-definition :jump t)
+	(evil-add-command-properties 'omnisharp-go-to-definition-other-window :jump t)
 	
 	(defun company-omnisharp (command &optional arg &rest ignored)
 		"Override the default function."
@@ -119,7 +122,7 @@
 		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
 		(setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
-
+		
 		(general-define-key
 		 :keymaps 'csharp-mode-map
 		 "M-." 'omnisharp-go-to-definition
