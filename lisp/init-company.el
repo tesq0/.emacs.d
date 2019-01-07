@@ -21,7 +21,7 @@
 										(call-interactively company-manual-completion-fn))
 								(company-complete)
 								))
-								
+
 
 						(defun company-quit ()
 							(interactive)

@@ -274,9 +274,6 @@
 (use-package markdown-mode
 	:ensure t)
 
-(use-package google-translate
-	:ensure t)
-
 ;; snippets
 (use-package yasnippet
 	:ensure t

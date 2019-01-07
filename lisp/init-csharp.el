@@ -17,27 +17,15 @@
 	(setq-local yas-indent-line 'fixed)
 	(yas-minor-mode)
 	(yas-reload-all)
-
-	(c-add-style "mikus-csharp"
-							 '("c#"
-								 (c-basic-offset . 4)
-								 (c-offsets-alist
-									(innamespace . +)
-									(inline-open . 0)
-									(inher-cont . c-lineup-multi-inher)
-									(arglist-cont-nonempty . 0)
-									(arglist-intro . +)
-									(arglist-close . c-lineup-close-paren)
-									(template-args-cont . +))))
-
+	
 	(defvar csharp-eldoc-commands (obarray-make 1))
 	(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
-	(setq c-default-style "mikus-csharp")
-	(setq-local tab-width 4)
-	(setq c-syntactic-indentation 1)
-	(setq indent-tabs-mode nil)
+	(setq-local c-default-style "mikus-csharp")
 	(c-set-style "mikus-csharp")
+	(setq-local tab-width 4)
+	(setq-local c-syntactic-indentation 1)
+	(setq-local indent-tabs-mode nil)
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
 	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
@@ -50,6 +38,18 @@
 
 	(evil-add-command-properties 'omnisharp-go-to-definition :jump t)
 	(evil-add-command-properties 'omnisharp-go-to-definition-other-window :jump t)
+
+	(c-add-style "mikus-csharp"
+							 '("c#"
+								 (c-basic-offset . 4)
+								 (c-offsets-alist
+									(innamespace . +)
+									(inline-open . 0)
+									(inher-cont . c-lineup-multi-inher)
+									(arglist-cont-nonempty . 0)
+									(arglist-intro . +)
+									(arglist-close . c-lineup-close-paren)
+									(template-args-cont . +))))
 	
 	(defun company-omnisharp (command &optional arg &rest ignored)
 		"Override the default function."
