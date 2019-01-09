@@ -15,6 +15,9 @@
 (use-package treemacs
   :ensure t)
 
+(use-package groovy-mode
+	:ensure t)
+
 (use-package company-lsp
   :after  company
   :ensure t

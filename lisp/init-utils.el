@@ -349,31 +349,10 @@ buffer is not visiting a file."
 (defun generate-entitas ()
 	"Generate Entitas."
 	(interactive)
-	(let* ((directory (projectile-project-root))
+	(let* ((directory "c:/ClashOfStreamers/IdleGame/")
 					(default-directory directory)
-					(command (concat directory "generate.bat"))
-					(buffer (generate-new-buffer "*Generating Entitas*"))
-					(display-buffer-alist '(("Generating Entitas" display-buffer-no-window))))
-		(with-current-buffer buffer
-			(setq buffer-read-only nil)
-			(let* ((inhibit-read-only t) proc)
-				(erase-buffer))
-			(display-buffer buffer '(nil (allow-no-window . t)))
-      (setq proc (start-process "Shell" buffer shell-file-name
-                                shell-command-switch command))
-			(set-process-sentinel proc `(lambda (process signal)
-
-																		(let* ((status (process-status process)))
-																		(when (memq status '(exit signal))
-																			(cond
-																			 ((string= (substring signal 0 -1) "finished")
-																				(let* ((cmd (car (cdr (cdr (process-command process))))))
-																					(if counsel-etags-debug (message "`%s` executed." cmd))))
-																			 (t
-																				(message "Failed to generate.")))))))
-			;; Use the comint filter for proper handling of carriage motion
-			;; (see `comint-inhibit-carriage-motion'),.
-			(set-process-filter proc 'comint-output-filter))))
+					(command (concat directory "generate.bat")))
+		(async-shell-command command)))
 
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

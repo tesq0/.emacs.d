@@ -58,6 +58,13 @@
 	(helm-mode 1)
 	)
 
+(use-package helm-xref
+	:after helm
+	:ensure t
+	:init
+	(progn
+		(require 'helm-xref)
+		(setq xref-show-xrefs-function 'helm-xref-show-xrefs) ))
 
 (defun spacemacs//helm-hide-minibuffer-maybe ()
 	"Hide minibuffer in Helm session if we use the header line as input field."

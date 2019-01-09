@@ -374,16 +374,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "}" 'evil-repeat-find-char
 	 "{" 'evil-repeat-find-char-reverse
 	 "<" 'evil-jump-backward
-	 "<mouse-5>" 'evil-jump-backward
-	 "<drag-mouse-5>" 'evil-jump-backward
 	 ">" 'evil-jump-forward
-	 "<mouse-4>" 'evil-jump-forward
-	 "<drag-mouse-4>" 'evil-jump-forward
 	 "<mouse-2>" 'evil-goto-definition
 	 "<C-tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
 	 "M-." 'nil
-	 "M-," 'evil-jump-backward
+	 "M-," 'nil ;;'evil-jump-backward
 	 "g'" 'goto-last-change
 	 "g," 'goto-last-change-reverse
 	 "^" 'evil-ex-repeat-substitute
