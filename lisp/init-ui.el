@@ -11,7 +11,7 @@
 											:family "Hack" :height 110))
  (sys/macp
 	(set-face-attribute 'default nil
-											:family "Consolas" :height 180)))
+											:family "Hack" :height 140)))
 
 (setq-default display-line-numbers nil
 							display-line-numbers-widen nil)

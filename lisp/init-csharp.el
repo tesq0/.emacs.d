@@ -120,8 +120,14 @@
 		(setq omnisharp-eldoc-support t)
 		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
-		(setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
-		
+		(cond
+		 ( sys/macp
+			 (setq omnisharp-server-executable-path (concat user-emacs-directory "/.cache/omnisharp/server/v1.32.6/run"))
+			 )
+		 ( sys/win32p
+			 (setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
+			 ))
+
 		(general-define-key
 		 :keymaps 'csharp-mode-map
 		 "M-." 'omnisharp-go-to-definition
