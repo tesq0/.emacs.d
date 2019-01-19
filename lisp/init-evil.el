@@ -36,6 +36,7 @@
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'eww-mode 'normal)
 	(evil-set-initial-state 'image-mode 'emacs)
+	(evil-set-initial-state 'Info-mode 'normal)
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
 	(evil-set-initial-state 'debugger-mode 'normal)
@@ -319,7 +320,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"cv" 'evilnc-toggle-invert-comment-line-by-line
 		"."  'evilnc-copy-and-comment-operator
 		"\\" 'evilnc-comment-operator ; if you prefer backslash key
-		"w"  (lambda () (interactive) (evil-without-repeat (call-interactively #'hydra-window/body)))
+		"w"  'hydra-window/body
+		"u"  'hydra-utils/body
 		"p"  'projectile-command-map
 		"a"  'ace-window
 		"k"  'kill-buffer
@@ -448,12 +450,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(general-define-key
 	 :keymaps 'evil-window-map
 	 "j" 'evil-window-left
+	 "<left>" 'evil-window-left
 	 "J" 'evil-window-move-far-left
 	 "k" 'evil-window-down
+	 "<down>" 'evil-window-down
 	 "K" 'evil-window-move-very-bottom
 	 "l" 'evil-window-up
+	 "<up>" 'evil-window-up
 	 "L" 'evil-window-move-very-top
 	 ";" 'evil-window-right
+	 "<right>" 'evil-window-right
 	 ":" 'evil-window-move-far-right
 	 "|" (lambda ()
 				 (interactive)

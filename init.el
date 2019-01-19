@@ -152,15 +152,22 @@
 (require 'visual-basic-mode)
 
 (defvar mikus-flash-timer nil)
+(defvar point-before-jump nil)
+
+(defun before-jump ()
+	"Save current POINT before jumping to another location."
+	(interactive)
+	(setq point-before-jump (point-at-bol)))
 
 (defun my/hl-line ()
 	"Highlight line at point."
 	(interactive)
-	(isearch-highlight (point-at-bol) (point-at-eol))
-	(when mikus-flash-timer
-		(cancel-timer mikus-flash-timer))
-	(setq mikus-flash-timer
-				(run-at-time 0.5 nil 'isearch-dehighlight)))
+	(when (not (eq (point-at-bol) point-before-jump) ) ;; if at different point than before the jump
+		(isearch-highlight (point-at-bol) (point-at-eol))
+		(when mikus-flash-timer
+			(cancel-timer mikus-flash-timer))
+		(setq mikus-flash-timer
+					(run-at-time 0.5 nil 'isearch-dehighlight))))
 
 (defun try-hl-line-after-file-opened (buffer &rest args)
 	"Try to highlight line after switching to a BUFFER."
@@ -168,6 +175,8 @@
 		(my/hl-line)))
 
 (advice-add 'switch-to-buffer :after 'try-hl-line-after-file-opened )
+(advice-add 'evil-jump-backward :before 'before-jump)
+(advice-add 'evil-jump-forward :before 'before-jump)
 (advice-add 'evil-jump-backward :after 'my/hl-line )
 (advice-add 'evil-jump-forward :after 'my/hl-line )
 ;; (advice-remove 'evil-jump-backward 'try-hl-line-after-file-opened )
@@ -272,6 +281,9 @@
 
 
 (use-package markdown-mode
+	:ensure t)
+
+(use-package ahk-mode
 	:ensure t)
 
 ;; snippets

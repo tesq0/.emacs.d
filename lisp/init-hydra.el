@@ -82,16 +82,17 @@ _k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split d
   ("s" ace-swap-window :exit t )
   ("d" ace-delete-window))
 
-(defhydra hydra-fzf (:color red
-                        :hint nil)
-	"Hydra fzf 
-r - root
-h - home
+(defhydra hydra-utils (:color red
+															:hint nil)
 "
-	("r"  (helm-fzf "/") :exit t)
-  ("h"  (helm-fzf "~/") :exit t)
-	
-	)
+Utils
+------------------------------
+_=_: increment-number-at-point
+_-_: decrement-number-at-point
+"
+	("="  increment-number-at-point)
+	("-"  decrement-number-at-point))
+
 
 
 

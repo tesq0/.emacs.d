@@ -57,6 +57,13 @@ advice, like in `advice-add'. DOCSTRING and BODY are as in
 			(error "No number at point"))
 	(replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 
+(defun decrement-number-at-point ()
+	(interactive)
+	(skip-chars-backward "0-9")
+	(or (looking-at "[0-9]+")
+			(error "No number at point"))
+	(replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+
 (defun string-rtrim (str)
 	"Remove trailing whitespace from `STR'."
 	(replace-regexp-in-string "[ \t\n]*$" "" str))

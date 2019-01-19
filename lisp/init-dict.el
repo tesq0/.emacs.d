@@ -6,7 +6,6 @@
 		 google-translate-default-source-language "English"
 		 google-translate-default-target-language "Polish")))
 (use-package dictionary
-	:after google-translate
 	:ensure t
 	:init
 	(progn
