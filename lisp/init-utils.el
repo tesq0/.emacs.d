@@ -351,15 +351,5 @@ buffer is not visiting a file."
 	(make-frame))
 
 
-;; CoS specific utils
-
-(defun generate-entitas ()
-	"Generate Entitas."
-	(interactive)
-	(let* ((directory "c:/ClashOfStreamers/IdleGame/")
-					(default-directory directory)
-					(command (concat directory "generate.bat")))
-		(async-shell-command command)))
-
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )
