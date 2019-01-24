@@ -292,10 +292,7 @@
 	:config
 	(setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-(define-prefix-command 'yas-map)
-(global-set-key (kbd "C-y") 'yas-map)
-(define-key yas-map (kbd "i") 'yas-insert-snippet)
-(define-key yas-map (kbd "e") 'yas-expand)
+(global-set-key (kbd "C-y") 'yas-expand)
 
 (setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
 (load custom-file 'noerror)

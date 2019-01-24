@@ -183,11 +183,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(evil-beginning-of-visual-line))
 
 (defun my/evil-get-substitute-pattern (useExPattern)
-	(or (and evil-ex-search-pattern
-					 (or useExPattern (evil-visual-state-p) )
-					 (replace-regexp-in-string
-						"[\\<>]" "" (car evil-ex-search-pattern )))
-			(word-at-point)))
+	(regexp-quote 
+	 (or (and evil-ex-search-pattern
+						(or useExPattern (evil-visual-state-p) )
+						(replace-regexp-in-string
+						 "[\\<>]" "" (car evil-ex-search-pattern )))
+			 (word-at-point))))
 
 (defun my/evil-get-substitute-beg-end ()
 	(if (evil-visual-state-p)
@@ -201,7 +202,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	"Start evil ex with some predefinded text for substitution.
 	 GLOBAL - says whether to use the global %s prefix
 	 USEEXPATTERN - whether to try to use the pattern form evil-ex-search-pattern."
-	(let* ((pattern (my/evil-get-substitute-pattern (and global useExPattern)))
+	(let* ((pattern (my/evil-get-substitute-pattern useExPattern))
 				(command (format "%s%s/%s/"
 												 (my/evil-get-substitute-beg-end)
 												 (if global "%s" "s")
@@ -211,10 +212,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				(evil-ex command)
 			(message "pattern is nil"))))
 
-(defun my/evil-line-substitute ()
+(defun my/evil-line-substitute (x)
 	"Substitute in a line."
-		(interactive)
-		(my/evil-substitute nil))
+		(interactive "p")
+		(my/evil-substitute nil (not (eq x 1))))
 
 (defun my/evil-global-substitute (x)
 	"Substitute globally."

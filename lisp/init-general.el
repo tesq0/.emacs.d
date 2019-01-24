@@ -25,11 +25,13 @@
 		(general-define-key
 		 :keymaps 'eww-mode-map
 		 :states '( normal motion )
-		 "<" 'eww-previous-url
-		 ">" 'eww-next-url)
+		 "<" 'eww-back-url
+		 ">" 'eww-forward-url)
 
 		(general-define-key
 		 :keymaps 'eww-mode-map
+		 "C-c n" 'eww-next-url
+		 "C-c p" 'eww-previous-url
 		 "C-c b" 'eww-switch-to-buffer
 		 "C-c s" 'eww-view-source
 		 "C-c d" 'eww-download
