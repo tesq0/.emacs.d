@@ -37,6 +37,7 @@
 	(evil-set-initial-state 'eww-mode 'normal)
 	(evil-set-initial-state 'image-mode 'emacs)
 	(evil-set-initial-state 'Info-mode 'normal)
+	(evil-set-initial-state 'help-mode 'normal)
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
 	(evil-set-initial-state 'debugger-mode 'normal)

@@ -7,6 +7,10 @@
 	:init
 	(progn
 
+		(defun rg-reload ()
+			(interactive)
+			(rg-rerun))
+
 		(rg-define-search rg-project-merge-conflicts
 			:dir project
 			:query "<<<<<<< HEAD"
@@ -26,7 +30,7 @@
 		 :keymaps 'rg-mode-map
 		 "l" 'evil-previous-line
 		 "C-c C-p" 'wgrep-change-to-wgrep-mode
-		 "C-c C-r" 'rg-recompile)
+		 "C-c C-r" 'rg-reload)
 		(setq rg-group-result nil)
 
 		)

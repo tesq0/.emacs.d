@@ -47,6 +47,7 @@
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
+(set-language-environment "UTF-8")
 
 (setq desktop-dirname (expand-file-name "save" user-emacs-directory))
 
@@ -102,6 +103,8 @@
 (require 'init-mouse)
 (require 'init-wgrep)
 (require 'init-asm)
+(require 'init-clojure)
+;; (require 'init-tex)
 ;; (require 'init-tags)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
@@ -204,10 +207,13 @@
 (use-package darkroom
 	:ensure t
 	:init
-	(general-define-key
-	 "<C-f11>" 'darkroom-mode))
-
-
+	(progn
+		(require 'darkroom)
+		(setq darkroom-text-scale-increase 1)
+		(general-define-key
+		 "<C-f11>" 'darkroom-mode)
+		)
+	)
 
 (use-package company-tern
 	:ensure t
@@ -285,6 +291,14 @@
 
 (use-package ahk-mode
 	:ensure t)
+
+(use-package sonic-pi
+	:ensure t
+	:init
+	(progn
+		(setq sonic-pi-server-bin "App\\Sonic Pi\\app\\server\\ruby\\bin\\sonic-pi-server.rb")
+		(setq sonic-pi-compile-extensions-bin "App\\Sonic Pi\\app\\server\\ruby\\bin\\compile-extensions.rb")
+		(setq sonic-pi-path "D:\\Programs\\SonicPiPortable\\")))
 
 ;; snippets
 (use-package yasnippet
