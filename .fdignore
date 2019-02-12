@@ -1,2 +1,5 @@
 *.elc
-/elpa*
+/*
+!/lisp
+!init.el
+!/site-lisp

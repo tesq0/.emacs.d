@@ -4,14 +4,14 @@
 	:init
 	(progn
 	(projectile-mode)
+	(setq projectile-enable-caching t)
 	(helm-projectile-on)
 	(define-key projectile-command-map (kbd "<ESC>") nil)
-	(defvar my-fd-command "fd . -0")
-	(setq-default projectile-git-command my-fd-command)
-	(setq-default projectile-generic-command my-fd-command)
+	(defvar my-find-command)
+	(setq my-find-command "mfd.rb")
+	(setq-default projectile-git-command my-find-command)
+	(setq-default projectile-generic-command my-find-command)
 	(setq projectile-indexing-method 'alien)
-	(setq projectile-globally-ignored-file-suffixes  '("png" "unity" "tga" "psd" "anim" "prefab" "mat" "meta" "asset"))
-	(setq grep-find-ignored-files (append grep-find-ignored-files '("*.meta" "*.png" "*.unity" "*.tga" "*.psd" "*.anim" "*.prefab" "*.mat" "*.xls")))
 	(define-prefix-command 'mikus-tags-map)
 	(define-prefix-command 'mikus-search-map)
 	(general-define-key
@@ -44,14 +44,6 @@
 		:states 'normal
 		:keymaps 'override
 		"I" 'imenu-anywhere)))
-
-;; (use-package persp-mode-projectile-bridge
-;;	:ensure t
-;;	:init
-;;	(progn
-;;		(message "best persp mode")
-;;		(persp-mode 1)
-;;		(persp-mode-projectile-bridge-mode 1)))
 
 (after-load 'helm-projectile
 	(progn

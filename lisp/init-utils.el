@@ -155,6 +155,14 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 		(kill-line arg)))
 
 
+(defun power-shell ()
+	(interactive)
+	(shell-command "start powershell"))
+
+(defun terminal ()
+	(interactive)
+	(shell-command "c:\\msys64\\msys2_shell.cmd -here"))
+
 (defun shell-other-window ()
 	"Open a `shell' in a new window."
 	(interactive)

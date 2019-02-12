@@ -29,9 +29,7 @@
     (cond
      ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
      ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
-     (t (format "%8d" (buffer-size))))))
-
-(evil-set-initial-state 'ibuffer-mode 'normal)
+     (t (format "%8d" (buffer-size)))))
 
 ;; Explicitly require ibuffer-vc to get its column definitions, which
 ;; can't be autoloaded
@@ -59,13 +57,20 @@
               " "
               filename-and-process)))
 
+
 (setq ibuffer-filter-group-name-face 'font-lock-doc-face)
+	(global-set-key (kbd "C-x C-b") 'ibuffer)
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+	(evil-set-initial-state 'ibuffer-mode 'normal)
 
-;; (general-define-key
-;;  :keymaps 'ibuffer-mode-map
-;;  "k" 'evil-next-line
-;;  "l" 'evil-previous-line)
+	(general-define-key
+	 :keymaps 'ibuffer-mode-map
+	 :states 'normal
+	 "k" 'evil-next-line
+	 "l" 'evil-previous-line)
+	
+	)
+
+
 
 (provide 'init-ibuffer)

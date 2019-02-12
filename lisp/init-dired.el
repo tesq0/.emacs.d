@@ -11,6 +11,8 @@
 (general-define-key
  :keymaps 'dired-mode-map
  "<normal-state> ;" 'evil-forward-char
+ "<normal-state> <" 'dired-up-directory
+ "<normal-state> >" 'dired-find-file
  )
 
 ;; allow to change permissions

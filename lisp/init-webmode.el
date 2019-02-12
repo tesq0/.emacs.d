@@ -37,16 +37,9 @@
 	:init
 	(setup-json))
 
-(use-package flycheck
-  :ensure t
-	:hook (prog-mode . flycheck-mode)
-	:config
-	(setq flycheck-highlighting-mode 'symbols)
-	(setq flycheck-check-syntax-automatically '(mode-enabled save))
+(after-load 'flycheck
 	(flycheck-add-mode 'css-csslint 'web-mode)
-	(flycheck-add-mode 'javascript-eslint 'web-mode)
-)
-
+	(flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package web-mode
   :ensure t

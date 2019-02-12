@@ -65,7 +65,7 @@
 									company-tooltip-align-annotations t
 
 									company-idle-delay 0.2
-									company-minimum-prefix-length 1
+									company-minimum-prefix-length 2
 									company-clang-insert-arguments nil
 									company-require-match nil
 									)

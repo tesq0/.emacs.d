@@ -29,8 +29,7 @@
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
 	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
-	;; (add-to-list 'ac-sources 'ac-source-yasnippet)
-	;; (cl-pushnew 'company-omnisharp company-backends)
+	(setq-local company-backends '(company-files (company-etags :separate company-keywords :separate company-dabbrev-code )))
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 

@@ -51,9 +51,6 @@
 
 (setq desktop-dirname (expand-file-name "save" user-emacs-directory))
 
-;;(desktop-save-mode 1)
-;;(add-hook after-make-frame-functions)
-
 (recentf-mode)
 
 ;; extra functions
@@ -79,6 +76,7 @@
 (require 'init-modeline)
 (require 'init-general)
 (require 'init-evil)
+(require 'init-flycheck)
 ;; (require 'init-ivy)
 (require 'init-magit)
 (require 'init-ibuffer)
@@ -124,11 +122,6 @@
 	:diminish auto-revert-mode)
 
 (setq debug-on-error nil)
-
-;; server
-
-(setq server-socket-dir (expand-file-name "server/socket" user-emacs-directory))
-(setq server-auth-dir (expand-file-name "server/auth" user-emacs-directory))
 
 ;; hint for bindings
 (use-package which-key
@@ -267,6 +260,8 @@
 	)
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
 (define-key fast-ex-map (kbd "f") 'explorer)
+(define-key fast-ex-map (kbd "p") 'power-shell)
+(define-key fast-ex-map (kbd "t") 'terminal)
 
 (define-key ctl-x-map (kbd "D") 'explorer)
 
@@ -280,6 +275,7 @@
 (define-key ctl-x-5-map (kbd "f") 'find-file)
 (define-key ctl-x-5-map (kbd "C-i") 'other-frame)
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
+(global-set-key (kbd "C-h h") nil) ;; disable that shitty hello file
 
 (define-prefix-command	'fast-buffer-map)
 
