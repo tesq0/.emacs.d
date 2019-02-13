@@ -25,5 +25,10 @@
 
 		(setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))))
 
+(when (memq window-system '(mac ns x))
+		(use-package exec-path-from-shell
+			:ensure t
+			:init
+			(exec-path-from-shell-initialize)))
 
 (provide 'init-system)
