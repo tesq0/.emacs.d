@@ -161,7 +161,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 (defun terminal ()
 	(interactive)
-	(shell-command "c:\\msys64\\msys2_shell.cmd -here"))
+	(shell-command "c:\\msys64\\msys2_shell.cmd -here -msys2"))
 
 (defun shell-other-window ()
 	"Open a `shell' in a new window."
