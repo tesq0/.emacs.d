@@ -13,28 +13,28 @@
 ;;----------------------------------------------------------------------------
 
 (defmacro radian-defadvice (name arglist where place docstring &rest body)
-  "Define an advice called NAME and add it to a function.
+	"Define an advice called NAME and add it to a function.
 ARGLIST is as in `defun'. WHERE is a keyword as passed to
 `advice-add', and PLACE is the function to which to add the
 advice, like in `advice-add'. DOCSTRING and BODY are as in
 `defun'."
-  (declare (indent 2)
-           (doc-string 5))
-  (unless (stringp docstring)
-    (error "radian-defadvice: no docstring provided"))
-  `(progn
-     (defun ,name ,arglist
-       ,(let ((article (if (string-match-p "^:[aeiou]" (symbol-name where))
-                           "an"
-                         "a")))
-          (format "%s\n\nThis is %s `%S' advice for `%S'."
-                  docstring article where
-                  (if (and (listp place)
-                           (memq (car place) ''function))
-                      (cadr place)
-                    place)))
-       ,@body)
-     (advice-add ',place ',where #',name)
+	(declare (indent 2)
+					 (doc-string 5))
+	(unless (stringp docstring)
+		(error "radian-defadvice: no docstring provided"))
+	`(progn
+		 (defun ,name ,arglist
+			 ,(let ((article (if (string-match-p "^:[aeiou]" (symbol-name where))
+													 "an"
+												 "a")))
+					(format "%s\n\nThis is %s `%S' advice for `%S'."
+									docstring article where
+									(if (and (listp place)
+													 (memq (car place) ''function))
+											(cadr place)
+										place)))
+			 ,@body)
+		 (advice-add ',place ',where #',name)
 ',name))
 
 ;;----------------------------------------------------------------------------
@@ -244,7 +244,21 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 				(message "Buffer '%s' is not visiting a file!" name)
 			(progn	(copy-file filename newname 1)	(delete-file filename)	(set-visited-file-name nil)))))
 
+(defun unique-buffer-p (buffer)
+	"Check whether a BUFFER has an unique name (if it's surrounded with **, e.g *scratch*)."
+	(s-matches? "\*.*\*$" (buffer-name buffer)))
 
+(defun kill-abandoned-buffers ()
+	"Deletes buffers which files have been removed but they still exists in the buffer list."
+	(interactive)
+	(dolist (buffer (buffer-list))
+		(let* ((buffer-file (buffer-file-name buffer))
+					 (file-exists? (and buffer-file (file-exists-p buffer-file)))
+					 (unique-p (unique-buffer-p buffer)))
+			(and (not file-exists?) (not unique-p)
+					 (progn
+						 (message (format "Killing abandoned buffer %s" (buffer-name buffer)))
+						 (kill-buffer buffer))))))
 
 (defun switch-to-the-window-that-displays-the-most-recently-selected-buffer ()
 	(interactive)
@@ -265,37 +279,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 							(select-window win)
 						(error "Dead window %S" win)))
 			(message "Couldn't find a suitable window to switch to"))))
-
-
-;; (defun switch-to-window-mru ()
-;;   "Move the cursor to the previous (last accessed) buffer in another window.
-;; More precisely, it selects the most recently used buffer that is
-;; shown in some other window, preferably of the current frame, and
-;; is different from the current one."
-;; 	(interactive)
-;;   (catch 'done
-;;     (dolist (buf (buffer-list))
-;;       (let ((win (get-buffer-window buf)))
-;;         (when (and (not (eq buf (current-buffer)))
-;;                    win
-;;                    (not (eq win (selected-window))))
-;; 					(let ((wframe (window-frame win))
-;; 								(sframe (selected-frame)))
-;; 					(when (and (frame-live-p wframe)
-;; 										 (not (eq wframe sframe)))
-;; 						(select-frame-set-input-focus wframe)))
-;; 					(select-window win)
-;;           (throw 'done nil))))))
-
-
-;; (defun switch-to-recently-selected-buffer ()
-;; 	(interactive)
-;; 	(let* ((buflist (buffer-list))      ;   get all buffer list  -- before (selected-frame)
-;; 				 (buflist (delq (current-buffer) buflist)))     ; if there are multiple windows showing same buffer.
-;; 		(if buflist
-;; 				(let (buf (car buflist))
-;; 					(switch-to-buffer buf))
-;; 			(message "Couldn't find a suitable buffer to switch to"))))
 
 (defun reopen-buffer ()
 	"Kill and open current BUFFER."
@@ -321,9 +304,9 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	)
 
 (defun switch-to-recently-selected-buffer ()
-  "Switch to other buffer"
-  (interactive)
-  (switch-to-buffer (other-buffer)))
+	"Switch to other buffer"
+	(interactive)
+	(switch-to-buffer (other-buffer)))
 
 
 (defun byte-compile-emacs ()
