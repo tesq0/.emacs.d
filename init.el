@@ -279,6 +279,8 @@
 
 (define-prefix-command	'fast-buffer-map)
 
+(add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
+
 (require 'csharp-hs-forward-sexp)
 
 

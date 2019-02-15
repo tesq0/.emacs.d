@@ -36,7 +36,7 @@
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'eww-mode 'normal)
 	(evil-set-initial-state 'image-mode 'emacs)
-	(evil-set-initial-state 'Info-mode 'normal)
+	(evil-set-initial-state 'Info-mode 'motion)
 	(evil-set-initial-state 'help-mode 'normal)
 	(evil-set-initial-state 'rg-mode 'normal)
 	(evil-set-initial-state 'helm-occur 'normal)
@@ -269,8 +269,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(evil-next-visual-line 2))
 (evil-define-motion move-2-lines-up ()
 	(evil-previous-visual-line 2))
-
-
 
 (with-eval-after-load 'evil-maps
 

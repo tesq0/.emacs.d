@@ -29,6 +29,16 @@
 		 ">" 'eww-forward-url)
 
 		(general-define-key
+		 :keymaps 'Info-mode-map
+		 :states '(motion)
+		 "j" 'evil-backward-char
+		 "k" 'evil-next-line
+		 "l" 'evil-previous-line
+		 ";" 'evil-forward-char
+		 "h" 'Info-history-back
+		 )
+
+		(general-define-key
 		 :keymaps 'eww-mode-map
 		 "C-c n" 'eww-next-url
 		 "C-c p" 'eww-previous-url
