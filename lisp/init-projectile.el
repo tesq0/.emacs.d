@@ -49,7 +49,7 @@
 	(progn
 
 		(defvar idle-game-project-root "c:/ClashOfStreamers/IdleGame/")
-		(defvar idle-game-best-folders '( "Assets/#/Sources" "Assets/#/Scripts" "Assets/Editor" ))
+		(defvar idle-game-best-folders '( "Assets/#/Sources" "Assets/#/Scripts" "Assets/Editor" "Assets/#/Libraries" ))
 		(defvar idle-game-ignored-files (append grep-find-ignored-files '("*.asset" "*.java" "*.m" "MessagePack")))
 
 		(defvar projectile-custom-ignored-files '())
@@ -67,7 +67,18 @@
 			(let* ((dirs (idle-game-folders))
 						 (projectile-tags-command "ctags -Re -f \"%s\" %s %s"))
 				(projectile-regenerate-tags-async dirs)))
-		
+
+		(defun regenerate-idlegame-gtags (&optional dirs)
+			"First output the files in DIRS we want to parse to gtags.files, then run gtags in idle-game-project-root."
+			(interactive)
+			(let* ((directories (or dirs (idle-game-folders)))
+						 (find-command (format "fd .cs %s > %sgtags.files" directories idle-game-project-root))
+						 (gtags-command (format "gtags -v --gtagslabel pygments %s" (directory-file-name idle-game-project-root))))
+				(message (format "find files command %s" find-command))
+				(shell-command find-command) ;; this will run synchronously
+				(async-shell-command gtags-command) ;; async
+				))
+
 		(defun projectile-regenerate-tags-for-current-file-async ()
 			"Regenerate tags for this file."
 			(interactive)
@@ -102,9 +113,10 @@
 		(general-define-key
 		 :keymaps 'mikus-tags-map
 		 "i" 'regenerate-idlegame-tags
+		 "g" 'regenerate-idlegame-gtags
 		 "r" 'regenerate-tags
 		 "f" 'projectile-regenerate-tags-for-current-file-async)
-		
+
 
 		)
 	)
