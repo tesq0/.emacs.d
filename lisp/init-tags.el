@@ -7,7 +7,7 @@
 		(setq ggtags-highlight-tag nil
 					ggtags-split-window-function nil
 					ggtags-global-window-height nil
-					ggtags-completing-read-function 'helm-completing-read-default
+					ggtags-completing-read-function nil
 					ggtags-auto-jump-to-match nil)
 
 		(general-define-key
