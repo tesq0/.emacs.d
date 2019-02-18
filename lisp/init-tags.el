@@ -2,7 +2,6 @@
 (define-prefix-command 'gtags-map)
 (general-define-key
  :keymaps 'gtags-map
- "c"  'gtags-create-tags
  "b"  'gtags-display-browser
  "P"  'gtags-find-file
  "f"  'gtags-parse-file

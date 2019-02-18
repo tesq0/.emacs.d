@@ -28,3 +28,6 @@ workspace
 ycmd
 constants*
 lisp/init-slack.el
+GTAGS
+GRTAGS
+GPATH
