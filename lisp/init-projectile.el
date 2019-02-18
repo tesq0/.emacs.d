@@ -68,13 +68,6 @@
 						 (projectile-tags-command "ctags -Re -f \"%s\" %s %s"))
 				(projectile-regenerate-tags-async dirs)))
 		
-		(defun projectile-regenerate-tags-for-cos-generated-files ()
-			"Regenerate tags for this file and append it to the project's TAGS file."
-			(interactive)
-			(let* ((dir (concat idle-game-project-root "Assets/#/Sources/Generated"))
-						 (projectile-tags-command "ctags -Re -f \"%s\" %s -a \"%s\""))
-				(projectile-regenerate-tags-async dir)))
-		
 		(defun projectile-regenerate-tags-for-current-file-async ()
 			"Regenerate tags for this file."
 			(interactive)
@@ -108,7 +101,6 @@
 
 		(general-define-key
 		 :keymaps 'mikus-tags-map
-		 "g" 'projectile-regenerate-tags-for-cos-generated-files
 		 "i" 'regenerate-idlegame-tags
 		 "r" 'regenerate-tags
 		 "f" 'projectile-regenerate-tags-for-current-file-async)

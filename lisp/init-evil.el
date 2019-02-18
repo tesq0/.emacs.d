@@ -294,7 +294,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
 	(general-create-definer mikus-leader
-		:prefix "SPC")
+		:prefix "SPC"
+		:keymaps 'override)
 
 	(general-define-key
 	 :keymaps '( compilation-mode-map compilation-minor-mode-map )

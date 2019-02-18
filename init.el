@@ -102,8 +102,8 @@
 (require 'init-wgrep)
 (require 'init-asm)
 (require 'init-clojure)
+(require 'init-tags)
 ;; (require 'init-tex)
-;; (require 'init-tags)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
 
