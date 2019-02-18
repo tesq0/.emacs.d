@@ -270,6 +270,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-define-motion move-2-lines-up ()
 	(evil-previous-visual-line 2))
 
+;; COmpilation
+
+(defun compilation-peek-error ()
+	(interactive)
+	(next-error-follow-mode-post-command-hook))
+
+
 (with-eval-after-load 'evil-maps
 
 	(global-set-key (kbd "<f9>") 'repeat-complex-command)
@@ -302,6 +309,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 ;; :states '(motion normal)
 	 "C-n" 'compilation-next-error
 	 "C-p" 'compilation-previous-error
+	 "C-c C-c" 'compilation-peek-error
 	 )
 
 	(general-define-key
@@ -378,7 +386,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "{" 'evil-repeat-find-char-reverse
 	 "<" 'evil-jump-backward
 	 ">" 'evil-jump-forward
-	 "<mouse-2>" 'evil-goto-definition
 	 "<C-tab>" 'switch-to-the-window-that-displays-the-most-recently-selected-buffer
 
 	 "M-." 'nil
