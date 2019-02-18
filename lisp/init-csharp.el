@@ -29,7 +29,7 @@
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
 	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
-	(setq-local company-backends '(company-files (company-etags :separate company-keywords :separate company-dabbrev-code )))
+	(setq-local company-backends '(company-files (company-capf :separate company-keywords :separate company-dabbrev-code )))
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
@@ -130,13 +130,15 @@
 
 		(general-define-key
 		 :keymaps 'csharp-mode-map
-		 "M-." 'omnisharp-go-to-definition
+		 "M-." 'ggtags-find-definition
 		 "M->" 'omnisharp-go-to-definition-other-window
+		 "g d" 'ggtags-find-definition
 		 "C-c u" 'omnisharp-helm-find-usages
 		 "C-c i" 'omnisharp-find-implementations
 		 "C-c r" 'omnisharp-run-code-action-refactoring
 		 "C-c C-r" 'omnisharp-navigate-to-region
 		 )
+		(add-to-list 'evil-overriding-maps (cons 'csharp-mode-map nil))
 		)
 	:config
 	(post-setup-csharp))

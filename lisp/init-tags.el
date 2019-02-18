@@ -1,23 +1,28 @@
-(use-package helm-gtags
+(use-package ggtags
+	:hook (csharp-mode . ggtags-mode)
 	:ensure t
-	:hook (csharp-mode . helm-gtags-mode)
 	:init
 	(progn
 		(define-prefix-command 'helm-gtags-map)
+		(add-to-list 'xref-backend-functions 'ggtags--xref-backend)
+		(setq ggtags-highlight-tag nil)
 		(general-define-key
 		 :keymaps 'helm-gtags-map
-		 "c"  'helm-gtags-create-tags
-		 "h"  'helm-gtags-display-browser
-		 "P"  'helm-gtags-find-files
-		 "f"  'helm-gtags-parse-file
-		 "g"  'helm-gtags-find-pattern
-		 "s"  'helm-gtags-find-symbol
-		 "r"  'helm-gtags-find-rtag
-		 "t"  'helm-gtags-find-tag
-		 "d"  'helm-gtags-find-tag)
+		 "P"  'ggtags-visit-project-root
+		 "h"  'ggtags-view-tag-history
+		 "f"  'ggtags-find-file
+		 "g"  'ggtags-grep
+		 "s"  'ggtags-find-other-symbol
+		 "r"  'ggtags-find-reference
+		 "`"  'ggtags-save-to-register
+		 "t"  'ggtags-find-tag-dwim
+		 "q"  'ggtags-query-replace
+		 "n"  'ggtags-next-mark
+		 "p"  'ggtags-prev-mark
+		 "d"  'ggtags-show-definition)
 		(mikus-leader
 			:states '(normal motion)
-			"t" 'helm-gtags-map))
-	)
+			"t" 'helm-gtags-map)))
+
 
 (provide 'init-tags)
