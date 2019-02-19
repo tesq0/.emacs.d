@@ -15,8 +15,9 @@
 		 "<mouse-2>" 'ggtags-find-tag-mouse)
 
 		(general-define-key
-		 :keymaps 'ggtags-mode-map
-		 "M-." nil)
+		 :keymaps '( ggtags-mode-map ggtags-navigation-map )
+		 "M-." nil
+		 "M->" nil)
 
 		(general-define-key
 		 :keymaps 'helm-gtags-map

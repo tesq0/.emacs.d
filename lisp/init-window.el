@@ -43,6 +43,7 @@
 		(apply orig-fun args)))
 
 (advice-add 'compile-goto-error :around #'my-compile-goto-error)
+(advice-add 'compilation-peek-error :around #'my-compile-goto-error)
 (advice-add 'compilation-goto-locus :around #'my-compile-goto-error)
 ;; (advice-remove 'compile-goto-error #'my-compile-goto-error)
 ;; (advice-remove 'compilation-goto-locus #'my-compile-goto-error)

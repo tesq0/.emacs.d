@@ -134,18 +134,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 (defun insert-line-below (times)
-  "Insert an empty line below the current line."
-  (interactive "p")
-  (save-excursion
-    (end-of-line)
-    (open-line times)))
+	"Insert an empty line below the current line."
+	(interactive "p")
+	(save-excursion
+		(end-of-line)
+		(open-line times)))
 
 (defun insert-line-above (times)
-  "Insert an empty line above the current line."
-  (interactive "p")
-  (save-excursion
-    (end-of-line 0)
-    (open-line times)))
+	"Insert an empty line above the current line."
+	(interactive "p")
+	(save-excursion
+		(end-of-line 0)
+		(open-line times)))
 
 (defun evil-keyboard-quit ()
 	"Keyboard quit and force normal state."
@@ -183,28 +183,31 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			(setq auto-hscroll-mode t))
 	(evil-beginning-of-visual-line))
 
-(defun my/evil-get-substitute-pattern (useExPattern)
-	(regexp-quote 
+(defun my/evil-get-auto-substitute-pattern (useExPattern)
+	"Try to get a substitute string automatically.
+\  First look in evil-ex-search-pattern (only if USEEXPATTERN or in visual-mode)
+\  Then look in 'evil-this-register'.
+\  Lastly, use the 'word-at-point.'"
+	(regexp-quote
 	 (or (and evil-ex-search-pattern
 						(or useExPattern (evil-visual-state-p) )
 						(replace-regexp-in-string
 						 "[\\<>]" "" (car evil-ex-search-pattern )))
+			 (and evil-this-register (get-register evil-this-register))
 			 (word-at-point))))
 
 (defun my/evil-get-substitute-beg-end ()
 	(if (evil-visual-state-p)
 			"'<,'>" ""))
 
-
 (defun my/make-group-pattern (pattern)
 	(format "\\(%s\\)" pattern))
 
-(defun my/evil-substitute (global &optional useExPattern)
+(defun my/evil-substitute (global pattern)
 	"Start evil ex with some predefinded text for substitution.
-	 GLOBAL - says whether to use the global %s prefix
-	 USEEXPATTERN - whether to try to use the pattern form evil-ex-search-pattern."
-	(let* ((pattern (my/evil-get-substitute-pattern useExPattern))
-				(command (format "%s%s/%s/"
+\	 GLOBAL - says whether to use the global %s prefix
+\	 PATTERN - string pattern to use"
+	(let* ((command (format "%s%s/%s/"
 												 (my/evil-get-substitute-beg-end)
 												 (if global "%s" "s")
 												 (my/make-group-pattern pattern)
@@ -213,22 +216,55 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 				(evil-ex command)
 			(message "pattern is nil"))))
 
-(defun my/evil-line-substitute (x)
-	"Substitute in a line."
-		(interactive "p")
-		(my/evil-substitute nil (not (eq x 1))))
+(defmacro define-auto-substitute-command (command doc &optional global)
+	"Defines quick substitute command.
+\	 It will try to automatically get the pattern.
+\  By default the substitute will be inline unless the GLOBAL is specified.
+\  (fn COMMAND DOC GLOBAL)"
+	(declare (indent defun)
+					 (doc-string 2))
+	(when command
+		`(defun ,command ()
+			 ,doc
+			 (interactive)
+			 (let* ((prefix-val (prefix-numeric-value current-prefix-arg))
+							(use-ex-pattern (not (eq 1 prefix-val)) )
+							(pattern (my/evil-get-auto-substitute-pattern use-ex-pattern)))
+				 (my/evil-substitute ,global pattern)))))
 
-(defun my/evil-global-substitute (x)
+(define-auto-substitute-command my/evil-global-substitute
 	"Substitute globally."
-		(interactive "p")
-		(my/evil-substitute t (not (eq x 1))))
+	t)
 
+(define-auto-substitute-command my/evil-line-substitute
+	"Substitute inline."
+	nil)
+
+;; Could be useful for reference
+
+;; (defmacro evil-define-register-command (command register &rest body)
+;; 	"Define a command COMMAND that using the register REGISTER.
+
+;; \(fn COMMAND BODY...)"
+;; 	(when (and command register body)
+;; 		`(evil-define-command ,command ,register
+;; 			 (interactive "<C>")
+;; 			 ,@body)))
+
+;; (evil-define-register-command
+;;  my/evil-substitute-from-register (register)
+;;  (let* ((content (get-register register)))
+;; 	 (my/evil-substitute nil content)))
+
+;; (evil-define-register-command
+;;  my/evil-global-substitute-from-register (register)
+;;  (let* ((content (get-register register)))
+;; 	 (my/evil-substitute t content)))
 
 (defun evil-join-and-indent-upwards ()
 	(interactive)
 	(join-line)
 	(c-indent-command))
-
 
 (evil-define-operator evil-join-and-indent (beg end)
 	"Join the selected lines."
@@ -315,7 +351,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(general-define-key
 	 "C-s" 'my/evil-line-substitute
 	 "C-S-s" 'my/evil-global-substitute)
-
 
 	(mikus-leader
 		:states '(normal motion visual)
@@ -433,7 +468,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "<escape>" 'evil-normal-state
 	 "C-." 'yas-expand
 	 )
-	
+
 	(general-define-key
 	 :states '(motion visual)
 	 "C-M-k"  'evil-avy-goto-line-below
