@@ -8,8 +8,7 @@
 					ggtags-split-window-function nil
 					ggtags-global-window-height nil
 					ggtags-completing-read-function nil
-					ggtags-auto-jump-to-match 'history)
-
+					ggtags-auto-jump-to-match 'first)
 
 		(defun compilation-maybe-halt-auto-jump (buffer pos)
 			"Halt jumping to first match in ggtags-global-mode if more that 1 results."
@@ -18,8 +17,8 @@
 				(when ggtags
 					(with-current-buffer buffer
 						(let* ((lines (count-lines pos (point-max)))
-									 (halt (> lines 2)))
-							(message (format "output lines %s halt? %s" lines halt))
+									 (halt (> lines 4))) ;; more than 4 seems to mean more than 1 match
+							;; (message (format "output lines %s halt? %s" lines halt))
 							(when halt
 								(setq compilation-auto-jump-to-first-error nil)))))))
 
