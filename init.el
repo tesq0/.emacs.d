@@ -86,7 +86,7 @@
 ;; (require 'init-autocomplete)
 (require 'init-org)
 (require 'init-csharp)
-(require 'init-cpp)
+(require 'init-c)
 (require 'init-java)
 (require 'init-webmode)
 (require 'init-hideshow)
@@ -301,6 +301,8 @@
 ;; snippets
 (use-package yasnippet
 	:ensure t
+	:init (progn
+					(add-to-list 'company-backends #'company-yasnippet))
 	:config
 	(setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 

@@ -240,6 +240,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	"Substitute inline."
 	nil)
 
+
 ;; Could be useful for reference
 
 ;; (defmacro evil-define-register-command (command register &rest body)
@@ -346,6 +347,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-n" 'compilation-next-error
 	 "C-p" 'compilation-previous-error
 	 "C-c C-c" 'compilation-peek-error
+	 "<tab>" 'compilation-peek-error
 	 )
 
 	(general-define-key
