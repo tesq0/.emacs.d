@@ -27,7 +27,7 @@
 					evil-want-C-u-scroll nil)
 		(setq evil-ex-search-persistent-highlight nil)
 		(setq evil-want-fine-undo nil)
-		;; (custom-reevaluate-setting 'evil-overriding-maps)
+		(setq evil-kill-on-visual-paste nil)
 		)
 	:config
 	(mikus-evil-setup-command-props)
@@ -313,13 +313,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(interactive)
 	(next-error-follow-mode-post-command-hook))
 
-
 (with-eval-after-load 'evil-maps
 
 	(global-set-key (kbd "<f9>") 'repeat-complex-command)
-	(global-set-key (kbd "C-S-v") 'evil-paste-before)
-	(global-set-key (kbd "C-S-c") 'evil-yank)
 
+	(general-define-key
+	 :states '(visual)
+	 "C-S-v" 'evil-visual-paste)
+
+	(general-define-key
+	 :states '(motion insert visual)
+	  "C-S-c" 'evil-yank)
+	
 	(general-define-key
 	 :keymaps '(minibuffer-local-map
 							minibuffer-local-ns-map

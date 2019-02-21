@@ -72,11 +72,12 @@
 			"First output the files in DIRS we want to parse to gtags.files, then run gtags in idle-game-project-root."
 			(interactive)
 			(let* ((directories (or dirs (idle-game-folders)))
-						 (find-command (format "fd .cs %s > %sgtags.files" directories idle-game-project-root))
-						 (gtags-command (format "gtags -v --gtagslabel pygments %s" (directory-file-name idle-game-project-root))))
+						 (default-directory (projectile-project-root))
+						 (find-command (format "fd .cs %s > %sgtags.files" directories default-directory))
+						 (gtags-command (format "gtags -v --gtagslabel pygments %s" (directory-file-name default-directory))))
 				(message (format "find files command %s" find-command))
-				(shell-command find-command) ;; this will run synchronously
-				(async-shell-command gtags-command) ;; async
+				(shell-command find-command)
+				(shell-command gtags-command)
 				))
 
 		(defun projectile-regenerate-tags-for-current-file-async ()
