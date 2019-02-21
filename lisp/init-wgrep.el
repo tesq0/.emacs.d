@@ -5,7 +5,8 @@
 	:after wgrep
 	:ensure t
 	:init
-	(setq wgrep-enable-key "\C-c g")
+	(setq wgrep-enable-key "\C-c g"
+				wgrep-auto-save-buffer t)
 	)
 
 (provide 'init-wgrep)
