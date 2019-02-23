@@ -267,6 +267,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(join-line)
 	(c-indent-command))
 
+(defun mark-window ()
+	"Mark the contents of the visible window."
+	(interactive)
+	(evil-window-bottom)
+	(go-end-of-visual-line)
+	(push-mark nil t t)
+	(evil-window-top)
+	(go-start-of-visual-line))
+
 (evil-define-operator evil-join-and-indent (beg end)
 	"Join the selected lines."
 	:motion evil-line
@@ -319,7 +328,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	(general-define-key
 	 "C-S-v" 'evil-visual-paste
-	 "C-S-c" 'evil-yank)
+	 "C-S-c" 'evil-yank
+	 "C-x w" 'mark-window)
 	
 	(general-define-key
 	 :keymaps '(minibuffer-local-map
