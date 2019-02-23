@@ -318,12 +318,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(global-set-key (kbd "<f9>") 'repeat-complex-command)
 
 	(general-define-key
-	 :states '(visual insert motion)
-	 "C-S-v" 'evil-visual-paste)
-
-	(general-define-key
-	 :states '(motion insert visual)
-	  "C-S-c" 'evil-yank)
+	 "C-S-v" 'evil-visual-paste
+	 "C-S-c" 'evil-yank)
 	
 	(general-define-key
 	 :keymaps '(minibuffer-local-map

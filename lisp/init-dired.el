@@ -8,11 +8,28 @@
   :bind (:map dired-mode-map
               ("/" . dired-narrow)))
 
+(defun dired-copy-file-path ()
+	(interactive)
+	(let ((path (dired-get-filename)))
+		(when path
+			(message (format "Copied path %s" path))
+			(kill-new path))))
+
+(define-prefix-command 'dired-copy-map)
+
+(general-define-key
+ :keymaps 'dired-copy-map
+ "p" 'dired-copy-file-path
+ "n" 'dired-copy-filename-as-kill
+ "y" 'dired-do-copy)
+
 (general-define-key
  :keymaps 'dired-mode-map
  "<normal-state> ;" 'evil-forward-char
  "<normal-state> <" 'dired-up-directory
  "<normal-state> >" 'dired-find-file
+ "i" 'dired-show-file-type
+ "y" 'dired-copy-map
  )
 
 ;; allow to change permissions
