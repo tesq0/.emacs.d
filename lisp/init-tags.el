@@ -22,6 +22,10 @@
 							(when halt
 								(setq compilation-auto-jump-to-first-error nil)))))))
 
+		(defun ggtags-query-tags (name)
+			(interactive (list (ggtags-read-tag 'definition 1)))
+			(ggtags-find-tag 'definition "--" (shell-quote-argument name)))
+
 		(advice-add 'compilation-auto-jump :before #'compilation-maybe-halt-auto-jump)
 
 		(general-define-key
@@ -47,7 +51,7 @@
 		 "s"  'ggtags-find-other-symbol
 		 "r"  'ggtags-find-reference
 		 "`"  'ggtags-save-to-register
-		 "t"  'ggtags-find-tag-dwim
+		 "t"  'ggtags-query-tags
 		 "q"  'ggtags-query-replace
 		 "n"  'ggtags-next-mark
 		 "p"  'ggtags-prev-mark

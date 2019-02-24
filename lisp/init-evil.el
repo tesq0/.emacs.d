@@ -429,6 +429,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "ge" #'go-end-of-visual-line
 	 "gb" #'go-start-of-visual-line
 	 "C-b" 'evil-first-non-blank
+	 "$" 'nil
+	 "&" 'nil
 	 "M-b" #'backward-word
 	 "}" 'evil-repeat-find-char
 	 "{" 'evil-repeat-find-char-reverse
