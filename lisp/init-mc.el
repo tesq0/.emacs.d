@@ -3,7 +3,8 @@
 		(let* ((bounds (bounds-of-thing-at-point 'word))
 					 (start (car bounds))
 					 (end (cdr bounds))
-					 (range (evil-range start end)))
+					 (range (evil-range start end))
+					 (evil-ex-search-case 'sensitive))
 			(goto-char (- end 1))
 			(evil-mc-set-pattern-for-range range nil))))
 
