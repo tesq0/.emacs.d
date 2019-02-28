@@ -250,8 +250,13 @@
 
 (define-prefix-command	'toggle-map)
 (global-set-key (kbd "C-c o") 'toggle-map)
-(define-key toggle-map (kbd "l") 'linum-mode)
-(define-key toggle-map (kbd "t") 'toggle-truncate-lines)
+
+(general-define-key
+ :keymaps 'toggle-map
+ "l" 'linum-mode
+ "t" 'toggle-truncate-lines
+ "d" 'toggle-debug-on-error)
+
 (define-prefix-command	'fast-ex-map)
 (mikus-leader
 	:states 'normal

@@ -1,3 +1,12 @@
+(defun evil-maybe-make-normal-state-pattern ()
+	(when (evil-normal-state-p)
+		(let* ((bounds (bounds-of-thing-at-point 'word))
+					 (start (car bounds))
+					 (end (cdr bounds))
+					 (range (evil-range start end)))
+			(goto-char (- end 1))
+			(evil-mc-set-pattern-for-range range nil))))
+
 (use-package evil-mc
 	:ensure t
 	:init
@@ -13,10 +22,9 @@
 		 "C-S-p" 'evil-mc-skip-and-goto-prev-match)
 
 		 ;; by default make the patter current word
-		 (mapcar (lambda (name) (advice-add (intern name) :before #'(lambda () (if (evil-normal-state-p) (setq-local evil-mc-pattern (cons (evil-mc-make-pattern (word-at-point) nil) (evil-visual-range)))))))
-						 (list "evil-mc-make-and-goto-next-match" "evil-mc-make-and-goto-next-match"))
-		 ;; (mapcar (lambda (name) (advice-add (intern name) :after #'(lambda () (if (evil-normal-state-p) (evil-backward-word-begin)))))
-		 ;; 				 (list "evil-mc-make-and-goto-next-match" "evil-mc-make-and-goto-next-match"))
+		(mapcar (lambda (symbol) (advice-add symbol :before #'evil-maybe-make-normal-state-pattern ))
+						'(evil-mc-make-and-goto-next-match evil-mc-make-and-goto-prev-match))
+
 		 (global-evil-mc-mode t))
 	:config
 	(general-define-key
@@ -29,9 +37,12 @@
 	 "C-p"   nil
 	 "C-S-p" nil)
 	)
-	
-	;; (mapcar (lambda (name) (advice-mapc #'(lambda (advice props) (general-remove-advice (intern name) advice)) (intern name)))
-	;; 				(list "evil-mc-make-and-goto-next-match" "evil-mc-make-and-goto-next-match"))
+
+;; (advice-mapc (lambda (advice props) (message (format "fun %s" advice))) 'evil-mc-make-and-goto-next-match)
+;; (advice-mapc (lambda (advice props) (message (format "fun %s" advice))) 'evil-mc-make-and-goto-prev-match)
+
+;; (mapcar (lambda (symbol) (advice-mapc #'(lambda (advice props) (general-remove-advice symbol advice)) symbol))
+;; 				'(evil-mc-make-and-goto-next-match evil-mc-make-and-goto-prev-match))
 
 
 (provide 'init-mc)
