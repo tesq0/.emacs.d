@@ -16,7 +16,7 @@
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
- '(helm-source-names-using-follow (quote ("mark-ring" "Imenu" "Occur")))
+ '(helm-source-names-using-follow (quote ("mark-ring" "Occur")))
  '(safe-local-variable-values (quote ((eval progn (pp-buffer) (indent-buffer)))))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

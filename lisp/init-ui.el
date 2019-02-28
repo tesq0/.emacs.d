@@ -30,18 +30,6 @@
 		(add-hook 'after-init-hook (lambda () (load-theme 'doom-molokai t)))
 		))
 
-
-;; colortheme
-
-;; (use-package color-theme-sanityinc-tomorrow
-;; 	:ensure t
-;; 	:config
-;; 	(color-theme-sanityinc-tomorrow-eighties)
-;; 	)
-
-
-
-
 ;; initial frame size
 
 (add-to-list 'default-frame-alist '(height . 50))

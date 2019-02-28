@@ -35,6 +35,7 @@
 		 :states '(motion normal visual)
 		 "C-c C-p" 'wgrep-change-to-wgrep-mode
 		 )
+		(helm-adaptive-mode)
 		)
 	:config
 	;; Some nice keybindings
