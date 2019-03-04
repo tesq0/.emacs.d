@@ -52,5 +52,8 @@
 	(initClashOfStreamers)
 	)
 
+(use-package fzf
+	:ensure t)
+
 
 (provide 'init-search)

@@ -36,7 +36,7 @@
 
 						(general-define-key
 						 :keymaps 'company-active-map
-						 [tab] 'yas-expand
+						 [tab] 'company-complete
 						 "C-n" 'company-select-next
 						 "C-p" 'company-select-previous
 						 "C-w" 'evil-delete-backward-word

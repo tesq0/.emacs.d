@@ -35,6 +35,7 @@
 	(evil-set-initial-state 'calendar-mode 'emacs)
 	(evil-set-initial-state 'magit-mode 'emacs)
 	(evil-set-initial-state 'eww-mode 'normal)
+	(evil-set-initial-state 'dired-mode 'normal)
 	(evil-set-initial-state 'image-mode 'emacs)
 	(evil-set-initial-state 'Info-mode 'motion)
 	(evil-set-initial-state 'help-mode 'normal)

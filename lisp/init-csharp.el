@@ -121,7 +121,7 @@
 		(setq omnisharp-auto-complete-want-documentation t)
 		;; (setq omnisharp-debug nil)
 		(cond
-		 ( sys/macp
+		 ( (or sys/linuxp sys/macp)
 			 (setq omnisharp-server-executable-path (concat user-emacs-directory "/.cache/omnisharp/server/v1.32.6/run"))
 			 )
 		 ( sys/win32p

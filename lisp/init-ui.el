@@ -8,7 +8,7 @@
 											:family "Consolas" :height 110))
  (sys/linuxp
 	(set-face-attribute 'default nil
-											:family "Hack" :height 110))
+											:family "Hack" :height 120))
  (sys/macp
 	(set-face-attribute 'default nil
 											:family "Hack" :height 140)))

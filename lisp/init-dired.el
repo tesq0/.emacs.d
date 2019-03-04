@@ -25,9 +25,13 @@
 
 (general-define-key
  :keymaps 'dired-mode-map
+ "<" 'nil
+ ">" 'nil
  "<normal-state> ;" 'evil-forward-char
  "<normal-state> <" 'dired-up-directory
  "<normal-state> >" 'dired-find-file
+ "<normal-state> k" 'dired-next-line
+ "<normal-state> l" 'dired-previous-line
  "i" 'dired-show-file-type
  "y" 'dired-copy-map
  )

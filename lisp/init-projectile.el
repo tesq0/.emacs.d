@@ -29,7 +29,7 @@
 	 "r" 'mikus-tags-map)
 	(general-define-key
 	 :keymaps 'mikus-search-map
-	 "f" 'fzf-directory
+	 "f" 'fzf
 	 "g" 'helm-grep-do-git-grep
 	 "a" 'projectile-ag)
 		)
