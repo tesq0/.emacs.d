@@ -303,6 +303,9 @@
 		(setq sonic-pi-compile-extensions-bin "App\\Sonic Pi\\app\\server\\ruby\\bin\\compile-extensions.rb")
 		(setq sonic-pi-path "D:\\Programs\\SonicPiPortable\\")))
 
+(use-package dockerfile-mode
+	:ensure t)
+
 ;; snippets
 (use-package yasnippet
 	:ensure t

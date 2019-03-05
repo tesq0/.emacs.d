@@ -32,6 +32,9 @@
 	 "c" 'magit-blame-show-commit
 	 "q" 'magit-blame-quit)
 
+	(general-define-key
+	 :keymaps 'transient-map
+	 "<escape>" 'transient-quit-one)
 
 	(general-define-key
 	 :keymaps 'mikus-magit-map
