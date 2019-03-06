@@ -390,6 +390,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"ep" 'flycheck-previous-error
 		"r"  'evil-use-register
 		"<SPC>" 'whitespace-cleanup
+		"\\" 'nil
 		"<tab>" 'evil-switch-to-windows-last-buffer ;;'switch-to-recently-selected-buffer
 		)
 
@@ -414,8 +415,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	 "k" 'evil-next-line
 	 "l" 'evil-previous-line
-	 "<S-wheel-up>" 'evil-previous-line
-	 "<S-wheel-down>" 'evil-next-line
+	 "<S-mouse-4>" 'evil-previous-line
+	 "<S-mouse-5>" 'evil-next-line
 	 "`" 'evil-paste-from-register
 	 ";" 'evil-forward-char
 	 "j" 'evil-backward-char
@@ -497,9 +498,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-k"  'evil-forward-paragraph
 	 "M-l"  'evil-backward-paragraph
 	 "M-n" 'drag-stuff-down
-	 "<M-wheel-down>" 'drag-stuff-down
+	 "<M-mouse-5>" 'drag-stuff-down
 	 "M-p" 'drag-stuff-up
-	 "<M-wheel-up>" 'drag-stuff-up
+	 "<M-mouse-4>" 'drag-stuff-up
 	 "M-f" 'drag-stuff-right
 	 "M-b" 'drag-stuff-left
 	 )
