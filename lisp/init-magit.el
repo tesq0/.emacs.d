@@ -39,7 +39,7 @@
 	(general-define-key
 	 :keymaps 'mikus-magit-map
 	 "g" 'magit-status
-	 "b" 'mikus-magit-blame-map))
+	 "b" 'magit-blame))
 
 
 (use-package magit
