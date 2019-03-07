@@ -161,7 +161,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 (defun terminal ()
 	(interactive)
-	(async-shell-command "urxvt"))
+	(async-shell-command "konsole"))
 
 (defun shell-other-window ()
 	"Open a `shell' in a new window."

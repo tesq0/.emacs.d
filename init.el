@@ -282,6 +282,8 @@
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
 (global-set-key (kbd "C-h h") nil) ;; disable that shitty hello file
 
+(global-set-key (kbd "<C-escape>") 'keyboard-quit)
+
 (define-prefix-command	'fast-buffer-map)
 
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
