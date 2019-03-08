@@ -424,8 +424,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-f" nil
 	 "C-k"  (lambda () (interactive) (evil-scroll-line-down 3))
 	 "C-l"  (lambda () (interactive) (evil-scroll-line-up 3))
-	 "C-S-k" 'evil-scroll-page-down
-	 "C-S-l" 'evil-scroll-page-up
+	 "C-S-k" (lambda () (interactive) (evil-scroll-line-down 15))
+	 "C-S-l" (lambda () (interactive) (evil-scroll-line-up 15))
 	 "C-y" nil
 	 "C-e" #'evil-last-non-blank
 	 "ge" #'go-end-of-visual-line
