@@ -298,10 +298,16 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 (defun explorer ()
 	(interactive)
-	(when sys/win32p
-		(shell-command "explorer .")
-		)
-	)
+	(cond ( sys/win32p
+					(shell-command "explorer ."))
+				( sys/linuxp
+					(try-xdg-open default-directory))))
+
+(defun try-xdg-open (URL)
+	(if (and (stringp URL) (not (string-empty-p URL)) (executable-find "xdg-open")) 
+			(start-process "xdg-open" nil
+										 "xdg-open" URL)
+		nil))
 
 (defun switch-to-recently-selected-buffer ()
 	"Switch to other buffer"
