@@ -131,6 +131,11 @@
 	;; Use `prescient' for Company menus.
 	(company-prescient-mode +1))
 
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
+
 (use-package helm-company
 	:demand t
 	:after company

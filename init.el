@@ -297,6 +297,11 @@
 (use-package ahk-mode
 	:ensure t)
 
+(use-package nix-mode
+	:ensure t
+	:init
+	(setq nix-indent-function 'nix-indent-line))
+
 (use-package sonic-pi
 	:ensure t
 	:init

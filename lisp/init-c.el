@@ -21,7 +21,7 @@
 
 (after-load 'cc-mode
 	(init-c-style)
-	(add-hook 'c-mode-hook #'eldoc-mode))
+	(add-hook 'c-mode-hook #'irony-eldoc))
 
 (defun irony-iotask-ectx-call-callback (ectx result)
   (let ((cb-buffer (irony-iotask-ectx-schedule-buffer ectx)))
