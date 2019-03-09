@@ -35,8 +35,15 @@
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(width . 200))
 
+(defun fix-mouse-color (frame)
+	"Fix mouse pointer color after creating a FRAME to be white."
+	(modify-frame-parameters frame
+			   (list (cons 'mouse-color
+				       (or "white"
+					   (cdr (assq 'mouse-color
+												(frame-parameters))))))))
 
-
+(add-to-list 'after-make-frame-functions #'fix-mouse-color)
 
 
 (provide 'init-ui)

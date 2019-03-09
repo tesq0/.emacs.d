@@ -14,6 +14,8 @@
 
 	(flycheck-mode)
 
+	(setenv "GTAGSLABEL" "pygments")
+
 	(setq-local yas-indent-line 'fixed)
 	(yas-minor-mode)
 	(yas-reload-all)
@@ -21,8 +23,6 @@
 	(defvar csharp-eldoc-commands (obarray-make 1))
 	(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
-	(setq-local c-default-style "mikus-csharp")
-	(c-set-style "mikus-csharp")
 	(setq-local tab-width 4)
 	(setq-local c-syntactic-indentation 1)
 	(setq-local indent-tabs-mode nil)
@@ -51,6 +51,8 @@
 									(arglist-intro . +)
 									(arglist-close . c-lineup-close-paren)
 									(template-args-cont . +))))
+
+	(add-to-list 'c-default-style '(csharp-mode . "mikus-csharp"))
 	
 	(defun company-omnisharp (command &optional arg &rest ignored)
 		"Override the default function."
