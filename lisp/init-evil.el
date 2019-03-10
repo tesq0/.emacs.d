@@ -480,7 +480,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-l" 'previous-line
 	 "C-j" 'backward-char
 	 "C-;" 'forward-char
-	 "C-n" 'evil-complete-next
+	 "C-n" 'nil
 	 "C-y" nil
 	 "C-z" nil
 	 "<escape>" 'evil-normal-state

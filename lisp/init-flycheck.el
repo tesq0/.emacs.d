@@ -6,11 +6,4 @@
 	(setq flycheck-check-syntax-automatically '(mode-enabled save))
 )
 
-(use-package flycheck-pos-tip
-	:ensure t
-	:after flycheck
-	:init
-	(progn
-	(flycheck-pos-tip-mode)))
-
 (provide 'init-flycheck)

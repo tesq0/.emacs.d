@@ -123,7 +123,7 @@
 
 (use-package company-quickhelp
 	:config
-	(setq company-quickhelp-delay 1)
+	(setq company-quickhelp-delay 0.5)
 	(company-quickhelp-mode 1))
 
 
