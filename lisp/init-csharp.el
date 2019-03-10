@@ -29,7 +29,7 @@
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
 	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
-	(setq-local company-backends '(company-dabbrev-code company-files (company-capf company-yasnippet company-keywords)))
+	(setq-local company-backends '(company-files (company-dabbrev-code company-capf company-yasnippet company-keywords)))
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 

@@ -69,6 +69,12 @@
 									company-clang-insert-arguments nil
 									company-require-match nil
 									)
+						
+						(setq company-backends '(company-yasnippet company-bbdb company-eclim company-semantic
+									 company-clang company-xcode company-cmake
+									 company-files (company-dabbrev-code company-capf company-keywords)
+									 company-oddmuse company-dabbrev))
+
 						(setq company-transformers '(company-sort-prefer-same-case-prefix))
 
 						(defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
@@ -131,11 +137,6 @@
 	;; Use `prescient' for Company menus.
 	(company-prescient-mode +1))
 
-(use-package company-box
-  :after company
-  :diminish
-  :hook (company-mode . company-box-mode))
-
 (use-package helm-company
 	:demand t
 	:after company
@@ -145,11 +146,5 @@
 		 :keymaps 'company-active-map
 		 "C-s" 'helm-company)))
 
-
-;; Add a completion source for emoji. 😸
-
-(use-package company-emoji
-	:config
-	(company-emoji-init))
 
 (provide 'init-company)
