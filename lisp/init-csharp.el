@@ -29,13 +29,20 @@
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
 	(setq-local eldoc-idle-delay 0)
 	;; (setq omnisharp-debug t)
-	(setq-local company-backends '(company-files (company-dabbrev-code company-capf company-yasnippet company-keywords)))
+	(setq-local dabbrev-check-all-buffers nil)
+	(setq-local dabbrev-check-other-buffers nil)
+	(setq-local company-backends '(company-files (company-dabbrev-code :with company-gtags company-yasnippet company-keywords) ))
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))
 
 
+(defun maybe-recompile-unity ()
+	(when (string-match "IdleGame" (projectile-project-root))
+		(save-buffers-and-compile-unity)))
 
 (defun post-setup-csharp ()
+
+	(setq save-project-commands '( maybe-recompile-unity ))
 
 	(evil-add-command-properties 'omnisharp-go-to-definition :jump t)
 	(evil-add-command-properties 'omnisharp-go-to-definition-other-window :jump t)

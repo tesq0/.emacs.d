@@ -18,6 +18,14 @@
 	 :keymaps 'projectile-command-map
 	 "ESC" 'keyboard-quit
 	 "<tab>" 'projectile-project-buffers-other-buffer)
+
+	(defvar save-project-commands ())
+	(defun save--project ()
+		(interactive)
+		(if (listp save-project-commands)
+				(dolist (fn save-project-commands)
+					(funcall fn))))
+
 	(mikus-leader
 		:states 'normal
 		:keymaps 'override
@@ -26,7 +34,8 @@
 	(general-define-key
 	 :keymaps 'projectile-command-map
 	 "R" 'projectile-regenerate-tags-async
-	 "r" 'mikus-tags-map)
+	 "r" 'mikus-tags-map
+	 "s" 'save--project)
 	(general-define-key
 	 :keymaps 'mikus-search-map
 	 "f" 'fzf

@@ -103,6 +103,7 @@
 (require 'init-asm)
 (require 'init-clojure)
 (require 'init-tags)
+(require 'init-nix)
 ;; (require 'init-tex)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
@@ -296,11 +297,6 @@
 
 (use-package ahk-mode
 	:ensure t)
-
-(use-package nix-mode
-	:ensure t
-	:init
-	(setq nix-indent-function 'nix-indent-line))
 
 (use-package sonic-pi
 	:ensure t

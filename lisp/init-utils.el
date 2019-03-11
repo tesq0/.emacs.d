@@ -337,6 +337,15 @@ buffer is not visiting a file."
 
 ;; let's define some ghetoo keybindings
 
+(defun save-buffers-and-compile-unity ()
+	(interactive)
+	(save-some-buffers t)
+	(let* ((shell-output (shell-command-to-string "xwininfo -tree -root | grep 'Unity.*Personal' | awk '{ print $1; }'"))
+				 (window-id (replace-regexp-in-string "\n" "\s" shell-output))
+				 (command (format "xdotool windowactivate --sync %s key 'Control_R+r'" window-id)))
+		(message "command %s" command)
+		(shell-command command)))
+
 ;; (define-prefix-command	'frame-map)
 (defun vmake-frame ()
 	"Make an Emacs horizontal frame in i3 window manager."

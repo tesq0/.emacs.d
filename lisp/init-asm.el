@@ -7,4 +7,10 @@
 	:init
 	(add-hook 'find-file-hook #'try-nasm-mode))
 
+(use-package x86-lookup
+	:ensure t
+	:init
+	(setq x86-lookup-pdf "/home/mikus/Documents/PDF/325383-sdm-vol-2abcd.pdf"))
+
+
 (provide 'init-asm)

@@ -21,8 +21,7 @@
 										(call-interactively company-manual-completion-fn))
 								(company-complete)
 								))
-
-
+						
 						(defun company-quit ()
 							(interactive)
 							(company-abort)
@@ -48,9 +47,7 @@
 									;; make previous/next selection in the popup cycles
 									company-selection-wrap-around t
 
-									;; Some languages use camel case naming convention,
-									;; so company should be case sensitive.
-									company-dabbrev-ignore-case t
+									company-dabbrev-ignore-case nil
 
 									company-dabbrev-code-ignore-case t
 									company-dabbrev-code-everywhere t
@@ -66,7 +63,7 @@
 
 									company-idle-delay 0.2
 									company-minimum-prefix-length 1
-									company-clang-insert-arguments nil
+									company-clang-insert-arguments t
 									company-require-match nil
 									)
 						
@@ -75,7 +72,7 @@
 									 company-files (company-dabbrev-code company-capf company-keywords)
 									 company-oddmuse company-dabbrev))
 
-						(setq company-transformers '(company-sort-prefer-same-case-prefix))
+						(setq company-transformers '(company-sort-by-backend-importance company-sort-prefer-same-case-prefix))
 
 						(defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
 							;; you can use (ad-get-arg 0) and (ad-set-arg 0) to tweak the arguments
