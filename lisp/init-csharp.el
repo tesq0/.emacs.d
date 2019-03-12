@@ -150,6 +150,7 @@
 		 "C-c i" 'omnisharp-find-implementations
 		 "C-c r" 'omnisharp-run-code-action-refactoring
 		 "C-c C-r" 'omnisharp-navigate-to-region
+		 "C-c R" 'omnisharp-rename
 		 )
 
 		)

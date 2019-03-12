@@ -39,6 +39,8 @@
 	(general-define-key
 	 :keymaps 'mikus-magit-map
 	 "g" 'magit-status
+	 "s" 'magit-ediff-stage
+	 "c" 'vc-find-conflicted-file
 	 "b" 'magit-blame))
 
 
