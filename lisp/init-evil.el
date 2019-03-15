@@ -31,18 +31,16 @@
 		)
 	:config
 	(mikus-evil-setup-command-props)
-	(evil-set-initial-state 'term-mode 'emacs)
-	(evil-set-initial-state 'calendar-mode 'emacs)
-	(evil-set-initial-state 'magit-mode 'emacs)
-	(evil-set-initial-state 'eww-mode 'normal)
-	(evil-set-initial-state 'dired-mode 'normal)
-	(evil-set-initial-state 'image-mode 'emacs)
+
+	;; Evil modes
+	(dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode))
+		(evil-set-initial-state mode 'normal))
+
+	;; Emacs modes
+	(dolist (mode '(term-mode calendar-mode image-mode magit-mode package-menu-mode))
+		(evil-set-initial-state mode 'emacs))
+
 	(evil-set-initial-state 'Info-mode 'motion)
-	(evil-set-initial-state 'help-mode 'normal)
-	(evil-set-initial-state 'rg-mode 'normal)
-	(evil-set-initial-state 'helm-occur 'normal)
-	(evil-set-initial-state 'debugger-mode 'normal)
-	(evil-set-initial-state 'package-menu-mode 'emacs)
 
 	(cl-pushnew (cons 'wgrep-mode-map nil) evil-overriding-maps)
 	(setq initial-major-mode 'evil-mode)                 ; set the mode of the initial scratch buffer

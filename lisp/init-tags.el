@@ -43,6 +43,12 @@
 		 "gd" 'ggtags-find-definition)
 
 		(general-define-key
+		 :keymaps 'ggtags-global-mode-map
+		 "l" 'evil-previous-line
+		 "C-c C-p" 'wgrep-change-to-wgrep-mode
+		 "C-c C-r" 'nil)
+
+		(general-define-key
 		 :keymaps 'helm-gtags-map
 		 "P"  'ggtags-visit-project-root
 		 "h"  'ggtags-view-tag-history
