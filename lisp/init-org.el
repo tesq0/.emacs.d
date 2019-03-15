@@ -2,6 +2,14 @@
 	:ensure t
 	:init
 	(progn
+		(defun my/org-insert-todo-heading (ARG)
+			(interactive "P")
+			(go-end-of-visual-line)
+			(org-insert-todo-heading ARG))
+		(general-define-key
+		 :keymaps 'org-mode-map
+		 "<M-S-return>" 'my/org-insert-todo-heading
+		 )
 		(evil-define-key 'normal org-mode-map
 		 (kbd "M-n") 'org-move-item-down
 		 (kbd "M-p") 'org-move-item-up)

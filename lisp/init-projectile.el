@@ -19,7 +19,8 @@
 	 "ESC" 'keyboard-quit
 	 "<tab>" 'projectile-project-buffers-other-buffer)
 
-	(defvar save-project-commands ())
+	(defvar save-project-commands '(save-all-buffers))
+
 	(defun save--project ()
 		(interactive)
 		(if (listp save-project-commands)

@@ -2,6 +2,8 @@
 	(cl-pushnew "-g !**/Generated*" rg-command-line-flags)
 	(cl-pushnew "-g !**/MessagePack*" rg-command-line-flags))
 
+;; (setq rg-command-line-flags ())
+
 (use-package rg
 	:ensure t
 	:init
@@ -48,8 +50,8 @@
 		(setq rg-group-result nil)
 
 		)
-	:config
-	(initClashOfStreamers)
+	;; :config
+	;; (initClashOfStreamers)
 	)
 
 (use-package fzf

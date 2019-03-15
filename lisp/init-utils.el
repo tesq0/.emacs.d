@@ -335,16 +335,17 @@ buffer is not visiting a file."
 		(find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name)))
 	(goto-char saved-point)))
 
-;; let's define some ghetoo keybindings
-
-(defun save-buffers-and-compile-unity ()
+(defun compile-unity ()
 	(interactive)
-	(save-some-buffers t)
 	(let* ((shell-output (shell-command-to-string "xwininfo -tree -root | grep 'Unity.*Personal' | awk '{ print $1; }'"))
 				 (window-id (replace-regexp-in-string "\n" "\s" shell-output))
 				 (command (format "xdotool windowactivate --sync %s key 'Control_R+r'" window-id)))
 		(message "command %s" command)
 		(shell-command command)))
+
+(defun save-all-buffers ()
+	(interactive)
+	(save-some-buffers t))
 
 ;; (define-prefix-command	'frame-map)
 (defun vmake-frame ()
