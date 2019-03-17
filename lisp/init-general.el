@@ -20,7 +20,10 @@
 		 "C-w" 'evil-window-map)
 
 		(general-define-key
-		 "C-o" nil)
+		 "C-o" nil
+		 "<kp-add>" 'increment-number-at-point
+		 "<kp-subtract>" 'decrement-number-at-point
+		 )
 
 		(general-define-key
 		 :keymaps 'eww-mode-map
