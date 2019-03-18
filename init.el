@@ -75,6 +75,7 @@
 (require 'init-gui-frames)
 (require 'init-modeline)
 (require 'init-general)
+(require 'init-jump-to-def)
 (require 'init-evil)
 (require 'init-flycheck)
 ;; (require 'init-ivy)
@@ -212,26 +213,6 @@
 (use-package company-tern
 	:ensure t
 	)
-
-
-;; jump to definition
-
-(use-package ag
-	:ensure t )
-
-(use-package dumb-jump
-	:ensure t
-	:init
-	(progn
-		(general-define-key
-		 "M-." 'dumb-jump-go
-		 "M-," 'dumb-jump-back)
-		(add-hook 'dumb-jump-after-jump-hook 'my/hl-line)
-		(setq dumb-jump-prefer-searcher 'rg)
-		)
-	)
-
-
 
 (use-package rainbow-mode
 	:ensure t)

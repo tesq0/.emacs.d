@@ -264,7 +264,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defun evil-join-and-indent-upwards ()
 	(interactive)
 	(join-line)
-	(c-indent-command))
+	(indent-according-to-mode))
 
 (defun mark-window ()
 	"Mark the contents of the visible window."
@@ -285,12 +285,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		(dotimes (var count)
 			(progn
 				(join-line 1)
-				(c-indent-command))
+				(indent-according-to-mode))
 			)))
 
 (defun evil-enter-insert-and-intent ()
 	(interactive)
-	(c-indent-command)
+	(indent-according-to-mode)
 	(when (not (evil-insert-state-p))
 		(evil-insert-state))
 	)

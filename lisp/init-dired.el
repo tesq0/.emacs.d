@@ -27,7 +27,8 @@
  :keymaps 'dired-mode-map
  "<" 'nil
  ">" 'nil
- "<mouse-2>" 'dired-find-file
+ "<mouse-1>" 'dired-find-file
+ "<mouse-2>" 'dired-find-file-other-window
  "<mouse-3>" 'dired-up-directory
  "<normal-state> ;" 'evil-forward-char
  "<normal-state> <" 'dired-up-directory

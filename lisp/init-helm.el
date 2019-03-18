@@ -24,7 +24,7 @@
 		(mikus-leader
 			:states '(normal motion visual)
 			:keymaps 'override
-			"i" 'imenu
+			"i" 'helm-semantic-or-imenu
 			"o" 'helm-occur
 			"b" 'helm-mini
 			"f" 'helm-find-files
