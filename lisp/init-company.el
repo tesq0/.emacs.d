@@ -118,11 +118,16 @@
 						(global-company-mode)
 						))
 
-(use-package company-quickhelp
-	:config
-	(setq company-quickhelp-delay 0.5)
-	(company-quickhelp-mode 1))
+(defun setup-company-box ()
+	(setq-local company-box--scrollbar-window t)
+	(setq-local company-box-enable-icon nil)
+	)
 
+(use-package company-box
+	:ensure t
+	:hook (company-mode . company-box-mode)
+	:init
+	(add-hook 'company-box-mode-hook 'setup-company-box))
 
 ;; Package `company-prescient' provides intelligent sorting and
 ;; filtering for candidates in Company completions.
