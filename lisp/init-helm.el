@@ -5,6 +5,7 @@
 		(defun helm-to-grep ()
 			(helm-grep-mode)
 			)
+		
 		(setq helm-follow-mode-persistent t)
 		(general-define-key
 		 :keymaps 'helm-map
@@ -24,7 +25,7 @@
 		(mikus-leader
 			:states '(normal motion visual)
 			:keymaps 'override
-			"i" 'helm-semantic-or-imenu
+			"i" 'imenu
 			"o" 'helm-occur
 			"b" 'helm-mini
 			"f" 'helm-find-files

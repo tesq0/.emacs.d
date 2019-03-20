@@ -53,10 +53,12 @@
 								 (c-offsets-alist
 									(innamespace . +)
 									(inline-open . 0)
+									(inline-close . 0)
 									(inher-cont . c-lineup-multi-inher)
 									(arglist-cont-nonempty . 0)
 									(arglist-intro . +)
-									(arglist-close . c-lineup-close-paren)
+									;; (arglist-close . c-lineup-close-paren)
+									(arglist-close . 0)
 									(template-args-cont . +))))
 
 	(add-to-list 'c-default-style '(csharp-mode . "mikus-csharp"))
