@@ -89,6 +89,7 @@
 (require 'init-csharp)
 (require 'init-c)
 (require 'init-java)
+(require 'init-kotlin)
 (require 'init-webmode)
 (require 'init-hideshow)
 (require 'init-hydra)

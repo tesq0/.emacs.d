@@ -51,6 +51,7 @@
 
 									company-dabbrev-code-ignore-case t
 									company-dabbrev-code-everywhere t
+									company-dabbrev-code-other-buffers nil
 									company-etags-ignore-case t
 
 									;; press M-number to choose candidate
