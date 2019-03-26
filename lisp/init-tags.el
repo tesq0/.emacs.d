@@ -63,9 +63,7 @@
 		 "p"  'ggtags-prev-mark
 		 "d"  'ggtags-show-definition)
 
-		(mikus-leader
-			:states '(normal motion)
-			"t" 'helm-gtags-map)))
+		(mikus-leader "t" 'helm-gtags-map)))
 
 
 (provide 'init-tags)

@@ -14,10 +14,7 @@
 		 :keymaps 'dict-map
 		 "d" 'dictionary-search
 		 "g" 'google-translate-smooth-translate)
-		(mikus-leader
-			:states '(normal motion visual)
-			:keymaps 'override
-			"d" 'dict-map)
+		(mikus-leader "d" 'dict-map)
 		)
 	:config
 	(set-face-foreground 'dictionary-reference-face "CornflowerBlue")

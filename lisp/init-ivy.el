@@ -54,11 +54,7 @@
 	 ("C-r" . 'counsel-expression-history))
 	:init
 	(progn
-		(mikus-leader
-			:states 'normal
-			:keymaps 'override
-			"i" 'imenu)
-		;; (setcdr (assoc 'counsel-M-x ivy-initial-inputs-alist) "")
+		(mikus-leader "i" 'imenu)
 		)
 	:config
 

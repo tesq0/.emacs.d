@@ -26,11 +26,7 @@
 			"command to trigger eldoc, add that to 'eldoc-message-commands"
 			(interactive))
 		(eldoc-add-command 'eldoc-print)
-		(mikus-leader
-			:states '(normal motion visual)
-			:keymaps 'override
-			"h" 'eldoc-print
-			)
+		(mikus-leader "h" 'eldoc-print)
 		)
   :config
   (setq eldoc-echo-area-use-multiline-p t))

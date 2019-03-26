@@ -27,11 +27,8 @@
 				(dolist (fn save-project-commands)
 					(funcall fn))))
 
-	(mikus-leader
-		:states 'normal
-		:keymaps 'override
-		"s" 'mikus-search-map
-		)
+	(mikus-leader "s" 'mikus-search-map)
+
 	(general-define-key
 	 :keymaps 'projectile-command-map
 	 "R" 'projectile-regenerate-tags-async
@@ -50,10 +47,7 @@
 	:ensure t
 	:init
 	(progn
-	(mikus-leader
-		:states 'normal
-		:keymaps 'override
-		"I" 'imenu-anywhere)))
+		(mikus-leader "I" 'imenu-anywhere)))
 
 (after-load 'helm-projectile
 	(progn

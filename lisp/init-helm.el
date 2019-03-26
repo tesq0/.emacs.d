@@ -23,8 +23,6 @@
 		 "C-x C-f" 'helm-find-files
 		 "C-c q" 'helm-show-kill-ring)
 		(mikus-leader
-			:states '(normal motion visual)
-			:keymaps 'override
 			"i" 'imenu
 			"o" 'helm-occur
 			"b" 'helm-mini
@@ -58,6 +56,15 @@
 
 	(evil-set-initial-state 'helm-mode 'emacs)
 	(helm-mode 1)
+	)
+
+(use-package helm-youtube
+	:after helm
+	:ensure t
+	:init
+	(progn
+		(mikus-leader "y" 'helm-youtube)
+		)
 	)
 
 (use-package helm-xref

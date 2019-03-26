@@ -349,8 +349,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 	(general-create-definer mikus-leader
 		:prefix "SPC"
+		:states '(normal motion visual)
 		:keymaps 'override)
-
+	
 	(general-define-key
 	 :keymaps '( compilation-mode-map compilation-minor-mode-map )
 	 ;; :states '(motion normal)
@@ -365,8 +366,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-S-s" 'my/evil-global-substitute)
 
 	(mikus-leader
-		:states '(normal motion visual)
-		:keymaps 'override
 		"ci" 'evilnc-comment-or-uncomment-lines
 		"cl" 'evilnc-quick-comment-or-uncomment-to-the-line
 		"ll" 'evilnc-quick-comment-or-uncomment-to-the-line
@@ -389,12 +388,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		"r"  'evil-use-register
 		"<SPC>" 'whitespace-cleanup
 		"\\" 'nil
-		"<tab>" 'evil-switch-to-windows-last-buffer ;;'switch-to-recently-selected-buffer
+		"<tab>" 'switch-to-recently-selected-buffer
 		)
 
 	(mikus-leader
-		:states '(normal motion visual)
-		:keymaps 'override
 		"jf" 'evil-jump-forward
 		"jb" 'evil-jump-backward
 		"js" 'evil-jump-backward-swap

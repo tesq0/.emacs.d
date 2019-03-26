@@ -31,6 +31,7 @@
 	;; (setq omnisharp-debug t)
 	(setq-local dabbrev-check-all-buffers nil)
 	(setq-local dabbrev-check-other-buffers nil)
+	(setq-local company-dabbrev-code-other-buffers nil)
 	(setq-local company-backends '(company-files (company-dabbrev-code :with company-gtags company-yasnippet company-keywords) ))
 	(setq-local company-manual-completion-fn #'company-omnisharp)
 	(local-set-key (kbd "C-c C-c") 'recompile))

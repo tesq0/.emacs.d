@@ -241,11 +241,7 @@
  "d" 'toggle-debug-on-error)
 
 (define-prefix-command	'fast-ex-map)
-(mikus-leader
-	:states 'normal
-	:keymaps 'override
-	"x" 'fast-ex-map
-	)
+(mikus-leader "x" 'fast-ex-map)
 (define-key fast-ex-map (kbd "e") 'shell-other-window)
 (define-key fast-ex-map (kbd "f") 'explorer)
 (define-key fast-ex-map (kbd "p") 'power-shell)
@@ -273,12 +269,24 @@
 
 (require 'csharp-hs-forward-sexp)
 
+(use-package mpdel
+	:ensure t
+	:init
+	(require 'mpdel)
+	(mikus-leader "m" (lookup-key mpdel-mode-map (kbd "C-x Z")))
+	)
 
 (use-package markdown-mode
 	:ensure t)
 
 (use-package ahk-mode
 	:ensure t)
+
+(use-package mmm-mode
+	:commands mmm-mode
+	:config
+	(use-package mmm-auto
+		:ensure nil))
 
 (use-package sonic-pi
 	:ensure t
