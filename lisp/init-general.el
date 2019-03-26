@@ -42,6 +42,11 @@
 		 )
 
 		(general-define-key
+		 :keymaps 'help-mode-map
+		 :states '(normal)
+		 "q" 'quit-window)
+
+		(general-define-key
 		 :keymaps 'eww-mode-map
 		 "C-c n" 'eww-next-url
 		 "C-c p" 'eww-previous-url

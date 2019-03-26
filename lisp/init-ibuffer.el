@@ -67,7 +67,16 @@
 	 :keymaps 'ibuffer-mode-map
 	 :states 'normal
 	 "k" 'evil-next-line
-	 "l" 'evil-previous-line)
+	 "j" 'evil-backward-char
+	 ";" 'evil-forward-char
+	 "l" 'evil-previous-line
+	 "gg" 'evil-goto-first-line
+	 )
+
+	(general-define-key
+	 :keymaps 'ibuffer-mode-map
+	 "C-l" nil
+	 "C-k" nil)
 	
 	)
 

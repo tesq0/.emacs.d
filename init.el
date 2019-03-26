@@ -269,13 +269,6 @@
 
 (require 'csharp-hs-forward-sexp)
 
-(use-package mpdel
-	:ensure t
-	:init
-	(require 'mpdel)
-	(mikus-leader "m" (lookup-key mpdel-mode-map (kbd "C-x Z")))
-	)
-
 (use-package markdown-mode
 	:ensure t)
 
