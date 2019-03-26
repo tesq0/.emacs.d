@@ -32,3 +32,4 @@ transient
 GTAGS
 GRTAGS
 GPATH
+custom-set-variables.el
