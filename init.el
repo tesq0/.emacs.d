@@ -267,6 +267,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
+(after-load 'imenu
+	(setq imenu-auto-rescan t))
+
 (require 'csharp-hs-forward-sexp)
 
 (use-package markdown-mode

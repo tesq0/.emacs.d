@@ -63,6 +63,8 @@
 	:ensure t
 	:init
 	(progn
+		(setq browse-url-browser-function 'browse-url-generic)
+		(setq browse-url-generic-program "chromium")
 		(mikus-leader "y" 'helm-youtube)
 		)
 	)

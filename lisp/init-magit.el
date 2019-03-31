@@ -41,6 +41,7 @@
 	 "g" 'magit-status
 	 "e" 'magit-ediff
 	 "d" 'magit-diff
+	 "f" 'magit-find-file
 	 "s" 'magit-ediff-stage
 	 "c" 'vc-find-conflicted-file
 	 "b" 'magit-blame))

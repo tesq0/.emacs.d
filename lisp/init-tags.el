@@ -7,7 +7,7 @@
 		(setq ggtags-highlight-tag nil
 					ggtags-split-window-function nil
 					ggtags-global-window-height nil
-					ggtags-completing-read-function nil
+					ggtags-completing-read-function 'nil
 					ggtags-auto-jump-to-match 'first)
 
 		(defun compilation-maybe-halt-auto-jump (buffer pos)
