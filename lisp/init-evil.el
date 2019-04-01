@@ -121,8 +121,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	"Moves key binding from one keymap to another, deleting from the old location. "
 	(define-key keymap-to key (lookup-key keymap-from key))
 	(define-key keymap-from key nil))
-(my-move-key evil-motion-state-map evil-normal-state-map " ")
 
+(my-move-key evil-motion-state-map evil-normal-state-map " ")
 
 (defun my/evil-switch-emacs-state ()
 	"Switch between Emacs and evil state."

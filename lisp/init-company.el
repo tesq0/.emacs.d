@@ -42,6 +42,33 @@
 						 "ESC" 'company-quit
 						 "<escape>" 'company-quit)
 
+
+					  ;; https://github.com/expez/company-quickhelp/issues/17
+
+						(add-hook 'company-completion-started-hook 'ans/set-company-maps)
+						(add-hook 'company-completion-finished-hook 'ans/unset-company-maps)
+						(add-hook 'company-completion-cancelled-hook 'ans/unset-company-maps)
+
+						(defun ans/unset-company-maps (&rest unused)
+							"Set default mappings (outside of company). Arguments (UNUSED) are ignored."
+							(general-def
+								:states 'insert
+								:keymaps 'override
+								"C-n" nil
+								"ESC" nil
+								"<escape>" nil
+								"C-p" nil))
+
+						(defun ans/set-company-maps (&rest unused)
+							"Set maps for when you're inside company completion. Arguments (UNUSED) are ignored."
+							(general-def
+								:states 'insert
+								:keymaps 'override
+								"C-n" 'company-select-next
+								"ESC" 'company-quit
+								"<escape>" 'company-quit
+								"C-p" 'company-select-previous))
+
 						(setq company-dabbrev-downcase nil
 
 									;; make previous/next selection in the popup cycles
@@ -69,9 +96,9 @@
 									)
 						
 						(setq company-backends '(company-yasnippet company-bbdb company-eclim company-semantic
-									 company-clang company-xcode company-cmake
-									 company-files (company-dabbrev-code company-capf company-keywords)
-									 company-oddmuse company-dabbrev))
+																											 company-clang company-xcode company-cmake
+																											 company-files (company-dabbrev-code company-capf company-keywords)
+																											 company-oddmuse company-dabbrev))
 
 						(setq company-transformers '(company-sort-by-backend-importance company-sort-prefer-same-case-prefix))
 

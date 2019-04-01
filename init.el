@@ -260,6 +260,7 @@
 (define-key ctl-x-5-map (kbd "C-i") 'other-frame)
 (global-set-key (kbd "C-c C-e") 'eval-buffer)
 (global-set-key (kbd "C-h h") nil) ;; disable that shitty hello file
+(define-key ctl-x-map (kbd "C-h") 'help-command)
 
 (global-set-key (kbd "<C-escape>") 'keyboard-quit)
 
