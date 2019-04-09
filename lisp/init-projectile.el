@@ -8,7 +8,7 @@
 	(helm-projectile-on)
 	(define-key projectile-command-map (kbd "<ESC>") nil)
 	(defvar my-find-command)
-	(setq my-find-command (or (and sys/win32p "mfd.rb") "fd . -0"))
+	(setq my-find-command (or (and sys/win32p "mfd.rb") "fd -t f . -0"))
 	(setq-default projectile-git-command my-find-command)
 	(setq-default projectile-generic-command my-find-command)
 	(setq projectile-indexing-method 'alien)

@@ -91,14 +91,11 @@
 	:init
 	(global-evil-surround-mode))
 
-
 (use-package evil-nerd-commenter
 	:ensure t)
 
 (use-package drag-stuff
-	:ensure t
-	)
-
+	:ensure t)
 
 ;;; Start evil
 

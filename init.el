@@ -17,7 +17,6 @@
 (fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
 ;; (setq-default abbrev-mode t)                      ; turn on abbreviations by default
 (setq recenter-positions '(middle top bottom))                    ; recenter from the top instead of the middle
-;; (put 'narrow-to-region 'disabled nil)                   ; enable narrowing to region
 ;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
 (when (fboundp 'winner-mode)                      ; when you can find 'winner-mode'
 	(winner-mode 1))                        ; activate winner mode
@@ -106,6 +105,7 @@
 (require 'init-clojure)
 (require 'init-tags)
 (require 'init-nix)
+(require 'init-smartparens)
 ;; (require 'init-tex)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
@@ -296,6 +296,16 @@
 (use-package dockerfile-mode
 	:ensure t)
 
+(use-package rainbow-delimiters
+	:ensure t
+	:init
+	(add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+;; (use-package rainbow-identifiers
+;; 	:ensure t
+;; 	:init
+;; 	(add-hook 'prog-mode-hook #'rainbow-identifiers-mode))
+
 ;; snippets
 (use-package yasnippet
 	:ensure t
@@ -308,3 +318,4 @@
 
 (setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
 (load custom-file 'noerror)
+(put 'narrow-to-region 'disabled nil)

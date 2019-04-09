@@ -38,11 +38,10 @@
 
 	(general-define-key
 	 :keymaps 'mikus-magit-map
-	 "g" 'magit-status
+	 "s" 'magit-status
 	 "e" 'magit-ediff
 	 "d" 'magit-diff
 	 "f" 'magit-find-file
-	 "s" 'magit-ediff-stage
 	 "c" 'vc-find-conflicted-file
 	 "b" 'magit-blame))
 
@@ -51,6 +50,22 @@
 	:ensure t
 	:init (initMagit))
 
+(use-package git-gutter
+	:ensure t
+	:init
+	(progn
+		(define-prefix-command 'mikus-gitgutter-map)
+		(general-define-key
+		 :keymaps 'mikus-gitgutter-map
+		 "n" 'git-gutter:next-hunk
+		 "p" 'git-gutter:previous-hunk
+		 "u" 'git-gutter:revert-hunk
+		 "s" 'git-gutter:stage-hunk
+		 "d" 'git-gutter:popup-diff)
+		(general-define-key
+		 :keymaps 'mikus-magit-map
+		 "g" 'mikus-gitgutter-map)
+		(add-hook 'prog-mode-hook #'git-gutter-mode)))
 
 (after-load 'smerge-mode
 	(progn

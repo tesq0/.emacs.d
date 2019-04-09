@@ -27,7 +27,7 @@
 	:init
 	(progn
 		(doom-themes-org-config)
-		(add-hook 'after-init-hook (lambda () (load-theme 'doom-molokai t)))
+		(add-hook 'after-init-hook (lambda () (load-theme 'doom-city-lights t)))
 		))
 
 ;; initial frame size
