@@ -41,7 +41,19 @@
 (use-package package-utils
   :init
   (defalias 'upgrade-packages 'package-utils-upgrade-all)
-  (defalias 'upgrade-packages-and-restart 'package-utils-upgrade-all-and-restart))
+	(defalias 'upgrade-packages-and-restart 'package-utils-upgrade-all-and-restart))
+
+(use-package quelpa
+	:ensure t
+	:demand t
+	:init
+	(progn
+		(quelpa  '(quelpa-use-package
+							 :fetcher git
+							 :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+		(require 'quelpa-use-package)
+		)
+	)
 
 (provide 'init-package)
 

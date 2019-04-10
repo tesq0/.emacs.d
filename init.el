@@ -66,6 +66,9 @@
 
 (if (boundp 'constants) (require 'constants))
 
+(defgroup init nil
+	"Init packages config")
+
 (require 'init-package)
 (require 'init-const)
 (require 'init-system)
@@ -242,7 +245,7 @@
 
 (define-prefix-command	'fast-ex-map)
 (mikus-leader "x" 'fast-ex-map)
-(define-key fast-ex-map (kbd "e") 'shell-other-window)
+(define-key fast-ex-map (kbd "e") 'aweshell-new)
 (define-key fast-ex-map (kbd "f") 'explorer)
 (define-key fast-ex-map (kbd "p") 'power-shell)
 (define-key fast-ex-map (kbd "t") 'terminal)
@@ -301,10 +304,23 @@
 	:init
 	(add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; (use-package rainbow-identifiers
-;; 	:ensure t
-;; 	:init
-;; 	(add-hook 'prog-mode-hook #'rainbow-identifiers-mode))
+(use-package aweshell
+	:quelpa (aweshell :fetcher github :repo "manateelazycat/aweshell")
+	:init
+	(progn
+		(require 'aweshell)
+		(defun setup-aweshell-keybindings ()
+			(general-define-key
+			 :keymaps 'eshell-command-map
+			 "c" 'aweshell-clear-buffer
+			 "n" 'aweshell-next
+			 "p" 'aweshell-prev
+			 "s" 'aweshell-sudo-toggle
+			 "x" 'aweshell-new)
+			)
+		(add-hook 'eshell-mode-hook 'setup-aweshell-keybindings)
+		)
+	)
 
 ;; snippets
 (use-package yasnippet

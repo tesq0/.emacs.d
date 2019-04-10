@@ -1,3 +1,9 @@
+
+(defgroup init-utils nil
+  "Bunch of utility functions"
+  :group 'init)
+
+
 (if (fboundp 'with-eval-after-load)
 		(defalias 'after-load 'with-eval-after-load)
 	(defmacro after-load (feature &rest body)
@@ -169,7 +175,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	(let ((buf (eshell)))
 		(switch-to-buffer (other-buffer buf))
 		(switch-to-buffer-other-window buf)))
-
 
 ;; YASNIPPET UTILS
 (defun find-project-root ()

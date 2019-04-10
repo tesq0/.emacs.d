@@ -3,8 +3,6 @@
 (defun initMagit ()
 	(setq evil-magit-want-horizontal-movement t)
 
-	(require 'evil-magit)
-
 	(general-define-key
 	 :keymaps 'magit-status-mode-map
 	 "j" nil)
@@ -45,6 +43,11 @@
 	 "c" 'vc-find-conflicted-file
 	 "b" 'magit-blame))
 
+(use-package evil-magit
+	:after magit
+	:demand t
+	:ensure nil
+	:quelpa (evil-magit :fetcher github :repo "tesq0/evil-magit"))
 
 (use-package magit
 	:ensure t
