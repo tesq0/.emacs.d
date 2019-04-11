@@ -34,3 +34,7 @@ GRTAGS
 GPATH
 custom-set-variables.el
 quelpa/*
+request
+lisp/flycheck_init-ibuffer.el
+helm-adaptive-history
+%backup%~
