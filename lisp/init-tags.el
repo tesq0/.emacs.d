@@ -65,5 +65,8 @@
 
 		(mikus-leader "t" 'helm-gtags-map)))
 
+(after-load 'company-gtags
+	(setq company-gtags-insert-arguments nil))
+
 
 (provide 'init-tags)

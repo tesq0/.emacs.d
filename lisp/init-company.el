@@ -81,6 +81,9 @@
 									company-dabbrev-code-other-buffers 'nil
 									company-etags-ignore-case t
 
+									;; Don't print anything to the echo area
+									company-echo-delay nil
+
 									;; press M-number to choose candidate
 									company-show-numbers t
 

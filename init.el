@@ -271,6 +271,13 @@
 
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
+;; Annoying undo tree keybindings
+(general-define-key
+ :keymaps 'undo-tree-map
+ "C-_" nil
+ "C-/" nil
+ "C-?" nil)
+
 (after-load 'imenu
 	(setq imenu-auto-rescan t))
 
