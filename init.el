@@ -109,6 +109,7 @@
 (require 'init-tags)
 (require 'init-nix)
 (require 'init-smartparens)
+(require 'init-vc)
 ;; (require 'init-tex)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
@@ -272,11 +273,18 @@
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
 ;; Annoying undo tree keybindings
-(general-define-key
+(general-unbind
  :keymaps 'undo-tree-map
  "C-_" nil
  "C-/" nil
- "C-?" nil)
+ "C-?" nil
+ "M-_" nil)
+
+(general-unbind
+ "C-_" nil
+ "C-/" nil
+ "C-?" nil
+ "M-_" nil)
 
 (after-load 'imenu
 	(setq imenu-auto-rescan t))

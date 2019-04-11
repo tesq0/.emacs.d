@@ -33,7 +33,7 @@
 	(mikus-evil-setup-command-props)
 
 	;; Evil modes
-	(dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode))
+	(dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode vc-annotate-mode))
 		(evil-set-initial-state mode 'normal))
 
 	;; Emacs modes

@@ -39,6 +39,7 @@
 	 "s" 'magit-status
 	 "e" 'magit-ediff
 	 "d" 'magit-diff
+	 "a" 'vc-annotate
 	 "f" 'magit-find-file
 	 "c" 'vc-find-conflicted-file
 	 "b" 'magit-blame))
