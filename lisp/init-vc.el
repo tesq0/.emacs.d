@@ -9,7 +9,12 @@
 	 "=" 'vc-annotate-show-diff-revision-at-line
 	 "C-n" 'vc-annotate-next-revision
 	 "C-p" 'vc-annotate-prev-revision
+	 "L" 'vc-annotate-show-log-revision-at-line
 	 )
+
+	(general-define-key
+	 :keymaps 'vc-log-mode-map
+	 "q" 'quit-window)
 
 	(general-define-key
 	 :keymaps 'vc-annotate-mode-map
