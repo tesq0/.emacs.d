@@ -29,10 +29,10 @@
  ">" 'nil
  "i" 'dired-show-file-type
  "y" 'dired-copy-map
+ "<mouse-1>" 'dired-mouse-find-file
  "<mouse-2>" 'dired-find-file-other-window
  "<mouse-3>" 'dired-up-directory
  :states '(normal motion)
- "<mouse-1>" 'dired-find-file
  ";" 'evil-forward-char
  "<" 'dired-up-directory
  ">" 'dired-find-file

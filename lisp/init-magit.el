@@ -91,9 +91,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 						(vc-find-conflicted-file))
      "Save, and find next conflict" :color blue)
     ("q" nil "cancel" :color blue))
-  :hook (((magit-diff-visit-file smerge-mode). (lambda ()
-                                   (when smerge-mode
-                                     (unpackaged/smerge-hydra/body)))))
+	;; (remove-hook 'magit-diff-visit-file-hook (car magit-diff-visit-file-hook))
+	;; (remove-hook 'smerge-mode-hook (car smerge-mode-hook))
+  ;; :hook (((magit-diff-visit-file smerge-mode). (lambda ()
+  ;;                                  (when smerge-mode
+  ;;                                    (unpackaged/smerge-hydra/body)))))
 	:init
 	(general-define-key
 			:keymaps 'smerge-mode-map

@@ -317,7 +317,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 (defun switch-to-recently-selected-buffer ()
 	"Switch to other buffer"
 	(interactive)
-	(switch-to-buffer (other-buffer)))
+	(switch-to-buffer (other-buffer (current-buffer ) 1)))
 
 
 (defun byte-compile-emacs ()
