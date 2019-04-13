@@ -54,6 +54,52 @@
 	:ensure t
 	:init (initMagit))
 
+(use-package smerge-mode
+  :after hydra
+	:ensure nil
+  :config
+  (defhydra unpackaged/smerge-hydra
+    (:color pink :hint nil :post (smerge-auto-leave))
+    "
+^Move^       ^Keep^               ^Diff^                 ^Other^
+^^-----------^^-------------------^^---------------------^^-------
+_n_ext       _b_ase               _<_: upper/base        _C_ombine
+_p_rev       _u_pper              _=_: upper/lower       _r_esolve
+^^           _l_ower              _>_: base/lower        _k_ill current
+^^           _a_ll                _R_efine
+^^           _RET_: current       _E_diff
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("R" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("k" smerge-kill-current)
+    ("C-x C-s" (lambda ()
+            (interactive)
+            (save-buffer)
+						(vc-find-conflicted-file))
+     "Save, and find next conflict" :color blue)
+    ("q" nil "cancel" :color blue))
+  :hook (((magit-diff-visit-file smerge-mode). (lambda ()
+                                   (when smerge-mode
+                                     (unpackaged/smerge-hydra/body)))))
+	:init
+	(general-define-key
+			:keymaps 'smerge-mode-map
+			"C-c m" 'unpackaged/smerge-hydra/body))
+
+
 (use-package git-gutter
 	:ensure t
 	:init
@@ -70,13 +116,5 @@
 		 :keymaps 'mikus-magit-map
 		 "g" 'mikus-gitgutter-map)
 		(add-hook 'prog-mode-hook #'git-gutter-mode)))
-
-(after-load 'smerge-mode
-	(progn
-		 (message "smerge mode loaded")
-		 (general-define-key
-			:keymaps 'smerge-mode-map
-			"C-c m" (lookup-key smerge-mode-map (kbd "C-c ^")))))
-	
 
 (provide 'init-magit)

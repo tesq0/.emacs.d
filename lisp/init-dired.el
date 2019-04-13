@@ -27,16 +27,17 @@
  :keymaps 'dired-mode-map
  "<" 'nil
  ">" 'nil
- "<normal-state> <mouse-1>" 'dired-find-file
- "<mouse-2>" 'dired-find-file-other-window
- "<mouse-3>" 'dired-up-directory
- "<normal-state> ;" 'evil-forward-char
- "<normal-state> <" 'dired-up-directory
- "<normal-state> >" 'dired-find-file
- "<normal-state> k" 'dired-next-line
- "<normal-state> l" 'dired-previous-line
  "i" 'dired-show-file-type
  "y" 'dired-copy-map
+ "<mouse-2>" 'dired-find-file-other-window
+ "<mouse-3>" 'dired-up-directory
+ :states '(normal motion)
+ "<mouse-1>" 'dired-find-file
+ ";" 'evil-forward-char
+ "<" 'dired-up-directory
+ ">" 'dired-find-file
+ "k" 'dired-next-line
+ "l" 'dired-previous-line
  )
 
 ;; allow to change permissions
