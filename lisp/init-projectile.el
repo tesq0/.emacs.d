@@ -71,7 +71,7 @@
 												 :mode-line helm-read-file-name-mode-line-string
 												 :action helm-projectile-file-actions
 												 :persistent-action #'helm-projectile-file-persistent-action
-												 :match-part (lambda (c) (helm-basename c))
+												 ;; :match-part (lambda (c) (helm-basename c))
 												 :persistent-help "Preview file")
 							:buffer "*helm projectile*"
 							:truncate-lines helm-projectile-truncate-lines
