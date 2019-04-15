@@ -163,7 +163,7 @@
 
 (use-package jetbrains
 	:ensure t
-	:init
+	:config
 	(progn
 		(add-to-list 'jetbrains-major-mode-ide-alist '((csharp-mode . (rider))))
 		)
