@@ -26,6 +26,8 @@
 			(interactive (list (ggtags-read-tag 'definition 1)))
 			(ggtags-find-tag 'definition "--" (shell-quote-argument name)))
 
+		(defun ggtags-eldoc-function ())
+
 		(advice-add 'compilation-auto-jump :before #'compilation-maybe-halt-auto-jump)
 
 		(general-define-key
