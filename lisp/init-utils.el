@@ -222,6 +222,9 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 
 
+(defun copy-current-file-name ()
+	(interactive)
+	(kill-new (buffer-file-name)))
 
 
 (defun rename-file-and-buffer (new-name)
