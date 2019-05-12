@@ -347,6 +347,6 @@
 
 (global-set-key (kbd "C-y") 'yas-expand)
 
-(setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
+(setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)
 (put 'narrow-to-region 'disabled nil)
