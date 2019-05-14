@@ -23,6 +23,11 @@
  "n" 'dired-copy-filename-as-kill
  "y" 'dired-do-copy)
 
+(defun dired-xdg-open ()
+	(interactive)
+	(let ((url (dired-get-filename)))
+		(try-xdg-open url)))
+
 (general-define-key
  :keymaps 'dired-mode-map
  "<" 'nil
@@ -38,6 +43,8 @@
  ">" 'dired-find-file
  "k" 'dired-next-line
  "l" 'dired-previous-line
+ "C-c o" 'dired-xdg-open
+ "C-c C-o" 'dired-xdg-open
  )
 
 ;; allow to change permissions
