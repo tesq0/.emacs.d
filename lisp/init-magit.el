@@ -55,12 +55,12 @@
 	:init (initMagit))
 
 (use-package smerge-mode
-  :after hydra
+	:after hydra
 	:ensure nil
-  :config
-  (defhydra unpackaged/smerge-hydra
-    (:color pink :hint nil :post (smerge-auto-leave))
-    "
+	:config
+	(defhydra unpackaged/smerge-hydra
+		(:color pink :hint nil :post (smerge-auto-leave))
+		"
 ^Move^       ^Keep^               ^Diff^                 ^Other^
 ^^-----------^^-------------------^^---------------------^^-------
 _n_ext       _b_ase               _<_: upper/base        _C_ombine
@@ -69,33 +69,35 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ^^           _a_ll                _R_efine
 ^^           _RET_: current       _E_diff
 "
-    ("n" smerge-next)
-    ("p" smerge-prev)
-    ("b" smerge-keep-base)
-    ("u" smerge-keep-upper)
-    ("l" smerge-keep-lower)
-    ("a" smerge-keep-all)
-    ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
-    ("<" smerge-diff-base-upper)
-    ("=" smerge-diff-upper-lower)
-    (">" smerge-diff-base-lower)
-    ("R" smerge-refine)
-    ("E" smerge-ediff)
-    ("C" smerge-combine-with-next)
-    ("r" smerge-resolve)
-    ("k" smerge-kill-current)
-    ("C-x C-s" (lambda ()
-            (interactive)
-            (save-buffer)
-						(vc-find-conflicted-file))
-     "Save, and find next conflict" :color blue)
-    ("q" nil "cancel" :color blue))
+		("n" smerge-next)
+		("p" smerge-prev)
+		("b" smerge-keep-base)
+		("u" smerge-keep-upper)
+		("l" smerge-keep-lower)
+		("m" smerge-keep-upper)
+		("o" smerge-keep-lower)
+		("a" smerge-keep-all)
+		("RET" smerge-keep-current)
+		("\C-m" smerge-keep-current)
+		("<" smerge-diff-base-upper)
+		("=" smerge-diff-upper-lower)
+		(">" smerge-diff-base-lower)
+		("R" smerge-refine)
+		("E" smerge-ediff)
+		("C" smerge-combine-with-next)
+		("r" smerge-resolve)
+		("k" smerge-kill-current)
+		("C-x C-s" (lambda ()
+						(interactive)
+						(save-buffer)
+						(rg-project-merge-conflicts))
+		 "Save, and find next conflict" :color blue)
+		("q" nil "cancel" :color blue))
 	;; (remove-hook 'magit-diff-visit-file-hook (car magit-diff-visit-file-hook))
 	;; (remove-hook 'smerge-mode-hook (car smerge-mode-hook))
-  ;; :hook (((magit-diff-visit-file smerge-mode). (lambda ()
-  ;;                                  (when smerge-mode
-  ;;                                    (unpackaged/smerge-hydra/body)))))
+	;; :hook (((magit-diff-visit-file smerge-mode). (lambda ()
+	;;                                  (when smerge-mode
+	;;                                    (unpackaged/smerge-hydra/body)))))
 	:init
 	(general-define-key
 			:keymaps 'smerge-mode-map
