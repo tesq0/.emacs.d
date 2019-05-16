@@ -341,7 +341,8 @@
 	:ensure t
 	:init
 	(progn
-		(setq pomodoro-sound-player "mpv")
+		(setq pomodoro-sound-player "mpv"
+					pomodoro-desktop-notification t)
 		(pomodoro-add-to-mode-line)))
 
 ;; snippets
