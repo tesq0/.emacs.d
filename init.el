@@ -337,6 +337,13 @@
 		)
 	)
 
+(use-package pomodoro
+	:ensure t
+	:init
+	(progn
+		(setq pomodoro-sound-player "mpv")
+		(pomodoro-add-to-mode-line)))
+
 ;; snippets
 (use-package yasnippet
 	:ensure t
