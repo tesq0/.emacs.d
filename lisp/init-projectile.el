@@ -53,7 +53,7 @@
 ;; Tags
 (after-load 'helm-projectile
 
-	(defvar idle-game-project-root "/media/LINUX/mikus/ClashOfStreamers/IdleGame/")
+	(defvar idle-game-project-root "/home/mikus/ClashOfStreamers/IdleGame/")
 	(defvar idle-game-best-folders '( "Assets/#/Sources" "Assets/#/Scripts" "Assets/Editor" "Assets/#/Libraries" ))
 	(defvar idle-game-ignored-files (append grep-find-ignored-files '("*.asset" "*.java" "*.m" "MessagePack")))
 
