@@ -342,8 +342,9 @@
 	:init
 	(progn
 		(setq pomodoro-sound-player "mpv"
-					pomodoro-desktop-notification t)
-		(pomodoro-add-to-mode-line)))
+					pomodoro-desktop-notification t))
+	:config
+	(pomodoro-add-to-mode-line))
 
 ;; snippets
 (use-package yasnippet
