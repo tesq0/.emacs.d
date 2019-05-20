@@ -43,6 +43,7 @@
  ">" 'dired-find-file
  "k" 'dired-next-line
  "l" 'dired-previous-line
+ "n" 'evil-search-next
  "C-c o" 'dired-xdg-open
  "C-c C-o" 'dired-xdg-open
  )
