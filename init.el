@@ -56,10 +56,19 @@
 (add-to-list 'load-path
 						 (expand-file-name "defuns" user-emacs-directory))
 
+
 ;; manually installed packages
-(let ((default-directory (expand-file-name "site-lisp" user-emacs-directory)))
-	(normal-top-level-add-to-load-path '("."))
-	(normal-top-level-add-subdirs-to-load-path))
+
+(defun add-to-loadpath-recursive (dir)
+	(let ((default-directory dir))
+		(normal-top-level-add-to-load-path '("."))
+		(normal-top-level-add-subdirs-to-load-path)))
+
+(add-to-loadpath-recursive (expand-file-name "site-lisp" user-emacs-directory))
+
+(let ((nixos-lisp-path "/run/current-system/sw/share/emacs/site-lisp"))
+	(when (file-exists-p nixos-lisp-path)
+		(add-to-loadpath-recursive nixos-lisp-path)))
 
 (add-to-list 'load-path
 						 (expand-file-name "lisp" user-emacs-directory))
@@ -110,6 +119,8 @@
 (require 'init-nix)
 (require 'init-smartparens)
 (require 'init-vc)
+(require 'init-dart)
+(require 'init-mail)
 ;; (require 'init-tex)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
