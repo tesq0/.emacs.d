@@ -497,6 +497,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-b" 'drag-stuff-left
 	 )
 
+	(general-define-key
+	 :states '(normal motion visual insert)
+	 "C-y" 'copy-word-from-above)
 
 	;;; WINDOW
 
