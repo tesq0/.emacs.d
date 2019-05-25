@@ -367,6 +367,14 @@ buffer is not visiting a file."
 	(shell-command "i3-msg split h")
 	(make-frame))
 
+(defun copy-word-from-above ()
+	"Copies the first found word from the line above."
+	(interactive)
+	(save-excursion
+		(forward-line -1)
+		(kill-new (evil-find-word 0)))
+	(yank))
+
 
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

@@ -3,7 +3,7 @@
 			mu4e-maildir (expand-file-name "~/.mail/gmail")
 			mu4e-get-mail-command "mbsync gmail"
 			mu4e-change-filenames-when-moving t
-			mu4e-sent-folder "[]")
+			mu4e-sent-folder "/sent")
 
 (provide 'init-mail)
 
