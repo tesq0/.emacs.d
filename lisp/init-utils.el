@@ -370,9 +370,11 @@ buffer is not visiting a file."
 (defun copy-word-from-above ()
 	"Copies the first found word from the line above."
 	(interactive)
+	(let ((col (current-column)))
 	(save-excursion
 		(forward-line -1)
-		(kill-new (evil-find-word 0)))
+		(evil-goto-column col)
+		(kill-new (evil-find-word t))))
 	(yank))
 
 
