@@ -367,6 +367,12 @@ buffer is not visiting a file."
 	(shell-command "i3-msg split h")
 	(make-frame))
 
+(defun evil-find-WORD (forward)
+  "Return WORD near point as a string.
+If FORWARD is nil, search backward, otherwise forward.  Returns
+nil if nothing is found."
+  (evil-find-thing forward 'evil-WORD))
+
 (defun copy-word-from-above ()
 	"Copies the first found word from the line above."
 	(interactive)
@@ -374,7 +380,7 @@ buffer is not visiting a file."
 	(save-excursion
 		(forward-line -1)
 		(evil-goto-column col)
-		(kill-new (evil-find-word t))))
+		(kill-new (evil-find-WORD t))))
 	(yank))
 
 
