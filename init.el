@@ -121,6 +121,7 @@
 (require 'init-vc)
 (require 'init-dart)
 (require 'init-mail)
+(require 'init-godot)
 ;; (require 'init-tex)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
