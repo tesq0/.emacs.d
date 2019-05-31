@@ -5,6 +5,12 @@
 		(defun helm-to-grep ()
 			(helm-grep-mode)
 			)
+
+		(defun my/helm-buffer ()
+			(interactive)
+			(if (eq (projectile-project-root) nil)
+					(helm-mini)
+				(helm-projectile-switch-to-buffer)))
 		
 		(setq helm-follow-mode-persistent t)
 		(general-define-key
@@ -25,7 +31,8 @@
 		(mikus-leader
 			"i" 'imenu
 			"o" 'helm-occur
-			"b" 'helm-mini
+			"b" 'my/helm-buffer
+			"B" 'helm-mini
 			"f" 'helm-find-files
 			"q" 'helm-show-kill-ring
 			)
