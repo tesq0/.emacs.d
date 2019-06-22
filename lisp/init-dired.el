@@ -32,6 +32,7 @@
  :keymaps 'dired-mode-map
  "<" 'nil
  ">" 'nil
+ ";" 'nil
  "i" 'dired-show-file-type
  "y" 'dired-copy-map
  "<mouse-1>" 'dired-mouse-find-file

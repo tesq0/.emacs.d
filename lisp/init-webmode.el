@@ -82,8 +82,7 @@
 	)
 
 (use-package emmet-mode
-	:ensure t
-	)
+	:ensure t)
 
 ;; (use-package xref-js2
 ;; 	:ensure t
@@ -135,6 +134,8 @@
 
 (add-hook 'web-mode-hook
 					(lambda () 
+
+						(electric-pair-local-mode t)
 						;; selecting flycheck checkers based on file modes
 						(when (string-equal "css" (file-name-extension buffer-file-name))
 							(setq-local flycheck-disabled-checkers '( javascript-eslint ))
