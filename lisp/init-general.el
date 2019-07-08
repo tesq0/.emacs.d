@@ -21,6 +21,7 @@
 
 		(general-define-key
 		 "C-o" nil
+		 "C-c r" 'revert-buffer
 		 "<kp-add>" 'increment-number-at-point
 		 "<kp-subtract>" 'decrement-number-at-point
 		 )
