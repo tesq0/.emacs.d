@@ -10,6 +10,7 @@
 			mu4e-sent-folder "/gmail/Sent Mail"
 			mu4e-view-show-images t
 			mu4e-view-show-addresses t
+			browse-url-generic-program "firefox"
 			mu4e-use-fancy-chars t)
 
 (setq mu4e-maildir-shortcuts

@@ -4,6 +4,10 @@
 	(progn
 
 		(setq tex-command "pdftex")
+		(setq TeX-view-program-list '(("zathura" ("zathura %o"))))
+		(setq TeX-view-program-selection '(((output-dvi has-no-display-manager) "dvi2tty") ((output-dvi
+	style-pstricks) "dvips and gv") (output-dvi "xdvi") (output-pdf
+	"zathura") (output-html "xdg-open")))
 
 		(defun TeX-view ()
 			(interactive)
