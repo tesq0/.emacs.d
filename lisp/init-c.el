@@ -1,11 +1,27 @@
 ;; C,C++
+
+(defgroup c-options nil
+  "Options for C language setup"
+  :group 'init)
+
+(defcustom irony-disabled-modes '()
+	"List of disabled irony modes."
+	:group 'c-options
+	:type '(set symbol))
+
 (use-package irony
 	:ensure t
 	:init
 	(progn
+
+		(defun enable-irony-mode ()
+			(and
+			 (not (memq major-mode irony-disabled-modes))
+			 (irony-mode)))
+
 		(setq irony--server-executable (concat (getenv "HOME") "/.nix-profile/bin/irony-server"))
 		(add-hook 'c++-mode-hook 'irony-mode)
-		(add-hook 'c-mode-hook 'irony-mode)
+		(add-hook 'c-mode-hook 'enable-irony-mode)
 		(add-hook 'objc-mode-hook 'irony-mode)
 		(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
 

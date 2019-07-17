@@ -1,5 +1,5 @@
 
-(defgroup init-utils nil
+(defgroup utils nil
   "Bunch of utility functions"
   :group 'init)
 
