@@ -11,7 +11,7 @@
 (setq initial-scratch-message "")                             ; print nothing and leave screen at insert mode
 
 
-(defun display-startup-echo-area-message () (message "Good morning, Logic is always number 1"))     ; change the default startup echo message
+(defun display-startup-echo-area-message () (message "Jestem fajny"))     ; change the default startup echo message
 (setq-default truncate-lines t)                     ; always truncate lines ;hello
 (setq large-file-warning-threshold (* 15 1024 1024))                ; increase theshold for larger files
 (fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
@@ -358,6 +358,9 @@
 					pomodoro-desktop-notification t))
 	:config
 	(pomodoro-add-to-mode-line))
+
+(use-package edit-server
+	:ensure t)
 
 ;; snippets
 (use-package yasnippet
