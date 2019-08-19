@@ -11,6 +11,7 @@
 (defun setup-Java ()
 	"Setup before lsp-java mode."
 	(setq-local company-manual-completion-fn #'company-lsp)
+	(flymake-mode -1)
 	(flycheck-mode))
 
 (defun init-Java ()
@@ -33,11 +34,6 @@
   :config
   (setq company-lsp-cache-candidates t
         company-lsp-async t))
-
-(use-package lsp-ui
-  :ensure t
-  :config
-  (setq lsp-ui-sideline-update-mode 'point))
 
 (use-package lsp-java
   :ensure t
