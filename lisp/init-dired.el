@@ -1,12 +1,12 @@
 (use-package dired-quick-sort
-  :ensure t
-  :config
-  (dired-quick-sort-setup))
+	:ensure t
+	:config
+	(dired-quick-sort-setup))
 
 (use-package dired-narrow
-  :ensure t
-  :bind (:map dired-mode-map
-              ("/" . dired-narrow)))
+	:ensure t
+	:bind (:map dired-mode-map
+							("/" . dired-narrow)))
 
 (after-load 'dired
 	(defun dired-copy-file-path ()
@@ -51,7 +51,8 @@
 	 )
 
 	;; allow to change permissions
-	(setq wdired-allow-to-change-permissions t))
+	(setq wdired-allow-to-change-permissions t)
+	(setq dired-auto-revert-buffer t))
 
 
 (provide 'init-dired)
