@@ -339,13 +339,14 @@
 		(require 'aweshell)
 		(defun setup-aweshell-keybindings ()
 			(general-define-key
-			 :keymaps 'eshell-command-map
-			 "c" 'aweshell-clear-buffer
-			 "n" 'aweshell-next
-			 "p" 'aweshell-prev
-			 "s" 'aweshell-sudo-toggle
-			 "x" 'aweshell-new)
-			)
+			 :keymap 'eshell-mode-map
+			 "C-n" 'eshell-next-input
+			 "C-p" 'eshell-previous-input
+			 "C-c c" 'aweshell-clear-buffer
+			 "C-c n" 'aweshell-next
+			 "C-c p" 'aweshell-prev
+			 "C-c s" 'aweshell-sudo-toggle
+			 "C-c x" 'aweshell-new))
 		(add-hook 'eshell-mode-hook 'setup-aweshell-keybindings)
 		)
 	)
