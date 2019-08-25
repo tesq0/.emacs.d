@@ -57,6 +57,14 @@
 						 (expand-file-name "defuns" user-emacs-directory))
 
 
+;; TRAMP
+;; (add-to-list 'tramp-default-proxies-alist
+;;						 '(nil "\\`root\\'" "/ssh:%h:"))
+
+;; (add-to-list 'tramp-default-proxies-alist
+;;						 '((regexp-quote (system-name)) nil nil))
+
+
 ;; manually installed packages
 
 (defun add-to-loadpath-recursive (dir)

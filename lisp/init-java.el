@@ -10,20 +10,21 @@
 
 (defun setup-Java ()
 	"Setup before lsp-java mode."
-	(setq-local company-manual-completion-fn #'company-lsp)
-	(flymake-mode -1)
-	(flycheck-mode))
+	(setq-local company-manual-completion-fn #'company-lsp))
 
 (defun init-Java ()
 	"Some setup after lsp-java init."
 	(advice-add 'lsp-java-boot--find-tools-jar :around #'lsp-java-boot--find-tools-jar-nixos)
 	;; (advice-remove 'lsp-java-boot--find-tools-jar #'lsp-java-boot--find-tools-jar-nixos)
 	(setq lsp-inhibit-message t
+				lsp-java-format-enabled nil
 				lsp-eldoc-render-all t
 				lsp-highlight-symbol-at-point nil))
 
 (use-package lsp-mode
-  :ensure t)
+  :ensure t
+	:config
+	(setq lsp-enable-indentation nil))
 
 (use-package groovy-mode
 	:ensure t)
@@ -34,6 +35,15 @@
   :config
   (setq company-lsp-cache-candidates t
         company-lsp-async t))
+
+(use-package lsp-ui
+	:ensure t
+	:config
+	(setq lsp-ui-sideline-enable nil
+				lsp-ui-doc-enable nil
+				lsp-ui-flycheck-enable t
+				lsp-ui-imenu-enable t
+				lsp-ui-sideline-ignore-duplicate t))
 
 (use-package lsp-java
   :ensure t
