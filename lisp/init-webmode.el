@@ -26,7 +26,7 @@
 
 (use-package indium
 	:ensure t
-	) 
+	)
 
 (defun setup-json()
 	(setq json-reformat:indent-width 1)
@@ -42,12 +42,12 @@
 	(flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package web-mode
-  :ensure t
+	:ensure t
 	:init
 	;; adjusting indentation level
-	(setq web-mode-markup-indent-offset 2)
-	(setq web-mode-css-indent-offset 2)
-	(setq web-mode-code-indent-offset 2)
+	(setq web-mode-markup-indent-offset 4
+				web-mode-css-indent-offset 4
+				web-mode-code-indent-offset 4)
 	:config
 	(setq web-mode-auto-quote-style nil)
 	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
@@ -57,12 +57,12 @@
 	:ensure t
 	:config
 	(define-key tern-mode-keymap (kbd "M-.") nil)
-	(define-key tern-mode-keymap (kbd "M-,") nil) 
+	(define-key tern-mode-keymap (kbd "M-,") nil)
 	)
 
 
 (use-package js2-mode
-	:ensure t 
+	:ensure t
 	)
 
 (use-package js2-refactor
@@ -82,11 +82,12 @@
 	)
 
 (use-package emmet-mode
-	:ensure t)
+	:ensure t
+	:hook (web-mode . emmet-mode))
 
 ;; (use-package xref-js2
-;; 	:ensure t
-;; 	)
+;;	:ensure t
+;;	)
 
 ;; disable jshint, we will use eslint instead
 ;;(setq-default flycheck-disabled-checkers
@@ -111,57 +112,63 @@
 
 
 (add-hook 'js2-mode-hook
-					(lambda () 
+					(lambda ()
 						;; selecting flycheck checkers based on file modes
 						(when (string-equal "js" (file-name-extension buffer-file-name))
 							(setq-local flycheck-disabled-checkers '( css-csslint ))
 							;; (setup-tide-mode)
-							;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append) 
-							;; (flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append) 
+							;; (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+							;; (flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append)
 							;; (flycheck-add-next-checker 'javascript-tide 'jsx-tide 'append)
 							(js2-refactor-mode)
 							(js2r-add-keybindings-with-prefix "C-c C-r")
 							(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
-							(define-key js-mode-map (kbd "M-.") nil) 
+							(define-key js-mode-map (kbd "M-.") nil)
 							(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)
-							(tern-mode t) 
+							(tern-mode t)
 
 							(company-mode)
 							)
 						)
-					
+
 					)
 
 
 
-(add-hook 'web-mode-hook
-					(lambda () 
+(defun setup-webmode ()
+	"Does some setup depending on the current file extension."
+	(electric-pair-local-mode t)
 
-						(electric-pair-local-mode t)
-						;; selecting flycheck checkers based on file modes
-						(when (string-equal "css" (file-name-extension buffer-file-name))
-							(setq-local flycheck-disabled-checkers '( javascript-eslint ))
-							(rainbow-mode) 
-							(add-to-list (make-local-variable 'company-backends)
-													 'company-css)
-							) 
-						(when (string-equal "js" (file-name-extension buffer-file-name))
-							(setq-local flycheck-disabled-checkers '( css-csslint ))
-							;; (color-theme-buffer-local 'color-theme-sanityinc-tomorrow-night (current-buffer))
-							;; (setup-tide-mode)
-							(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append) 
-							(flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append) 
-							;; (flycheck-add-next-checker 'javascript-tide 'jsx-tide 'append)
-							(add-to-list (make-local-variable 'company-backends)
-													 'company-tern)
-							(tern-mode t) 
-							(prettier-js-mode)
-							(local-set-key (kbd "C-j") 'javascript-prefix)
-							(company-mode))
-						)
-					
-					)
+	(let ((file-extension (file-name-extension buffer-file-name)))
 
+		(when (string-equal "css" file-extension)
+			(setq-local flycheck-disabled-checkers '( javascript-eslint ))
+			(rainbow-mode)
+			(add-to-list (make-local-variable 'company-backends)
+									 'company-css))
+
+		(when (string-equal "js" file-extension)
+			(setq-local flycheck-disabled-checkers '( css-csslint ))
+			;; (color-theme-buffer-local 'color-theme-sanityinc-tomorrow-night (current-buffer))
+			;; (setup-tide-mode)
+			(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+			(flycheck-add-next-checker 'javascript-eslint 'tsx-tide 'append)
+			;; (flycheck-add-next-checker 'javascript-tide 'jsx-tide 'append)
+			(add-to-list (make-local-variable 'company-backends)
+									 'company-tern)
+			(tern-mode t)
+			(prettier-js-mode)
+			(local-set-key (kbd "C-j") 'javascript-prefix)
+			(company-mode))
+
+		(when (string-equal "php" file-extension)
+			(setenv "GTAGSLABEL" "pygments")
+			(ggtags-mode)
+			)
+		)
+	)
+
+(add-hook 'web-mode-hook 'setup-webmode)
 
 ;; use eslint with web-mode for jsx files
 
@@ -180,16 +187,16 @@
 
 
 (setq web-mode-content-types-alist
-      '(("jsx" . "\\.js[x]?\\'")
-        ("javascript" . "\\.es6?\\'")))
+			'(("jsx" . "\\.js[x]?\\'")
+				("javascript" . "\\.es6?\\'")))
 
 
 
 ;; also use jsx for js
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
-  (if (equal web-mode-content-type "jsx")
-      (let ((web-mode-enable-part-face nil))
-        ad-do-it)
+	(if (equal web-mode-content-type "jsx")
+			(let ((web-mode-enable-part-face nil))
+				ad-do-it)
 				ad-do-it))
 
 
