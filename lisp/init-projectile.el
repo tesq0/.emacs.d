@@ -13,6 +13,7 @@
 		(setq-default projectile-git-command my-find-command)
 		(setq-default projectile-generic-command my-find-command)
 		(setq projectile-indexing-method 'alien)
+		(setq projectile-tags-backend 'auto)
 		(define-prefix-command 'mikus-tags-map)
 		(define-prefix-command 'mikus-search-map)
 		(general-define-key
@@ -53,44 +54,10 @@
 ;; Tags
 (after-load 'helm-projectile
 
-	(defvar idle-game-project-root "/home/mikus/ClashOfStreamers/IdleGame/")
-	(defvar idle-game-best-folders '( "Assets/#/Sources" "Assets/#/Scripts" "Assets/Editor" "Assets/#/Libraries" ))
-	(defvar idle-game-ignored-files (append grep-find-ignored-files '("*.asset" "*.java" "*.m" "MessagePack")))
-
 	(defvar projectile-custom-ignored-files '())
 
 	(defun tags-custom-ignored-files ()
-		(if (string-equal ( projectile-project-root ) idle-game-project-root)
-				idle-game-ignored-files
-			projectile-custom-ignored-files))
-
-	(defun idle-game-folders ()
-		(mapconcat (lambda (path) (format "\"%s\"" (concat idle-game-project-root path))) idle-game-best-folders " "))
-
-	(defun regenerate-idlegame-tags ()
-		(interactive)
-		(let* ((dirs (idle-game-folders))
-					 (projectile-tags-command "ctags -Re -f \"%s\" %s %s"))
-			(projectile-regenerate-tags-async dirs)))
-
-	(defun regenerate-idlegame-gtags (&optional dirs)
-		"First output the files in DIRS we want to parse to gtags.files, then run gtags in idle-game-project-root."
-		(interactive)
-		(let* ((directories (or dirs (idle-game-folders)))
-					 (default-directory (projectile-project-root))
-					 (find-command (format "fd .cs %s > %sgtags.files" directories default-directory))
-					 (gtags-command (format "gtags -v --gtagslabel pygments %s" (directory-file-name default-directory))))
-			(message (format "find files command %s" find-command))
-			(shell-command find-command)
-			(shell-command gtags-command)
-			))
-
-	(defun projectile-regenerate-tags-for-current-file-async ()
-		"Regenerate tags for this file."
-		(interactive)
-		(let* ((current-file (buffer-file-name))
-					 (projectile-tags-command "ctags -Re -f \"%s\" %s -a \"%s\""))
-			(projectile-regenerate-tags-async current-file)))
+			projectile-custom-ignored-files)
 
 	(defun projectile-tags-exclude-patterns ()
 		"Return a string with exclude patterns for ctags."
@@ -98,11 +65,6 @@
 																				 (directory-file-name pattern)))
 							 (append (tags-custom-ignored-files) (projectile-ignored-directories-rel)) " "))
 
-	(defun regenerate-tags ()
-		(interactive)
-		(if (string-equal ( projectile-project-root ) idle-game-project-root)
-				(regenerate-idlegame-tags)
-			(projectile-regenerate-tags-async)))
 
 	(defun projectile-regenerate-tags-async (&optional files append)
 		"Regenerate the project's [e|g]tags.  Optionally specify FILES."
@@ -118,10 +80,8 @@
 
 	(general-define-key
 	 :keymaps 'mikus-tags-map
-	 "i" 'regenerate-idlegame-tags
-	 "g" 'regenerate-idlegame-gtags
-	 "r" 'regenerate-tags
-	 "f" 'projectile-regenerate-tags-for-current-file-async)
+	 "r" 'projectile-regenerate-tags
+	 "R" 'projectile-regenerate-tags-async)
 
 
 	)
