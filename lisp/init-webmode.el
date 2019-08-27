@@ -19,7 +19,6 @@
 			(tide-hl-identifier-mode +1)
 			(add-hook 'before-save-hook 'tide-format-before-save))
 		;; formats the buffer before saving
-		(flycheck-add-mode 'typescript-tslint 'web-mode)
 		(add-hook 'typescript-mode-hook #'setup-tide-mode))
 	:config
 	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
@@ -40,6 +39,7 @@
 
 (after-load 'flycheck
 	(flycheck-add-mode 'css-csslint 'web-mode)
+	(flycheck-add-mode 'typescript-tslint 'web-mode)
 	(flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package web-mode
