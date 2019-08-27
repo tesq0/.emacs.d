@@ -16,34 +16,10 @@
 	"Some setup after lsp-java init."
 	(advice-add 'lsp-java-boot--find-tools-jar :around #'lsp-java-boot--find-tools-jar-nixos)
 	;; (advice-remove 'lsp-java-boot--find-tools-jar #'lsp-java-boot--find-tools-jar-nixos)
-	(setq lsp-inhibit-message t
-				lsp-java-format-enabled nil
-				lsp-eldoc-render-all t
-				lsp-highlight-symbol-at-point nil))
-
-(use-package lsp-mode
-  :ensure t
-	:config
-	(setq lsp-enable-indentation nil))
+	(setq lsp-java-format-enabled nil))
 
 (use-package groovy-mode
 	:ensure t)
-
-(use-package company-lsp
-  :after  company
-  :ensure t
-  :config
-  (setq company-lsp-cache-candidates t
-        company-lsp-async t))
-
-(use-package lsp-ui
-	:ensure t
-	:config
-	(setq lsp-ui-sideline-enable nil
-				lsp-ui-doc-enable nil
-				lsp-ui-flycheck-enable t
-				lsp-ui-imenu-enable t
-				lsp-ui-sideline-ignore-duplicate t))
 
 (use-package lsp-java
   :ensure t
