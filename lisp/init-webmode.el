@@ -19,6 +19,7 @@
 			(tide-hl-identifier-mode +1)
 			(add-hook 'before-save-hook 'tide-format-before-save))
 		;; formats the buffer before saving
+		(flycheck-add-mode 'typescript-tslint 'web-mode)
 		(add-hook 'typescript-mode-hook #'setup-tide-mode))
 	:config
 	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
@@ -107,7 +108,7 @@
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
-
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
 
 
@@ -140,6 +141,9 @@
 	(electric-pair-local-mode t)
 
 	(let ((file-extension (file-name-extension buffer-file-name)))
+
+		(when (string-equal "tsx" file-extension)
+			(setup-tide-mode))
 
 		(when (string-equal "css" file-extension)
 			(setq-local flycheck-disabled-checkers '( javascript-eslint ))
