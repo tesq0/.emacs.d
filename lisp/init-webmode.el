@@ -86,6 +86,16 @@
 	:ensure t
 	:hook (web-mode . emmet-mode))
 
+(use-package lsp-php
+	:ensure t
+	:init
+	 (cl-letf ((webmode-config (cl-find-if
+															(lambda (element) (eq (car element) 'web-mode)) lsp-language-id-configuration)))
+		 (when webmode-config
+			 (setf (cdr webmode-config) "php"))
+		 (message (cdr webmode-config))))
+	
+
 ;; (use-package xref-js2
 ;;	:ensure t
 ;;	)
@@ -167,7 +177,7 @@
 
 		(when (string-equal "php" file-extension)
 			(setenv "GTAGSLABEL" "pygments")
-			(ggtags-mode)
+			;; (ggtags-mode)
 			)
 		)
 	)
