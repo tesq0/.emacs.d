@@ -48,6 +48,8 @@
 
 (set-language-environment "UTF-8")
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (setq desktop-dirname (expand-file-name "save" user-emacs-directory))
 
 (recentf-mode)
