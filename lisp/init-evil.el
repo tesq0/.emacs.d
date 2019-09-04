@@ -12,9 +12,13 @@
 		(dolist (fn functions)
 			(evil-add-command-properties fn :jump t))))
 
+(use-package undo-tree
+	:ensure nil
+	:quelpa (undo-tree :fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git"))
 
 (use-package evil
-	:ensure t
+	:ensure nil
+	:quelpa (evil :fetcher github :repo "emacs-evil/evil")
 	:init
 	(progn
 		(setq evil-mode-line-format nil
@@ -88,7 +92,7 @@
 
 (use-package evil-surround
 	:ensure t
-	:init
+	:config
 	(global-evil-surround-mode))
 
 (use-package evil-nerd-commenter
