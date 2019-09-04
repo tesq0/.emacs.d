@@ -35,17 +35,6 @@
 	:after irony
 	:ensure t)
 
-(after-load 'cc-mode
-	(init-c-style)
-	(add-hook 'c-mode-hook #'irony-eldoc))
-
-(defun irony-iotask-ectx-call-callback (ectx result)
-  (let ((cb-buffer (irony-iotask-ectx-schedule-buffer ectx)))
-    (when (buffer-live-p cb-buffer)
-      (with-demoted-errors "Irony I/O task: error in callback: %S"
-        (with-current-buffer cb-buffer
-          (funcall (irony-iotask-ectx-callback ectx) result))))))
-
 (defun init-c-style()
 	"Define my own indenting style for C."
 	(c-add-style "mikus-c"
@@ -62,5 +51,15 @@
 									(arglist-close . c-lineup-close-paren))))
 	(add-to-list 'c-default-style '(c-mode . "mikus-c")))
 
+(after-load 'cc-mode
+	(init-c-style)
+	(add-hook 'c-mode-hook #'irony-eldoc))
+
+(defun irony-iotask-ectx-call-callback (ectx result)
+  (let ((cb-buffer (irony-iotask-ectx-schedule-buffer ectx)))
+    (when (buffer-live-p cb-buffer)
+      (with-demoted-errors "Irony I/O task: error in callback: %S"
+        (with-current-buffer cb-buffer
+          (funcall (irony-iotask-ectx-callback ectx) result))))))
 
 (provide 'init-c)
