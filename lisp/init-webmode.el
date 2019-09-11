@@ -148,7 +148,7 @@
 
 (defun setup-webmode ()
 	"Does some setup depending on the current file extension."
-	(electric-pair-local-mode t)
+	(electric-pair-local-mode 1)
 
 	(let ((file-extension (file-name-extension buffer-file-name)))
 
