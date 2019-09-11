@@ -2,7 +2,9 @@
 	:ensure t
 	:init
 	(progn
-		(setq clojure-indent-style 'always-align)
+		(setq
+		 clojure-indent-style 'always-align
+		 cider-show-error-buffer 'except-in-repl)
 		(general-define-key
 		 :states '(normal insert)
 		 :keymaps 'cider-repl-mode-map
