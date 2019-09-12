@@ -44,12 +44,12 @@
 
 	(use-package dired-ranger
 		:ensure t
-		:config
+		:init
 		(general-define-key
 		 :keymaps 'dired-copy-map
 		 "y" 'dired-ranger-copy)
 		(general-define-key
-		 :keymaps 'dired-paste
+		 :keymaps 'dired-paste-map
 		 "p" 'dired-ranger-paste
 		 "m" 'dired-ranger-move))
 
