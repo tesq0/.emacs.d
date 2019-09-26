@@ -177,6 +177,7 @@
 
 		(when (string-equal "php" file-extension)
 			(setenv "GTAGSLABEL" "pygments")
+			(setq web-mode-code-indent-offset 2)
 			;; (ggtags-mode)
 			)
 		)
