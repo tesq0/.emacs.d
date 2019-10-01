@@ -17,6 +17,10 @@
 			(tide-setup)
 			(eldoc-mode +1)
 			(tide-hl-identifier-mode +1)
+			(electric-pair-mode 1)
+			(yas-minor-mode)
+			(yas-reload-all)
+			(setq-local company-backends '(company-files (company-yasnippet company-dabbrev-code :with company-tide company-keywords) ))
 			(add-hook 'before-save-hook 'tide-format-before-save))
 		;; formats the buffer before saving
 		(add-hook 'typescript-mode-hook #'setup-tide-mode))
