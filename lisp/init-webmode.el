@@ -20,11 +20,13 @@
 			(electric-pair-mode 1)
 			(yas-minor-mode)
 			(yas-reload-all)
-			(setq-local company-backends '(company-files (company-yasnippet company-dabbrev-code :with company-tide company-keywords) ))
+			(setq-local company-backends '(company-files (company-dabbrev-code :with company-tide company-yasnippet company-keywords) ))
+			(setq-local company-manual-completion-fn #'company-tide)
 			(add-hook 'before-save-hook 'tide-format-before-save))
 		;; formats the buffer before saving
 		(add-hook 'typescript-mode-hook #'setup-tide-mode))
 	:config
+	(setq typescript-indent-level 2)
 	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
 	)
 
@@ -52,7 +54,8 @@
 	;; adjusting indentation level
 	(setq web-mode-markup-indent-offset 4
 				web-mode-css-indent-offset 4
-				web-mode-code-indent-offset 4)
+				web-mode-code-indent-offset 4
+				js-indent-level 2)
 	:config
 	(setq web-mode-auto-quote-style nil)
 	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
