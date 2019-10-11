@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: childStore
+# key: childStore
+# --
+import { RootStore } from '../RootStore';
+import { ChildStore } from '../ChildStore';
+import { observable, autorun, computed, action } from "mobx";
+
+export class $1 extends ChildStore {
+
+  constructor(rootStore: RootStore) {
+    super(rootStore);
+  }
+
+	$0
+
+}
