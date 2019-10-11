@@ -7,24 +7,23 @@
 
 (define-prefix-command 'javascript-prefix)
 
+(defun setup-tide-mode ()
+	(interactive)
+	(tide-setup)
+	(eldoc-mode +1)
+	(tide-hl-identifier-mode +1)
+	(electric-pair-mode 1)
+	(yas-minor-mode)
+	(yas-reload-all)
+	(setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
+	(setq-local company-manual-completion-fn #'company-tide)
+		;; formats the buffer before saving
+	(add-hook 'before-save-hook 'tide-format-before-save))
 
 (use-package tide
 	:ensure t
 	:init
-	(progn
-		(defun setup-tide-mode ()
-			(interactive)
-			(tide-setup)
-			(eldoc-mode +1)
-			(tide-hl-identifier-mode +1)
-			(electric-pair-mode 1)
-			(yas-minor-mode)
-			(yas-reload-all)
-			(setq-local company-backends '(company-files (company-dabbrev-code :with company-tide company-yasnippet company-keywords) ))
-			(setq-local company-manual-completion-fn #'company-tide)
-			(add-hook 'before-save-hook 'tide-format-before-save))
-		;; formats the buffer before saving
-		(add-hook 'typescript-mode-hook #'setup-tide-mode))
+	(add-hook 'typescript-mode-hook 'setup-tide-mode)
 	:config
 	(setq typescript-indent-level 2)
 	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
