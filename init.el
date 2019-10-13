@@ -374,6 +374,10 @@
 (use-package edit-server
 	:ensure t)
 
+(use-package direnv
+ :config
+ (direnv-mode))
+
 ;; snippets
 (use-package yasnippet
 	:ensure t
