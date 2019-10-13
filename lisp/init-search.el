@@ -27,7 +27,7 @@
 
 		(rg-define-search rg-project-merge-conflicts
 			:dir project
-			:query "<<<<<<< HEAD"
+			:query "<<<<<<<"
 			:files current)
 
 		(general-define-key
