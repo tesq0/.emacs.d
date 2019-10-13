@@ -47,6 +47,7 @@
 	(flycheck-add-mode 'typescript-tslint 'web-mode)
 	(flycheck-add-mode 'javascript-eslint 'web-mode))
 
+
 (use-package web-mode
 	:ensure t
 	:init
@@ -92,36 +93,11 @@
 	:ensure t
 	:hook (web-mode . emmet-mode))
 
-(use-package lsp-php
-	:ensure t
-	:init
-	 (cl-letf ((webmode-config (cl-find-if
-															(lambda (element) (eq (car element) 'web-mode)) lsp-language-id-configuration)))
-		 (when webmode-config
-			 (setf (cdr webmode-config) "php"))
-		 (message (cdr webmode-config))))
-	
-
-;; (use-package xref-js2
-;;	:ensure t
-;;	)
-
-;; disable jshint, we will use eslint instead
-;;(setq-default flycheck-disabled-checkers
-;;  (append flycheck-disabled-checkers
-;;    '(javascript-jshint)))
-;;
-;;(setq-default flycheck-disabled-checkers
-;;  (append flycheck-disabled-checkers
-;;    '(json-jsonlist)))
-
-
 ;; use web-mode for js,jsx and css files
 (add-to-list 'auto-mode-alist '("\\.js\\'" .  web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -180,12 +156,6 @@
 			(prettier-js-mode)
 			(local-set-key (kbd "C-j") 'javascript-prefix)
 			(company-mode))
-
-		(when (string-equal "php" file-extension)
-			(setenv "GTAGSLABEL" "pygments")
-			(setq web-mode-code-indent-offset 2)
-			;; (ggtags-mode)
-			)
 		)
 	)
 

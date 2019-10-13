@@ -113,6 +113,7 @@
 (require 'init-java)
 (require 'init-kotlin)
 (require 'init-webmode)
+(require 'init-php)
 (require 'init-hideshow)
 (require 'init-hydra)
 (require 'init-projectile)
