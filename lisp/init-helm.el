@@ -27,7 +27,8 @@
 		(general-define-key
 		 "M-x" 'helm-M-x
 		 "C-x C-f" 'helm-find-files
-		 "C-c q" 'helm-show-kill-ring)
+		 "C-c q" 'helm-show-kill-ring
+		 "C-x b" 'helm-mini)
 		(mikus-leader
 			"i" 'imenu
 			"o" 'helm-occur
