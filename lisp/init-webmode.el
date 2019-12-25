@@ -18,7 +18,10 @@
 	(setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
 	(setq-local company-manual-completion-fn #'company-tide)
 		;; formats the buffer before saving
-	(add-hook 'before-save-hook 'tide-format-before-save))
+	(prettier-mode)
+	;;(add-hook 'before-save-hook 'tide-format-before-save)
+
+	)
 
 (use-package tide
 	:ensure t
@@ -26,7 +29,13 @@
 	(add-hook 'typescript-mode-hook 'setup-tide-mode)
 	:config
 	(setq typescript-indent-level 2)
-	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2))
+	(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
+				tide-format-before-save nil)
+	)
+
+(after-load 'prettier
+	(add-to-list 'prettier-major-mode-parsers '(web-mode typescript))
+	(setq prettier-inline-errors-flag t)
 	)
 
 (use-package indium
@@ -80,14 +89,6 @@
 ;; javascript interpreter in a window
 (use-package js-comint
 	:ensure t)
-
-(use-package prettier-js
-	:ensure t
-	:init
-	(setq prettier-js-args '("--use-tabs" "true" "--bracket-spacing" "false" "--print-width" "100"))
-	:config
-	(define-key 'javascript-prefix (kbd "p") 'prettier-js)
-	)
 
 (use-package emmet-mode
 	:ensure t
@@ -153,7 +154,7 @@
 			(add-to-list (make-local-variable 'company-backends)
 									 'company-tern)
 			(tern-mode t)
-			(prettier-js-mode)
+			(prettier-mode)
 			(local-set-key (kbd "C-j") 'javascript-prefix)
 			(company-mode))
 		)

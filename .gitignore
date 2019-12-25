@@ -37,4 +37,6 @@ quelpa/*
 request
 lisp/flycheck_init-ibuffer.el
 helm-adaptive-history
+lsp-cache
+.lsp-session-v1
 %backup%~
