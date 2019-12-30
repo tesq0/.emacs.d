@@ -1,4 +1,3 @@
-
 (after-load 'dired
 	(defun dired-copy-file-path ()
 		(interactive)
@@ -33,6 +32,7 @@
 	 "<mouse-3>" 'dired-up-directory
 	 :states '(normal motion)
 	 ";" 'evil-forward-char
+	 "e" 'evil-forward-word-end
 	 "<" 'dired-up-directory
 	 ">" 'dired-find-file
 	 "k" 'dired-next-line
@@ -42,6 +42,7 @@
 	 "C-c C-o" 'dired-xdg-open
 	 )
 
+	;; ranger-like controls
 	(use-package dired-ranger
 		:ensure t
 		:init
@@ -53,9 +54,55 @@
 		 "p" 'dired-ranger-paste
 		 "m" 'dired-ranger-move))
 
+	;; colourful
+	(use-package diredfl
+		:ensure nil
+		:quelpa (diredfl :fetcher github :repo "purcell/diredfl")
+		:hook (dired-mode . diredfl-mode))
+
+	(use-package dired-x
+		:ensure nil
+		:hook (dired-mode . dired-omit-mode)
+		:config
+		(setq dired-omit-verbose nil
+					dired-omit-files
+					(concat dired-omit-files
+									"\\|^.DS_Store\\'"
+									"\\|^\\..+$"
+									"\\|^.project\\(?:ile\\)?\\'"
+									"\\|^.\\(svn\\|git\\)\\'"
+									"\\|^.ccls-cache\\'"
+									"\\|\\(?:\\.js\\)?\\.meta\\'"
+									"\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'"))
+		;; Disable the prompt about whether I want to kill the Dired buffer for a
+		;; deleted directory. Of course I do!
+		(setq dired-clean-confirm-killing-deleted-buffers nil)
+		;; Let OS decide how to open certain files
+		(when-let (cmd (cond (sys/macp "open")
+												 (sys/linuxp "xdg-open")
+												 (sys/win32p "start")))
+			(setq dired-guess-shell-alist-user
+						`(("\\.\\(?:docx\\|pdf\\|djvu\\|eps\\)\\'" ,cmd)
+							("\\.\\(?:jpe?g\\|png\\|gif\\|xpm\\)\\'" ,cmd)
+							("\\.\\(?:xcf\\)\\'" ,cmd)
+							("\\.csv\\'" ,cmd)
+							("\\.tex\\'" ,cmd)
+							("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" ,cmd)
+							("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
+							("\\.html?\\'" ,cmd)
+							("\\.md\\'" ,cmd))))
+		(general-define-key
+		 :keymaps 'dired-mode-map
+		 :states '(normal motion)
+		 "h" 'dired-omit-mode))
+
 	;; allow to change permissions
-	(setq wdired-allow-to-change-permissions t)
-	(setq dired-auto-revert-buffer t))
+	(setq wdired-allow-to-change-permissions t
+				;; Always copy/delete recursively
+        dired-recursive-copies  'always
+        dired-recursive-deletes 'top
+				dired-auto-revert-buffer t)
+	)
 
 
 (provide 'init-dired)
