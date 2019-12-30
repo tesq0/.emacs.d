@@ -153,7 +153,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(and evil-mode (evil-force-normal-state))
 	(if (not auto-hscroll-mode)
 			(setq auto-hscroll-mode t))
-	(keyboard-quit))
+	(and (not defining-kbd-macro) (keyboard-quit)))
 
 (defun go-start-of-line ()
 	"go to the start of line"
@@ -343,9 +343,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "C-w" 'evil-delete-backward-word
 	 )
 
-	(global-set-key [escape] 'keyboard-quit) ;;evil-exit-emacs-state
-
-
+	(global-set-key [escape] 'evil-keyboard-quit) ;;evil-exit-emacs-state
+	
 	(define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
 	(general-create-definer mikus-leader
@@ -401,9 +400,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(general-define-key
 
 	 :states '(motion normal)
-
-	 [escape] 'keyboard-quit
-
+	 
 	 "C-;"  'mikus-scroll-column-right
 	 "C-j"  'mikus-scroll-column-left
 	 "M-;"  nil
