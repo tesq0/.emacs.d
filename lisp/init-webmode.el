@@ -64,6 +64,7 @@
 	(setq web-mode-markup-indent-offset 4
 				web-mode-css-indent-offset 4
 				web-mode-code-indent-offset 4
+				web-mode-enable-auto-quoting nil
 				js-indent-level 2)
 	:config
 	(setq web-mode-auto-quote-style nil)
