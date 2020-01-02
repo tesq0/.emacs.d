@@ -2,18 +2,23 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("copyGuardian"
+(("Downloads"
+ (filename . "~/Downloads/")
+ (front-context-string . "mobiscroll.custo")
+ (rear-context-string . "86 Jan  1 09:31 ")
+ (position . 176))
+("copyGuardian"
  (filename . "c:/ClashOfStreamers/IdleGame/Assets/#/Sources/GeopetGO/GeopetGOExtensions.cs")
  (front-context-string . "AddAbilitySet(so")
  (rear-context-string . ");\n        copy.")
  (position . 73229))
 #1=(#("Notes" 0 5
-(bmkp-full-record #1#))
-(end-position . 663)
-(time 23529 26938 741803 0)
-(visits . 1)
-(filename . "d:/Stuff/Notes/")
-(front-context-string . "Cards.html\n  -rw")
-(rear-context-string . "921 08-31 17:03 ")
-(position . 663))
+			(bmkp-full-record #1#))
+		(end-position . 663)
+		(time 23529 26938 741803 0)
+		(visits . 1)
+		(filename . "d:/Stuff/Notes/")
+		(front-context-string . "Cards.html\n  -rw")
+		(rear-context-string . "921 08-31 17:03 ")
+		(position . 663))
 )
