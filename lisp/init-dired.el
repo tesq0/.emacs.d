@@ -27,6 +27,7 @@
 	 "i" 'dired-show-file-type
 	 "y" 'dired-copy-map
 	 "p" 'dired-paste-map
+	 "M" 'dired-mark-unmarked-files
 	 "<mouse-1>" 'dired-mouse-find-file
 	 "<mouse-2>" 'dired-find-file-other-window
 	 "<mouse-3>" 'dired-up-directory
