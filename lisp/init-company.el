@@ -33,9 +33,6 @@
 						 "C-SPC" 'company-manual-complete
 						 )
 
-						(general-unbind company-active-map
-							"RET" "<return>")
-
 						(general-define-key
 						 :keymaps 'company-active-map
 						 [tab] 'company-complete
@@ -43,6 +40,7 @@
 						 "C-p" 'company-select-previous
 						 "C-w" 'evil-delete-backward-word
 						 "C-e" 'company-complete-selection
+						 "RET" 'company-complete-selection
 						 "ESC" 'company-quit
 						 "<escape>" 'company-quit)
 
