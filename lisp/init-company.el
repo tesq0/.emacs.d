@@ -33,15 +33,18 @@
 						 "C-SPC" 'company-manual-complete
 						 )
 
+						(general-unbind company-active-map
+							"RET" "<return>")
+
 						(general-define-key
 						 :keymaps 'company-active-map
 						 [tab] 'company-complete
 						 "C-n" 'company-select-next
 						 "C-p" 'company-select-previous
 						 "C-w" 'evil-delete-backward-word
+						 "C-e" 'company-complete-selection
 						 "ESC" 'company-quit
 						 "<escape>" 'company-quit)
-
 
 					  ;; https://github.com/expez/company-quickhelp/issues/17
 
