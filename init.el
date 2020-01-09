@@ -359,7 +359,11 @@
 			 "C-c p" 'aweshell-prev
 			 "C-c s" 'aweshell-sudo-toggle
 			 "C-c x" 'aweshell-new))
+		(defun send-shell-input-on-company-selection ()
+			(when eshell-mode
+				(eshell-send-input)))
 		(add-hook 'eshell-mode-hook 'setup-aweshell-keybindings)
+		(advice-add 'company-complete-selection :after #'send-shell-input-on-company-selection)
 		)
 	)
 
