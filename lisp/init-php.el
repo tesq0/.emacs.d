@@ -11,5 +11,7 @@
 	(add-hook 'php-mode-hook 'setup-php)
 	)
 
+(use-package geben
+	:ensure t)
 
 (provide 'init-php)
