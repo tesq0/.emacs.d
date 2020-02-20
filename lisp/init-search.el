@@ -50,7 +50,7 @@
 	)
 
 (use-package fzf
-	:ensure nil)
+	:ensure t)
 
 
 (provide 'init-search)
