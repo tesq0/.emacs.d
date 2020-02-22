@@ -39,9 +39,10 @@
 						 "C-n" 'company-select-next
 						 "C-p" 'company-select-previous
 						 "C-w" 'evil-delete-backward-word
+						 "C-e" 'company-complete-selection
+						 "RET" 'company-complete-selection
 						 "ESC" 'company-quit
 						 "<escape>" 'company-quit)
-
 
 					  ;; https://github.com/expez/company-quickhelp/issues/17
 

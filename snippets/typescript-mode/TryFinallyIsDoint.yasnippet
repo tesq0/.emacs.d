@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: TryFinallyIsDoing
+# key: afc
+# --
+
+this.$1(true);
+try {
+  $0
+} finally {
+  this.$1(false);
+}

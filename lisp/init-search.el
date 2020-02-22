@@ -2,6 +2,27 @@
 	(cl-pushnew "-g !**/Generated*" rg-command-line-flags)
 	(cl-pushnew "-g !**/MessagePack*" rg-command-line-flags))
 
+(use-package fzf
+	:ensure t
+	:init
+	(progn
+		
+		(defun fzf ()
+			"Starts a fzf session."
+			(interactive)
+			(if (fboundp #'projectile-project-root)
+					(fzf/start (condition-case err
+												 (or (projectile-project-root) default-directory)
+											 (error
+												default-directory)))
+				(fzf/start default-directory)))
+		
+		(general-define-key
+		 :keymaps 'mikus-search-map
+		 "f" 'fzf)
+
+		))
+
 (use-package rg
 	:ensure t
 	:init
@@ -48,9 +69,5 @@
 
 		)
 	)
-
-(use-package fzf
-	:ensure nil)
-
 
 (provide 'init-search)

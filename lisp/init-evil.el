@@ -458,6 +458,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	 "M-o" 'insert-line-below
 	 "M-O" 'insert-line-above
 	 "M-J" 'evil-join-and-indent-upwards
+	 "C-M-j" 'evil-join-and-indent-upwards
 	 "M-j" 'evil-join-and-indent
 	 "M-i" 'evil-enter-insert-and-intent
 	 "C-b" nil

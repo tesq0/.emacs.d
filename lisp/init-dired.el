@@ -19,14 +19,15 @@
 		(let ((url (dired-get-filename)))
 			(try-xdg-open url)))
 
+	(general-unbind dired-mode-map
+		"<" ">" ";" "e" "v")
+
 	(general-define-key
 	 :keymaps 'dired-mode-map
-	 "<" 'nil
-	 ">" 'nil
-	 ";" 'nil
 	 "i" 'dired-show-file-type
 	 "y" 'dired-copy-map
 	 "p" 'dired-paste-map
+	 "M" 'dired-mark-unmarked-files
 	 "<mouse-1>" 'dired-mouse-find-file
 	 "<mouse-2>" 'dired-find-file-other-window
 	 "<mouse-3>" 'dired-up-directory
@@ -38,8 +39,8 @@
 	 "k" 'dired-next-line
 	 "l" 'dired-previous-line
 	 "n" 'evil-search-next
-	 "C-c o" 'dired-xdg-open
-	 "C-c C-o" 'dired-xdg-open
+	 "C-c o" 'dired-view-file
+	 "C-c C-o" 'dired-view-file
 	 )
 
 	;; ranger-like controls
@@ -87,7 +88,7 @@
 							("\\.\\(?:xcf\\)\\'" ,cmd)
 							("\\.csv\\'" ,cmd)
 							("\\.tex\\'" ,cmd)
-							("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" ,cmd)
+							("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\|webm\\)\\(?:\\.part\\)?\\'" ,cmd)
 							("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
 							("\\.html?\\'" ,cmd)
 							("\\.md\\'" ,cmd))))
