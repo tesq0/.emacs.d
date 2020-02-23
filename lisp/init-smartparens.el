@@ -62,7 +62,7 @@
 		(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 		(add-hook 'lisp-mode-hook #'smartparens-mode)
 		(smartparens-global-mode 0)
-		(smartparens-strict-mode t)
+		(smartparens-strict-mode nil)
 		(configure-smartparens-keybindings)
 
 		;; Disable single quote matching for lisp modes
