@@ -165,9 +165,12 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	(interactive)
 	(shell-command "start powershell"))
 
-(defun terminal ()
+(defun terminal (&optional args)
 	(interactive)
-	(async-shell-command (getenv "TERMINAL")))
+	(let ((cmd (format "%s %s" (getenv "TERMINAL") (or args ""))))
+		(async-shell-command cmd)
+		)
+	)
 
 (defun shell-other-window ()
 	"Open a `shell' in a new window."
@@ -306,6 +309,9 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	"Convert BUFFER from DOS file format to UNIX."
 	(interactive "*b")
 	(shell-command (format "dos2unix %s" (file-truename buffer))))
+
+(defun ranger ()
+	(interactive) (terminal "-e ranger"))
 
 (defun explorer ()
 	(interactive)
