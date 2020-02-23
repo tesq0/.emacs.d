@@ -6,6 +6,8 @@
 	:ensure t
 	:init
 	(progn
+
+		(require 'fzf)
 		
 		(defun fzf ()
 			"Starts a fzf session."
