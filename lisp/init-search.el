@@ -6,6 +6,8 @@
 	:ensure t
 	:init
 	(progn
+
+		(require 'fzf)
 		
 		(require 'fzf)
 		(defun fzf ()

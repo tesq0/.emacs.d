@@ -136,6 +136,7 @@
 (require 'init-godot)
 (require 'init-tex)
 (require 'init-arduino)
+;; (require 'init-slime)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
 
@@ -276,7 +277,7 @@
 (define-key fast-ex-map (kbd "p") 'power-shell)
 (define-key fast-ex-map (kbd "t") 'terminal)
 
-(define-key ctl-x-map (kbd "D") 'explorer)
+(define-key ctl-x-map (kbd "D") 'ranger)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 ;;(evil-leader/set-key "f" 'ctl-x-5-prefix)

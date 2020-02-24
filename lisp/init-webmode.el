@@ -23,6 +23,12 @@
 
 	)
 
+(use-package iter2
+	:ensure t)
+
+(use-package nvm
+	:ensure t)
+
 (use-package tide
 	:ensure t
 	:init
@@ -38,9 +44,9 @@
 	(setq prettier-inline-errors-flag t)
 	)
 
+
 (use-package indium
-	:ensure t
-	)
+	:ensure t)
 
 (defun setup-json()
 	(setq json-reformat:indent-width 1)
