@@ -20,4 +20,8 @@
 	(set-face-foreground 'dictionary-reference-face "CornflowerBlue")
 	)
 
+(setq ispell-program-name "aspell"
+			ispell-library-directory "~/.nix-profile/lib/aspell"
+			ispell-cmd-args "--conf ~/.config/aspell.conf")
+
 (provide 'init-dict)

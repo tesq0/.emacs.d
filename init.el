@@ -349,7 +349,23 @@
 	:init
 	(progn
 		(require 'aweshell)
+
+		(defun load-aweshell-company-bindings ()
+			(general-unbind company-active-map "RET"))
+		
+		(defun unload-aweshell-company-bindings ()
+			(message "UNLOAD")
+			(general-define-key :keymaps 'company-active-map
+													"RET" 'company-complete-selection))
+
+		(defun handle-loadin-eshell-keybindings ()
+			(message "Handle loading eshell keybindings")
+			(if (eshell-mode)
+																		(load-aweshell-company-bindings)
+				(unload-aweshell-company-bindings)))
+	
 		(defun setup-aweshell-keybindings ()
+			(load-aweshell-company-bindings)
 			(general-define-key
 			 :keymap 'eshell-mode-map
 			 "C-n" 'eshell-next-input
@@ -359,11 +375,6 @@
 			 "C-c p" 'aweshell-prev
 			 "C-c s" 'aweshell-sudo-toggle
 			 "C-c x" 'aweshell-new))
-		(defun send-shell-input-on-company-selection ()
-			(when eshell-mode
-				(eshell-send-input)))
-		(add-hook 'eshell-mode-hook 'setup-aweshell-keybindings)
-		(advice-add 'company-complete-selection :after #'send-shell-input-on-company-selection)
 		)
 	)
 

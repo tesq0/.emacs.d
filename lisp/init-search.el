@@ -7,6 +7,7 @@
 	:init
 	(progn
 		
+		(require 'fzf)
 		(defun fzf ()
 			"Starts a fzf session."
 			(interactive)
@@ -16,6 +17,10 @@
 											 (error
 												default-directory)))
 				(fzf/start default-directory)))
+
+		(defun fcd ()
+			(interactive)
+			(fzf/start "" (format "fd -t d %s" default-directory)))
 		
 		(general-define-key
 		 :keymaps 'mikus-search-map

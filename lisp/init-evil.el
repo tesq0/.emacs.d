@@ -456,6 +456,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(general-define-key
 	 :states '(motion insert)
 	 "M-o" 'insert-line-below
+	 "C-M-o" 'insert-line-below
 	 "M-O" 'insert-line-above
 	 "M-J" 'evil-join-and-indent-upwards
 	 "C-M-j" 'evil-join-and-indent-upwards
