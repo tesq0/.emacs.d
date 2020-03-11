@@ -30,7 +30,7 @@
 		 "C-c q" 'helm-show-kill-ring
 		 "C-x b" 'helm-mini)
 		(mikus-leader
-			"i" 'imenu
+			"i" 'helm-imenu
 			"o" 'helm-occur
 			"b" 'my/helm-buffer
 			"B" 'helm-mini
