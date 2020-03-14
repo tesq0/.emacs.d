@@ -8,7 +8,15 @@
 
 	(define-prefix-command 'dired-copy-map)
 	(define-prefix-command 'dired-paste-map)
-
+	(define-prefix-command 'go-map)
+	
+	(setq bookmark-alist
+				'(( "home" . (filename "~/"))
+					( "documents" . (filename "~/Documents"))
+					( "projects" . (filename "~/Projects"))
+					( "vid" . (filename "~/Videos"))
+					( "screenshot" . (filename "~/screenshoots"))))
+	
 	(general-define-key
 	 :keymaps 'dired-copy-map
 	 "p" 'dired-copy-file-path
@@ -20,7 +28,7 @@
 			(try-xdg-open url)))
 
 	(general-unbind dired-mode-map
-		"<" ">" ";" "e" "v")
+		"<" ">" ";" "e" "v" "g")
 
 	(general-define-key
 	 :keymaps 'dired-mode-map
@@ -35,6 +43,7 @@
 	 ";" 'evil-forward-char
 	 "e" 'evil-forward-word-end
 	 "<" 'dired-up-directory
+	 "g" 'bookmark-jump
 	 ">" 'dired-find-file
 	 "k" 'dired-next-line
 	 "l" 'dired-previous-line
