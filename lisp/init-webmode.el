@@ -18,6 +18,7 @@
 	(setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
 	(setq-local company-manual-completion-fn #'company-tide)
 		;; formats the buffer before saving
+	(emmet-mode)
 	(prettier-mode)
 	;;(add-hook 'before-save-hook 'tide-format-before-save)
 
@@ -98,8 +99,7 @@
 	:ensure t)
 
 (use-package emmet-mode
-	:ensure t
-	:hook (web-mode . emmet-mode))
+	:ensure t)
 
 ;; use web-mode for js,jsx and css files
 (add-to-list 'auto-mode-alist '("\\.js\\'" .  web-mode))
@@ -109,7 +109,6 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-
 
 
 (add-hook 'js2-mode-hook
