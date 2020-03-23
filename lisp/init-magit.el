@@ -16,6 +16,11 @@
 	(advice-add 'magit-blame--pre-blame-setup :before #'setup-default-blame-style)
 
 	(general-define-key
+	 :keymaps 'magit-mode-map
+	 :states '(normal motion visual)
+	 "<escape>" nil)
+
+	(general-define-key
 	 :keymaps 'mikus-magit-blame-map
 	 "C-S-c" 'magit-blame-copy-hash
 	 "b" 'magit-blame
