@@ -19,8 +19,8 @@
 	(setq-local company-manual-completion-fn #'company-tide)
 		;; formats the buffer before saving
 	(emmet-mode)
-	(prettier-mode)
-	;;(add-hook 'before-save-hook 'tide-format-before-save)
+	;; (prettier-mode)
+	(add-hook 'before-save-hook 'tide-format-before-save)
 
 	)
 
@@ -45,7 +45,6 @@
 	(setq prettier-inline-errors-flag t)
 	)
 
-
 (use-package indium
 	:ensure t)
 
@@ -68,9 +67,9 @@
 	:ensure t
 	:init
 	;; adjusting indentation level
-	(setq web-mode-markup-indent-offset 4
+	(setq web-mode-markup-indent-offset 2
 				web-mode-css-indent-offset 4
-				web-mode-code-indent-offset 4
+				web-mode-code-indent-offset 2
 				web-mode-enable-auto-quoting nil
 				js-indent-level 2)
 	:config
