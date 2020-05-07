@@ -39,7 +39,7 @@
 	"Define my own indenting style for C."
 	(c-add-style "mikus-c"
 							 '("gnu"
-								 (c-basic-offset . 4)
+								 (c-basic-offset . 2)
 								 (c-offsets-alist
 									(innamespace . +)
 									(template-args-cont . +)
@@ -49,7 +49,8 @@
 									(arglist-cont-nonempty . 0)
 									(arglist-intro . +)
 									(arglist-close . c-lineup-close-paren))))
-	(add-to-list 'c-default-style '(c-mode . "mikus-c")))
+	(add-to-list 'c-default-style '(c-mode . "mikus-c"))
+	)
 
 (after-load 'cc-mode
 	(init-c-style)
