@@ -1,5 +1,7 @@
 (use-package lsp-mode
-	:ensure t
+	:ensure nil
+	:quelpa
+	(lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode")
 	:config
 	(setq lsp-enable-indentation nil
 				lsp-inhibit-message t
@@ -14,6 +16,7 @@
 	(setq company-lsp-cache-candidates t))
 
 (use-package lsp-ui
+	:after lsp-mode
 	:ensure t
 	:config
 	(setq lsp-ui-sideline-enable nil
