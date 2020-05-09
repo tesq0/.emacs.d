@@ -188,13 +188,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 \  First look in evil-ex-search-pattern (only if USEEXPATTERN or in visual-mode)
 \  Then look in 'evil-this-register'.
 \  Lastly, use the 'word-at-point.'"
-	(regexp-quote
-	 (or (and evil-ex-search-pattern
-						(or useExPattern (evil-visual-state-p) )
-						(replace-regexp-in-string
-						 "[\\<>]" "" (car evil-ex-search-pattern )))
-			 (and evil-this-register (get-register evil-this-register))
-			 (word-at-point))))
+	(replace-regexp-in-string
+	 "\/" "\\\\/"
+	 (regexp-quote
+		(or (and evil-ex-search-pattern
+						 (or useExPattern (evil-visual-state-p))
+						 (replace-regexp-in-string
+							"[\\<>]" "" (car evil-ex-search-pattern )))
+				(and evil-this-register (get-register evil-this-register))
+				(word-at-point)))))
 
 (defun my/evil-get-substitute-beg-end ()
 	(if (evil-visual-state-p)
