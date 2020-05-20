@@ -297,6 +297,10 @@
 
 (define-prefix-command	'fast-buffer-map)
 
+(define-prefix-command	'convert-case-map)
+(global-set-key (kbd "C-c c") 'convert-case-map)
+(define-key convert-case-map (kbd "b") 'camel-to-burger-case)
+
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
 ;; Annoying undo tree keybindings

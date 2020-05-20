@@ -376,6 +376,19 @@ buffer is not visiting a file."
 	(shell-command "i3-msg split h")
 	(make-frame))
 
+(defun camel-to-burger-case ()
+	"Convert word at point from camelCase to burger-case"
+	(interactive)
+	(let* ((case-fold-search nil)
+				 (bounds (bounds-of-thing-at-point 'word))
+				 (s (car bounds))
+				 (e (cdr bounds))
+				 (word (buffer-substring-no-properties s e))
+				 (new-word (downcase (replace-regexp-in-string "\\([A-Z]\\)" "-\\1" word))))
+		(delete-region s e)
+		(goto-char s)
+		(insert (format "\"%s\"" new-word))))
+
 (defun evil-find-WORD (forward)
   "Return WORD near point as a string.
 If FORWARD is nil, search backward, otherwise forward.  Returns
