@@ -30,11 +30,21 @@
 	(general-unbind dired-mode-map
 		"<" ">" ";" "e" "v" "g")
 
+	(defun dired-dragon (&optional file-list)
+		(interactive
+		 (let ((files (dired-get-marked-files t current-prefix-arg)))
+			 (list files)))
+		(let* ((file-string (string-join file-list " "))
+					 (command (format "dragon -a -x %s &" file-string)))
+			(shell-command command)))
+	
 	(general-define-key
 	 :keymaps 'dired-mode-map
 	 "i" 'dired-show-file-type
 	 "y" 'dired-copy-map
 	 "p" 'dired-paste-map
+	 "C-d" 'dired-dragon
+	 "M" 'dired-mark-unmarked-files
 	 "M" 'dired-mark-unmarked-files
 	 "<mouse-1>" 'dired-mouse-find-file
 	 "<mouse-2>" 'dired-find-file-other-window
