@@ -38,7 +38,6 @@
 		 "s" 'save--project)
 		(general-define-key
 		 :keymaps 'mikus-search-map
-		 "g" 'helm-grep-do-git-grep
 		 "a" 'projectile-ag)
 		)
 	(setq projectile-tags-backend '(etags-select))

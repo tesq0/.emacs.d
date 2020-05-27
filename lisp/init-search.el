@@ -60,6 +60,7 @@
 		 :keymaps 'mikus-search-map
 		 "d" 'rg-dwim-current-dir
 		 "r" 'rg
+		 "g" 'find-grep
 		 "p" 'rg-dwim-project-dir
 		 "P" 'rg-project
 		 "m" 'rg-project-merge-conflicts)
