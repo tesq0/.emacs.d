@@ -194,7 +194,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 		(or (and evil-ex-search-pattern
 						 (or useExPattern (evil-visual-state-p))
 						 (replace-regexp-in-string
-							"[\\<>]" "" (car evil-ex-search-pattern )))
+							"[\\]" "" (car evil-ex-search-pattern )))
 				(and evil-this-register (get-register evil-this-register))
 				(word-at-point)))))
 
