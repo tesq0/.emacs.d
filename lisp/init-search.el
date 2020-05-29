@@ -60,6 +60,7 @@
 		 :keymaps 'mikus-search-map
 		 "d" 'rg-dwim-current-dir
 		 "r" 'rg
+		 "g" 'find-grep
 		 "p" 'rg-dwim-project-dir
 		 "P" 'rg-project
 		 "m" 'rg-project-merge-conflicts)
@@ -72,6 +73,11 @@
 		 "l" 'evil-previous-line
 		 "C-c C-p" 'wgrep-change-to-wgrep-mode
 		 "C-c C-r" 'rg-reload)
+
+		(general-define-key
+		 :keymaps 'grep-mode-map
+		 "C-c C-p" 'wgrep-change-to-wgrep-mode)
+		
 		(setq rg-group-result nil)
 
 		)

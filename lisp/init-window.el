@@ -16,6 +16,7 @@
 					'((compilation-mode              :select t													:size 0.5	 :align below)
 						("*undo-tree*"                                                    :size 0.25 :align right)
 						(rg-mode                       :select t													:size 0.5	 :align below)
+						(grep-mode                       :select t													:size 0.5	 :align below)
 						(ggtags-global-mode            :select t													:size 0.5	 :align below)
 						("*eshell*"                    :select t                          :other t               )
 						("*Shell Command Output*"      :select nil                                               )
