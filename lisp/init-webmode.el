@@ -146,6 +146,9 @@
 
 	(let ((file-extension (file-name-extension buffer-file-name)))
 
+		(when (string-match "html?" file-extension)
+			(emmet-mode))
+
 		(when (string-equal "tsx" file-extension)
 			(setup-tide-mode))
 
