@@ -74,6 +74,11 @@
 				js-indent-level 2)
 	:config
 	(setq web-mode-auto-quote-style nil)
+
+	(setq web-mode-engines-alist
+				'(("php"    . "\\.htm\\'")))
+
+	;; (cdr (assoc "php" web-mode-engine-open-delimiter-regexps))
 	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
 	)
 
@@ -105,6 +110,7 @@
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
