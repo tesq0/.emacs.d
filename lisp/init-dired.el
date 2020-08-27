@@ -1,6 +1,8 @@
 
 (after-load 'dired
 
+	(define-key ctl-x-map (kbd "C-d") 'dired)
+
 	(defcustom dired-show-hidden-files nil
 		"Whether to show hidden files in dired"
 		:group 'dired
