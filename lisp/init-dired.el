@@ -35,7 +35,7 @@
 			(try-xdg-open url)))
 
 	(general-unbind dired-mode-map
-		"<" ">" ";" "e" "v" "g")
+		"<" ">" ";" "e" "v" "g" "N")
 
 	(defun dired-dragon (&optional file-list)
 		(interactive
