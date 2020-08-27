@@ -74,6 +74,11 @@
 				js-indent-level 2)
 	:config
 	(setq web-mode-auto-quote-style nil)
+
+	(setq web-mode-engines-alist
+				'(("php"    . "\\.htm\\'")))
+
+	;; (cdr (assoc "php" web-mode-engine-open-delimiter-regexps))
 	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
 	)
 
@@ -143,7 +148,7 @@
 
 		(when (or
 					 (string-equal "php" file-extension)
-					 (string-equal "html" file-extension)
+					 (string-equal "html?" file-extension)
 					 (string-equal "htm" file-extension)
 					 )
 			(emmet-mode))
