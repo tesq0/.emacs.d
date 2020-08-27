@@ -105,6 +105,7 @@
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -139,6 +140,13 @@
 	(electric-pair-local-mode 1)
 
 	(let ((file-extension (file-name-extension buffer-file-name)))
+
+		(when (or
+					 (string-equal "php" file-extension)
+					 (string-equal "html" file-extension)
+					 (string-equal "htm" file-extension)
+					 )
+			(emmet-mode))
 
 		(when (string-equal "tsx" file-extension)
 			(setup-tide-mode))
