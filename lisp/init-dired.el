@@ -1,4 +1,11 @@
+
 (after-load 'dired
+
+	(defcustom dired-show-hidden-files nil
+		"Whether to show hidden files in dired"
+		:group 'dired
+		:type 'boolean)
+	
 	(defun dired-copy-file-path ()
 		(interactive)
 		(let ((path (dired-get-filename)))
@@ -82,7 +89,6 @@
 
 	(use-package dired-x
 		:ensure nil
-		:hook (dired-mode . dired-omit-mode)
 		:config
 		(setq dired-omit-verbose nil
 					dired-omit-files
@@ -111,10 +117,26 @@
 							("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
 							("\\.html?\\'" ,cmd)
 							("\\.md\\'" ,cmd))))
-		(general-define-key
-		 :keymaps 'dired-mode-map
-		 :states '(normal motion)
-		 "h" 'dired-omit-mode))
+		
+	(defun dired-toggle-show-hidden-files ()
+		(interactive)
+		(setq dired-show-hidden-files (not dired-show-hidden-files))
+		(when (eq major-mode 'dired-mode)
+			(let ((prefix-arg (not dired-show-hidden-files)))
+				(call-interactively 'dired-omit-mode))))
+
+	(defun dired-maybe-show-hidden-files ()
+		(when (not dired-show-hidden-files)
+			(dired-omit-mode)
+			)
+		)
+	
+	(add-hook 'dired-mode-hook 'dired-maybe-show-hidden-files)
+
+	(general-define-key
+	 :keymaps 'dired-mode-map
+	 :states '(normal motion)
+	 "h" 'dired-toggle-show-hidden-files))
 
 	;; allow to change permissions
 	(setq wdired-allow-to-change-permissions t
