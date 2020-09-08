@@ -126,8 +126,7 @@
 
 
 (use-package omnisharp
-	:ensure nil
-	:quelpa (omnisharp :fetcher github :repo "tesq0/omnisharp-emacs" :branch "develop")
+	:ensure t
 	:init
 	(progn
 		(add-hook 'csharp-mode-hook 'initCsharp t)
