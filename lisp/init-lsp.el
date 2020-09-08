@@ -1,7 +1,7 @@
 (use-package lsp-mode
-	:ensure nil
-	:quelpa
-	(lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode" :branch "6.3.1")
+	:ensure t
+	;; :quelpa
+	;; (lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode")
 	:config
 	(setq lsp-enable-indentation nil
 				lsp-inhibit-message t

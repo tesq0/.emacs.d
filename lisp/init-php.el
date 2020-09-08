@@ -2,7 +2,9 @@
 			(setenv "GTAGSLABEL" "pygments")
 			(setq-local c-basic-offset 4)
 			(lsp)
-			(setq-local company-backends '(company-files (company-dabbrev-code :with company-lsp company-yasnippet company-keywords) ))
+			(yas-minor-mode)
+			(setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
+			(setq-local company-manual-completion-fn #'company-capf)
 	)
 
 (use-package php-mode
