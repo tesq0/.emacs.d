@@ -137,6 +137,7 @@
 (require 'init-tex)
 (require 'init-arduino)
 (require 'init-python)
+(require 'init-spellcheck)
 ;; (require 'init-slime)
 ;; (require 'init-icicle)
 ;; (require 'cmd-mode) ;; throws errors
