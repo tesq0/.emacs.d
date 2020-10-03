@@ -120,6 +120,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 
+(add-to-list 'auto-mode-alist '("\\.twig\\'" . web-mode))
+
 
 (add-hook 'js2-mode-hook
 					(lambda ()
@@ -155,6 +157,7 @@
 					 (string-equal "php" file-extension)
 					 (string-equal "html?" file-extension)
 					 (string-equal "htm" file-extension)
+					 (string-equal "twig" file-extension)
 					 )
 			(emmet-mode))
 
