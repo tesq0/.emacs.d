@@ -4,36 +4,20 @@
   "Options for C language setup"
   :group 'init)
 
-(defcustom irony-disabled-modes '()
-	"List of disabled irony modes."
+(defcustom c-langserv-disabled-modes '()
+	"List of disabled modes (where langserver sound not start)."
 	:group 'c-options
 	:type '(set symbol))
 
-(use-package irony
-	:ensure t
-	:init
-	(progn
+(defun enable-c-langserver ()
+	"Enable C langserver."
+	(and
+	 (not (memq major-mode c-langserv-disabled-modes))
+	 (lsp)))
 
-		(defun enable-irony-mode ()
-			(and
-			 (not (memq major-mode irony-disabled-modes))
-			 (irony-mode)))
-
-		(setq irony--server-executable (concat (getenv "HOME") "/.nix-profile/bin/irony-server"))
-		(add-hook 'c++-mode-hook 'irony-mode)
-		(add-hook 'c-mode-hook 'enable-irony-mode)
-		(add-hook 'objc-mode-hook 'irony-mode)
-		(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)))
-
-(use-package flycheck-irony
-	:after irony
-	:ensure t
-	:init
-	(flycheck-irony-setup))
-
-(use-package irony-eldoc
-	:after irony
-	:ensure t)
+(add-hook 'c++-mode-hook 'enable-c-langserver)
+(add-hook 'c-mode-hook 'enable-c-langserver)
+(add-hook 'objc-mode-hook 'enable-c-langserver)
 
 (defun init-c-style()
 	"Define my own indenting style for C."
@@ -53,14 +37,6 @@
 	)
 
 (after-load 'cc-mode
-	(init-c-style)
-	(add-hook 'c-mode-hook #'irony-eldoc))
-
-(defun irony-iotask-ectx-call-callback (ectx result)
-  (let ((cb-buffer (irony-iotask-ectx-schedule-buffer ectx)))
-    (when (buffer-live-p cb-buffer)
-      (with-demoted-errors "Irony I/O task: error in callback: %S"
-        (with-current-buffer cb-buffer
-          (funcall (irony-iotask-ectx-callback ectx) result))))))
+	(init-c-style))
 
 (provide 'init-c)
