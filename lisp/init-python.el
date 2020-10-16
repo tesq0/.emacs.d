@@ -3,13 +3,14 @@
 	:mode ("\\.py\\'" . python-mode)
 	:interpreter (("python"  . python-mode)
 								("python3" . python-mode))
-	:preface 
-
+	:preface
 	(defun setup-py ()
 		(require 'lsp-pyls)
+		(yas-minor-mode-on)
 		(lsp-deferred)
-		(setq-local company-backends '(company-files (company-dabbrev-code :with company-lsp company-yasnippet company-keywords))))
-	
+		;; (setq-local company-backends '(company-files (company-dabbrev-code :with company-lsp company-yasnippet company-keywords)))
+		)
+
 	:hook ((python-mode . setup-py))
 
 	:config
