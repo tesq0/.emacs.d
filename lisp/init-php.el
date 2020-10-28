@@ -4,15 +4,6 @@
 
 ;;; Code:
 
-(defun setup-php ()
-	"Configure local stuff when changing to php-mode."
-	(setenv "GTAGSLABEL" "pygments")
-	(setq-local c-basic-offset 4)
-	(lsp)
-	(yas-minor-mode)
-	(setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
-	(setq-local company-manual-completion-fn #'company-capf))
-
 (defun php-cs-fixer-command-is-ok ()
 	"Check if php-cs-fixer is in PATH."
 	(if (executable-find "php-cs-fixer")
@@ -69,8 +60,10 @@
 						(if (zerop (call-process-region (point-min) (point-max) "diff" nil patchbuf nil "-n" "-" tmpfile))
 								(message "Buffer is already php-cs-fixed")
 							(with-current-buffer (current-buffer)
-								(erase-buffer)
-								(insert-file-contents tmpfile)
+								(let ((saved-position (point)))
+									(erase-buffer)
+									(insert-file-contents tmpfile)
+									(goto-char (min saved-position (point-max))))
 								(message "Applied php-cs-fixer"))))
 				(warn (with-current-buffer errbuf (buffer-string))))))))
 
@@ -88,17 +81,21 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 				 ) (php-cs-fixer-fix)))
 
 
-(defun toggle-php-formating ()
-	"Toggles php-cs-fixer after save when changing major mode."
-	(if (memq major-mode '(php-mode))
-			(add-hook 'before-save-hook #'php-cs-fixer-before-save)
-		(remove-hook 'before-save-hook #'php-cs-fixer-before-save)))
+(defun setup-php ()
+	"Configure local stuff when changing to php-mode."
+	(setenv "GTAGSLABEL" "pygments")
+	(setq-local c-basic-offset 4)
+	(lsp)
+	(yas-minor-mode)
+	(setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
+	(setq-local company-manual-completion-fn #'company-capf)
+	(add-hook 'before-save-hook #'php-cs-fixer-before-save nil t))
 
 (use-package php-mode
 	:ensure t
 	:init
-	(add-hook 'php-mode-hook 'setup-php)
-	(add-hook 'after-change-major-mode-hook #'toggle-php-formating))
+	(add-hook 'php-mode-hook 'setup-php))
+
 
 (use-package geben
 	:ensure t)

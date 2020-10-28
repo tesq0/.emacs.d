@@ -8,18 +8,8 @@
 		(require 'lsp-pyls)
 		(yas-minor-mode-on)
 		(lsp-deferred)
-		)
-
-	(defun toggle-py-formating ()
-
-		(if (and (eq major-mode 'python-mode) (memq 'lsp-mode minor-mode-list))
-				(add-hook 'before-save-hook #'lsp-format-buffer)
-			(remove-hook 'before-save-hook #'lsp-format-buffer)))
+		(add-hook 'before-save-hook #'lsp-format-buffer nil t))
 	
-	:hook ((python-mode . setup-py))
-	:config
-	(add-hook 'after-change-major-mode-hook #'toggle-py-formating)
-	
-)
+	:hook ((python-mode . setup-py)))
 
 (provide 'init-python)
