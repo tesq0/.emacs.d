@@ -82,11 +82,6 @@
 	;;(define-key web-mode-map (kbd "C-t") (lookup-key web-mode-map (kbd "C-c C-t")))
 	)
 
-(use-package php-cs-fixer
-	:ensure nil
-	:quelpa (php-cs-fixer :fetcher github :repo "OVYA/php-cs-fixer")
-	:init (add-hook 'before-save-hook 'php-cs-fixer-before-save))
-	
 (use-package tern
 	:ensure t
 	:config
