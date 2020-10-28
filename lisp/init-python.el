@@ -8,15 +8,18 @@
 		(require 'lsp-pyls)
 		(yas-minor-mode-on)
 		(lsp-deferred)
-		;; (setq-local company-backends '(company-files (company-dabbrev-code :with company-lsp company-yasnippet company-keywords)))
 		)
 
+	(defun toggle-py-formating ()
+
+		(if (and (eq major-mode 'python-mode) (memq 'lsp-mode minor-mode-list))
+				(add-hook 'before-save-hook #'lsp-format-buffer)
+			(remove-hook 'before-save-hook #'lsp-format-buffer)))
+	
 	:hook ((python-mode . setup-py))
-
 	:config
-	(add-hook #'python-mode-hook
-						#'(lambda () (add-hook #'before-save-hook #'lsp-format-buffer nil t)))
-
+	(add-hook 'after-change-major-mode-hook #'toggle-py-formating)
+	
 )
 
 (provide 'init-python)
