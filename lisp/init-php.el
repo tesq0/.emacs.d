@@ -19,6 +19,20 @@
 			t
 		(progn (warn "php-cs-fixer not found") nil)))
 
+(defun find-csfix-config ()
+	"Find the nearest php-cs-fixer config file."
+	(let* ((dir (or
+							(and (fboundp 'projectile-project-root)
+									 (projectile-project-root))
+							default-directory))
+				 (config (string-trim (shell-command-to-string (format "find %s -name .php_cs | head -n 1" dir)))))
+		(or
+		 (and
+			(not (string-empty-p config))
+			config)
+		 nil)
+		))
+
 (defun php-cs-fixer-fix ()
 	"Run php cs fixer on the current buffer."
 
@@ -27,7 +41,8 @@
 		(let ((tmpfile (make-temp-file "PHP-CS-Fixer" nil ".php"))
 					(patchbuf (get-buffer-create "*PHP-CS-Fixer patch*"))
 					(errbuf (get-buffer-create "*PHP-CS-Fixer stdout*"))
-					(php-cs-fixer-command "php-cs-fixer"))
+					(php-cs-fixer-command "php-cs-fixer")
+					(config (find-csfix-config)))
 
 			(save-restriction
 				(widen)
@@ -47,14 +62,17 @@
 													"fix"
 													"--using-cache=no"
 													"--quiet"
+													(or (and config
+																	 (format "--config=%s" config))
+															nil)
 													tmpfile)
 						(if (zerop (call-process-region (point-min) (point-max) "diff" nil patchbuf nil "-n" "-" tmpfile))
 								(message "Buffer is already php-cs-fixed")
 							(with-current-buffer (current-buffer)
 								(erase-buffer)
 								(insert-file-contents tmpfile)
-								(message "Applied php-cs-fixer")))
-				(warn (with-current-buffer errbuf (buffer-string)))))))))
+								(message "Applied php-cs-fixer"))))
+				(warn (with-current-buffer errbuf (buffer-string))))))))
 
 (defun php-cs-fixer-before-save ()
 	"Used to automatically fix the file saving the buffer.
