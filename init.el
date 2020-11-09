@@ -388,6 +388,11 @@
 (use-package yaml-mode
 	:ensure t)
 
+(use-package firestarter
+	:ensure t
+	:init
+	(firestarter-mode))
+
 (use-package pomodoro
 	:ensure t
 	:init
