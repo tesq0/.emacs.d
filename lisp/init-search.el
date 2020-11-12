@@ -70,6 +70,10 @@
 
 		(general-define-key
 		 :keymaps 'rg-mode-map
+		 :states '(visual normal)
+		 "r" 'rg-rerun-change-regexp
+		 "f" 'rg-rerun-change-files
+		 "d" 'rg-rerun-change-dir
 		 "l" 'evil-previous-line
 		 "C-c C-p" 'wgrep-change-to-wgrep-mode
 		 "C-c C-r" 'rg-reload)
