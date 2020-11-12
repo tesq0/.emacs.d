@@ -13,13 +13,15 @@
 			(evil-add-command-properties fn :jump t))))
 
 (use-package undo-tree
-	:ensure nil
-	:quelpa (undo-tree :fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git"))
+	:ensure t
+	;;:quelpa (undo-tree :fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git")
+)
 
 (use-package evil
 	:ensure nil
 	:quelpa (evil :fetcher github :repo "emacs-evil/evil")
 	:init
+	(global-undo-tree-mode)
 	(progn
 		(setq evil-mode-line-format nil
 					evil-insert-state-cursor '(bar "White")
@@ -32,6 +34,7 @@
 		(setq evil-ex-search-persistent-highlight nil)
 		(setq evil-want-fine-undo nil)
 		(setq evil-kill-on-visual-paste nil)
+		(setq evil-undo-system 'undo-tree)
 		)
 	:config
 	(mikus-evil-setup-command-props)
@@ -329,7 +332,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 	(global-set-key (kbd "<f9>") 'repeat-complex-command)
 
 	(general-define-key
-	 "C-S-v" 'evil-visual-paste
+	 "C-S-v" 'yank
 	 "C-S-c" 'evil-yank
 	 "C-x w" 'mark-window)
 	
