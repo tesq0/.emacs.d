@@ -243,9 +243,9 @@
 		)
 	)
 
-(use-package company-tern
-	:ensure t
-	)
+;; (use-package company-tern
+;; 	:ensure t
+;; 	)
 
 (use-package rainbow-mode
 	:ensure t)
