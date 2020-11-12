@@ -152,14 +152,13 @@
 
 (defun setup-company-box ()
 	(setq-local company-box--scrollbar-window t)
-	(setq-local company-box-enable-icon nil)
-	)
+	(setq-local company-box-enable-icon nil))
 
-(use-package company-box
-	:ensure t
-	:hook (company-mode . company-box-mode)
-	:init
-	(add-hook 'company-box-mode-hook 'setup-company-box))
+;; (use-package company-box
+;; 	:ensure t
+;; 	:hook (company-mode . company-box-mode)
+;; 	:init
+;; 	(add-hook 'company-box-mode-hook 'setup-company-box))
 
 ;; Package `company-prescient' provides intelligent sorting and
 ;; filtering for candidates in Company completions.
