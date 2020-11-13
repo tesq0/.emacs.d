@@ -23,7 +23,6 @@
 	(defvar csharp-eldoc-commands (obarray-make 1))
 	(set (intern "eldoc-print" csharp-eldoc-commands) 1)
 
-	(setq-local tab-width 4)
 	(setq-local c-syntactic-indentation 1)
 	(setq-local indent-tabs-mode nil)
 	(setq-local eldoc-message-commands csharp-eldoc-commands)
