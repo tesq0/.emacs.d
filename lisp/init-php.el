@@ -94,8 +94,15 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 (use-package php-mode
   :ensure t
   :init
-  (add-hook 'php-mode-hook 'setup-php))
-
+  (add-hook 'php-mode-hook 'setup-php)
+  (after-load 'dap-mode
+    (progn
+      (require 'dap-php)
+      (setq dap-utils-unzip-script "7z x %s -o%s")
+      (dap-php-setup)
+      ()
+      )
+    ))
 
 (use-package geben
   :ensure t)

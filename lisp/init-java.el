@@ -34,6 +34,9 @@
   :after lsp-mode
   :config
   (dap-mode t)
-  (dap-ui-mode t))
+  (dap-ui-mode t)
+  :init
+  (add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra))))
 
 (provide 'init-java)
