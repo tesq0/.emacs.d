@@ -9,12 +9,12 @@
 
 ;; NO tool bar
 (if (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
+    (tool-bar-mode -1))
 ;; no scroll bar
 (if (fboundp 'set-scroll-bar-mode)
-  (set-scroll-bar-mode nil))
+    (set-scroll-bar-mode nil))
 ;; no menu bar
 (if (fboundp 'menu-bar-mode)
-  (menu-bar-mode -1))
+    (menu-bar-mode -1))
 
 (provide 'init-gui-frames)

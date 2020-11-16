@@ -1,34 +1,34 @@
 (defun windowsPerformanceTweaks()
-	;; Windows performance tweaks
-	;;
-	(when (boundp 'w32-pipe-read-delay)
-		(setq w32-pipe-read-delay 0))
-	;; Set the buffer size to 64K on Windows (from the original 4K)
-	(when (boundp 'w32-pipe-buffer-size)
-		(setq irony-server-w32-pipe-buffer-size (* 64 1024))))
+  ;; Windows performance tweaks
+  ;;
+  (when (boundp 'w32-pipe-read-delay)
+    (setq w32-pipe-read-delay 0))
+  ;; Set the buffer size to 64K on Windows (from the original 4K)
+  (when (boundp 'w32-pipe-buffer-size)
+    (setq irony-server-w32-pipe-buffer-size (* 64 1024))))
 
 (when sys/win32p
-	(progn
+  (progn
 
-		(windowsPerformanceTweaks)
-		;; Make sure Unix tools are in front of `exec-path'
-		(let ((bash (executable-find "bash")))
-			(when bash
-				(push (file-name-directory bash) exec-path)))
+    (windowsPerformanceTweaks)
+    ;; Make sure Unix tools are in front of `exec-path'
+    (let ((bash (executable-find "bash")))
+      (when bash
+	(push (file-name-directory bash) exec-path)))
 
-		;; Update PATH from exec-path
-		(let ((path (mapcar 'file-truename
-												(append exec-path
-																(split-string (getenv "PATH") path-separator t)))))
+    ;; Update PATH from exec-path
+    (let ((path (mapcar 'file-truename
+			(append exec-path
+				(split-string (getenv "PATH") path-separator t)))))
 
-			(setenv "PATH" (mapconcat 'identity (delete-dups path) path-separator)))
+      (setenv "PATH" (mapconcat 'identity (delete-dups path) path-separator)))
 
-		(setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))))
+    (setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))))
 
 (when (memq window-system '(mac ns x))
-		(use-package exec-path-from-shell
-			:ensure t
-			:init
-			(exec-path-from-shell-initialize)))
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize)))
 
 (provide 'init-system)

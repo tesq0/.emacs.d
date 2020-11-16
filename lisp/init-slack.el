@@ -6,14 +6,14 @@
   (setq slack-prefer-current-team t)
   :config
 
-	(when (boundp 'singularity-client-id)
-		(slack-register-team
-		 :name "thesingularitygroup"
-		 :client-id singularity-client-id
-		 :client-secret ""
-		 :token ""
-		 :subscribed-channels '(important twitchintegration idlegame))
-		)
+  (when (boundp 'singularity-client-id)
+    (slack-register-team
+     :name "thesingularitygroup"
+     :client-id singularity-client-id
+     :client-secret ""
+     :token ""
+     :subscribed-channels '(important twitchintegration idlegame))
+    )
 
 
   (evil-define-key 'normal slack-info-mode-map
@@ -34,7 +34,7 @@
     ",3" 'slack-message-embed-channel
     "\C-n" 'slack-buffer-goto-next-message
     "\C-p" 'slack-buffer-goto-prev-message)
-   (evil-define-key 'normal slack-edit-message-mode-map
+  (evil-define-key 'normal slack-edit-message-mode-map
     ",k" 'slack-message-cancel-edit
     ",s" 'slack-message-send-from-buffer
     ",2" 'slack-message-embed-mention

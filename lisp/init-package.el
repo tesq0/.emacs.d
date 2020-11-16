@@ -12,8 +12,8 @@
 
 
 (setq package-archives '(("org"       . "https://orgmode.org/elpa/")
-												 ("gnu"       . "https://elpa.gnu.org/packages/")
-												 ("melpa"     . "https://melpa.org/packages/")))
+			 ("gnu"       . "https://elpa.gnu.org/packages/")
+			 ("melpa"     . "https://melpa.org/packages/")))
 
 ;; Initialize packages
 (setq package-enable-at-startup nil)    ; To prevent initialising twice
@@ -41,19 +41,19 @@
 (use-package package-utils
   :init
   (defalias 'upgrade-packages 'package-utils-upgrade-all)
-	(defalias 'upgrade-packages-and-restart 'package-utils-upgrade-all-and-restart))
+  (defalias 'upgrade-packages-and-restart 'package-utils-upgrade-all-and-restart))
 
 (use-package quelpa
-	:ensure t
-	:demand t
-	:init
-	(progn
-		(quelpa  '(quelpa-use-package
-							 :fetcher git
-							 :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
-		(require 'quelpa-use-package)
-		)
-	)
+  :ensure t
+  :demand t
+  :init
+  (progn
+    (quelpa  '(quelpa-use-package
+	       :fetcher git
+	       :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+    (require 'quelpa-use-package)
+    )
+  )
 
 (provide 'init-package)
 
