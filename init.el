@@ -417,6 +417,10 @@
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
 (setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)
 (put 'narrow-to-region 'disabled nil)
