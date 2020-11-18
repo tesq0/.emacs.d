@@ -24,7 +24,7 @@
 	(add-hook 'before-save-hook 'tide-format-before-save))
 
 (use-package nvm
-	:ensure t)
+  :ensure t)
 
 (use-package tide
 	:ensure t

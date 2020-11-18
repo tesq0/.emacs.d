@@ -1,5 +1,5 @@
 (require 'icicles)
 (after-load 'icicles
-	(icy-mode))
+  (icy-mode))
 
 (provide 'init-icicles)

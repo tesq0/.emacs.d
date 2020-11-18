@@ -23,7 +23,7 @@
 ;;(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
 (setq echo-keystrokes 0.05)                     ; when to echo keystrokes
 ;;(setq frame-resize-pixelwise t)                     ; resize based on pixels to remove annoying gaps
-(setq-default tab-width 2)                        ; default tab width
+(setq-default tab-width 8)                        ; default tab width
 (show-paren-mode 1)                     ; hightlight pharentheses and shit
 ;; (setq x-super-keysym 'meta)             ;use super as meta
 
@@ -243,9 +243,9 @@
 		)
 	)
 
-(use-package company-tern
-	:ensure t
-	)
+;; (use-package company-tern
+;; 	:ensure t
+;; 	)
 
 (use-package rainbow-mode
 	:ensure t)
@@ -387,6 +387,11 @@
 
 (use-package yaml-mode
 	:ensure t)
+
+(use-package firestarter
+	:ensure t
+	:init
+	(firestarter-mode))
 
 (use-package pomodoro
 	:ensure t

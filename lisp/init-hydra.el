@@ -1,14 +1,14 @@
 (use-package ace-window
-	:ensure t
-	:defer 1
-	:config 
-	(setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l ?\;))
-	)
+  :ensure t
+  :defer 1
+  :config 
+  (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l ?\;))
+  )
 
 (use-package hydra
-	:ensure t
+  :ensure t
 
-	)
+  )
 
 
 (defun hydra-move-splitter-left (arg)
@@ -44,7 +44,7 @@
     (enlarge-window arg)))
 
 (defhydra hydra-window (:color red
-                        :hint nil)
+			       :hint nil)
   "
 Window operations:
 --------------------------------------------------------------------------------------
@@ -54,15 +54,15 @@ _l_: splitter up           _L_ move top           _=_ text increase    _|_ split
 _k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split down      _a_ ace
 
 "
-	("j" ( hydra-move-splitter-left 10 ))
+  ("j" ( hydra-move-splitter-left 10 ))
   ("k" ( hydra-move-splitter-down 10 ))
   ("l" ( hydra-move-splitter-up 10 ))
   (";" ( hydra-move-splitter-right 10 )) 
-	("J" evil-window-move-far-left)
-	(":" evil-window-move-far-right)
-	("K" evil-window-move-very-bottom)
-	("L" evil-window-move-very-top)
-	("b" balance-windows) 
+  ("J" evil-window-move-far-left)
+  (":" evil-window-move-far-right)
+  ("K" evil-window-move-very-bottom)
+  ("L" evil-window-move-very-top)
+  ("b" balance-windows) 
   ("-" text-scale-decrease)
   ("=" text-scale-increase)
   ("|" (lambda ()
@@ -83,15 +83,15 @@ _k_: splitter down         _K_ move bottom        _o_ delete other		 ___ split d
   ("d" ace-delete-window))
 
 (defhydra hydra-utils (:color red
-															:hint nil)
-"
+			      :hint nil)
+  "
 Utils
 ------------------------------
 _=_: increment-number-at-point
 _-_: decrement-number-at-point
 "
-	("="  increment-number-at-point)
-	("-"  decrement-number-at-point))
+  ("="  increment-number-at-point)
+  ("-"  decrement-number-at-point))
 
 
 
