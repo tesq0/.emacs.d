@@ -16,7 +16,10 @@
 	       (and (fboundp 'projectile-project-root)
 		    (projectile-project-root))
 	       default-directory))
-	 (config (string-trim (shell-command-to-string (format "find %s -name .php_cs | head -n 1" dir)))))
+	 (config
+	  (string-trim
+	   (shell-command-to-string
+	    (format "find %s -type f -name .php_cs | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2- | head -n1" dir)))))
     (or
      (and
       (not (string-empty-p config))
