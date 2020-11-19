@@ -29,14 +29,4 @@
   (add-hook 'java-mode-hook 'lsp)
   (add-hook 'java-mode-hook 'setup-Java))
 
-(use-package dap-mode
-  :ensure t
-  :after lsp-mode
-  :config
-  (dap-mode t)
-  (dap-ui-mode t)
-  :init
-  (add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra))))
-
 (provide 'init-java)
