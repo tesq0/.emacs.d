@@ -14,11 +14,11 @@
       "Starts a fzf session."
       (interactive)
       (if (fboundp #'projectile-project-root)
-	  (fzf/start (condition-case err
-			 (or (projectile-project-root) default-directory)
-		       (error
-			default-directory)))
-	(fzf/start default-directory)))
+					(fzf/start (condition-case err
+												 (or (projectile-project-root) default-directory)
+											 (error
+												default-directory)))
+				(fzf/start default-directory)))
 
     (defun fcd ()
       (interactive)
@@ -43,10 +43,10 @@
 
     (defun rg-maybe-set-evil-search-pattern (&rest args)
       (let* ((search-pattern (cl-struct-slot-value 'rg-search 'pattern rg-cur-search))
-	     (regexp (regexp-quote search-pattern)))
-	(message "auto jump %s" regexp)
-	(setq evil-ex-search-pattern (list regexp t t))
-	)
+						 (regexp (regexp-quote search-pattern)))
+				(message "auto jump %s" regexp)
+				(setq evil-ex-search-pattern (list regexp t t))
+				)
       )
 
     (advice-add 'rg-filter :after #'rg-maybe-set-evil-search-pattern)
