@@ -226,7 +226,7 @@
 
 (use-package editorconfig
   :ensure t
-  :config (editorconfig-mode 1))
+  :init (editorconfig-mode 1))
 
 (use-package elec-pair
   :ensure t
