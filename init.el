@@ -46,6 +46,12 @@
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
+(setq-default bidi-display-reordering nil)
+(setq bidi-paragraph-direction "left-to-right")
+(setq bidi-inhibit-bpa t)
+
+(global-so-long-mode 1)
+
 (set-language-environment "UTF-8")
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
