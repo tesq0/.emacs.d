@@ -391,6 +391,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     "en" 'flycheck-next-error
     "ep" 'flycheck-previous-error
     "r"  'evil-use-register
+    "x"  'helm-M-x
     "<SPC>" 'whitespace-cleanup
     "\\" 'nil
     "<tab>" 'switch-to-recently-selected-buffer

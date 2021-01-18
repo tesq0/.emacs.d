@@ -46,7 +46,6 @@
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
 
-(setq-default bidi-display-reordering nil)
 (setq bidi-paragraph-direction "left-to-right")
 (setq bidi-inhibit-bpa t)
 

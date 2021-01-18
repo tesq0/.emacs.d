@@ -9,6 +9,7 @@
     (general-define-key
      :keymaps 'org-mode-map
      "<M-S-return>" 'my/org-insert-todo-heading
+     "<S-return>" 'org-insert-item
      )
     (evil-define-key 'normal org-mode-map
       (kbd "M-n") 'org-move-item-down

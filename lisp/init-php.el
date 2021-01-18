@@ -92,6 +92,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   (yas-minor-mode)
   (setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
   (setq-local company-manual-completion-fn #'company-capf)
+  (electric-pair-mode t)
   (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t))
 
 (use-package php-mode
