@@ -86,16 +86,19 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
-  (setenv "GTAGSLABEL" "pygments")
+  (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
   (lsp)
   (yas-minor-mode)
+  (direnv-allow)
   (setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
   (setq-local company-manual-completion-fn #'company-capf)
   (electric-pair-mode t)
   (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t))
 
+
 (use-package php-mode
+  :hook (php-mode . ggtags-mode)
   :ensure t
   :init
   (add-hook 'php-mode-hook 'setup-php)

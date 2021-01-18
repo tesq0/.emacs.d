@@ -63,6 +63,21 @@
 					 (directory-file-name pattern)))
 	       (append (tags-custom-ignored-files) (projectile-ignored-directories-rel)) " "))
 
+  (defvar projectile-tags-files-to-process "")
+  (defvar projectile-tags-file-extensions "")
+
+  (defun projectile-regenerate-gtags (&optional dirs)
+    "First output the files in DIRS we want to parse to gtags.files, then run gtags in project-root."
+    (interactive)
+    (let* ((default-directory (projectile-project-root))
+	   (file-extension (or projectile-tags-file-extensions "."))
+	   (directories (or dirs projectile-tags-files-to-process default-directory))
+	   (find-command (format "fd %s %s > %sgtags.files" file-extension directories default-directory))
+	   (gtags-command (format "gtags -v %s" (directory-file-name default-directory))))
+      (message (format "find files command %s" find-command))
+      (shell-command find-command)
+      (async-shell-command gtags-command)
+      ))
 
   (defun projectile-regenerate-tags-async (&optional files append)
     "Regenerate the project's [e|g]tags.  Optionally specify FILES."
