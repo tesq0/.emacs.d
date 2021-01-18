@@ -182,7 +182,7 @@
       (setq-local syntax-propertize-function syntax-function)
       )
     )
-  )'
+  )
 
 
 (provide 'init-csharp)

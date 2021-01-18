@@ -100,7 +100,7 @@
 		  )
 	    
 	    (setq company-backends '(company-yasnippet company-bbdb company-eclim company-semantic
-						       company-clang company-xcode company-cmake
+						       company-clang company-cmake
 						       company-files (company-dabbrev-code company-capf company-keywords)
 						       company-oddmuse company-dabbrev))
 

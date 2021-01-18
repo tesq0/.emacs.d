@@ -41,15 +41,15 @@
 
     (defvar rg-cur-regexp "Regexp of rg's current search pattern" nil)
 
-    (defun rg-maybe-set-evil-search-pattern (&rest args)
-      (let* ((search-pattern (cl-struct-slot-value 'rg-search 'pattern rg-cur-search))
-						 (regexp (regexp-quote search-pattern)))
-				(message "auto jump %s" regexp)
-				(setq evil-ex-search-pattern (list regexp t t))
-				)
-      )
+    ;; (defun rg-maybe-set-evil-search-pattern (&rest args)
+    ;;   (let* ((search-pattern (cl-struct-slot-value 'rg-search 'pattern rg-cur-search))
+    ;; 						 (regexp (regexp-quote search-pattern)))
+    ;; 				(message "auto jump %s" regexp)
+    ;; 				(setq evil-ex-search-pattern (list regexp t t))
+    ;; 				)
+    ;;   )
 
-    (advice-add 'rg-filter :after #'rg-maybe-set-evil-search-pattern)
+    ;; (advice-add 'rg-filter :after #'rg-maybe-set-evil-search-pattern)
 
     (rg-define-search rg-project-merge-conflicts
       :dir project

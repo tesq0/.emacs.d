@@ -75,9 +75,10 @@
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
   (add-to-list 'auto-mode-alist '("\\.twig\\'" . web-mode))
 
-  (flycheck-add-mode 'css-csslint 'web-mode)
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (after-load 'flycheck
+    (flycheck-add-mode 'css-csslint 'web-mode)
+    (flycheck-add-mode 'typescript-tslint 'web-mode)
+    (flycheck-add-mode 'javascript-eslint 'web-mode))
   
   (add-hook 'web-mode-hook 'setup-webmode))
 
