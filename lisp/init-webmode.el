@@ -29,8 +29,8 @@
 (use-package tide
   :ensure t
   :init
-  (setq typescript-indent-level 4)
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 4 :tabSize 4)
+  (setq typescript-indent-level 2)
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
 	tide-format-before-save nil)
   (add-hook 'typescript-mode-hook 'setup-tide-mode))
 
