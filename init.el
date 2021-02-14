@@ -31,8 +31,16 @@
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
 (defconst emacs-backup-dir "/tmp/backup-emacs")
 
+(dolist (d (list emacs-tmp-dir emacs-backup-dir))
+  (if (not (file-exists-p d))
+      (make-directory d t)))
+
+(setq backup-by-copying t)
+
 (setq make-backup-files t)
+
 (setq backup-inhibited nil)
+
 (setq backup-directory-alist
       `((".*" . ,emacs-backup-dir)))
 
@@ -40,8 +48,16 @@
 
 (setq auto-save-file-name-transforms
       `((".*" ,emacs-tmp-dir t)))
+
 (setq auto-save-list-file-prefix
       emacs-tmp-dir)
+
+(setq create-lockfiles nil)
+
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
 
 (setq case-fold-search nil)
 (setq initial-buffer-choice t)					; use scratchpad as default buffer when calling emacsclient
