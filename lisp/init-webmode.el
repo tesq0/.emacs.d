@@ -8,6 +8,9 @@
 (use-package emmet-mode
   :ensure t)
 
+(use-package prettier
+  :ensure t)
+
 (defun setup-tide-mode ()
   "Typescript mode setup."
   (tide-setup)
@@ -20,7 +23,6 @@
   (setq-local company-manual-completion-fn #'company-tide)
   ;; formats the buffer before saving
   (emmet-mode)
-  ;; (prettier-mode)
   (add-hook 'before-save-hook 'tide-format-before-save))
 
 (use-package nvm
@@ -55,7 +57,7 @@
 	'(("php"    . "\\.htm\\'")))
 
   (setq web-mode-content-types-alist
-	'(("jsx" . "\\.js[x]?\\'")
+	'(("jsx" . "\\.[jt]s[x]?\\'")
 	  ("javascript" . "\\.es6?\\'")))
 
   ;; also use jsx for js
@@ -80,6 +82,32 @@
     (flycheck-add-mode 'typescript-tslint 'web-mode)
     (flycheck-add-mode 'javascript-eslint 'web-mode))
   
+  (defun setup-webmode ()
+    "Does some setup depending on the current file extension."
+    (electric-pair-local-mode 1)
+    
+    (let ((file-extension (file-name-extension buffer-file-name)))
+      
+      (when (or
+	     (string-equal "php" file-extension)
+	     (string-match "html?" file-extension)
+	     (string-equal "htm" file-extension)
+	     (string-equal "twig" file-extension)
+	     (string-match "[jt]sx" file-extension))
+	(emmet-mode))
+
+      (when (string-match "[jt]sx?" file-extension)
+	(prettier-mode))
+      
+      (when (string-match "[jt]sx" file-extension)
+	(setup-tide-mode))
+      
+      (when (string-equal "s?css" file-extension)
+	(setq-local flycheck-disabled-checkers '( javascript-eslint ))
+	(rainbow-mode)
+	(add-to-list (make-local-variable 'company-backends)
+		     'company-css))))
+
   (add-hook 'web-mode-hook 'setup-webmode))
 
 
