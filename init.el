@@ -104,18 +104,16 @@
 (require 'init-jump-to-def)
 (require 'init-evil)
 (require 'init-flycheck)
-;; (require 'init-ivy)
 (require 'init-magit)
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
 (require 'init-eldoc)
-;; (require 'init-autocomplete)
 (require 'init-org)
 (require 'init-csharp)
 (require 'init-c)
 (require 'init-lsp)
-(require 'init-java)
+;; (require 'init-java)
 (require 'init-kotlin)
 (require 'init-webmode)
 (require 'init-php)
@@ -143,9 +141,6 @@
 (require 'init-arduino)
 (require 'init-python)
 (require 'init-spellcheck)
-;; (require 'init-slime)
-;; (require 'init-icicle)
-;; (require 'cmd-mode) ;; throws errors
 
 
 ;; ERC client
