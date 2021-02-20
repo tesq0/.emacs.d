@@ -40,3 +40,4 @@ helm-adaptive-history
 lsp-cache
 .lsp-session-v1
 %backup%~
+server

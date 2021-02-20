@@ -11,19 +11,55 @@
 (use-package prettier
   :ensure t)
 
-(defun setup-tide-mode ()
-  "Typescript mode setup."
+(use-package add-node-modules-path
+  :ensure t
+  :hook ((typescript-mode . add-node-modules-path)
+	  (web-mode . add-node-modules-path)))
+
+(defun setup-typescript-tide-backend ()
+  "Typescript tide backend setup."
   (tide-setup)
-  (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
-  (electric-pair-mode 1)
-  (yas-minor-mode)
-  (yas-reload-all)
   (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
   (setq-local company-manual-completion-fn #'company-tide)
   ;; formats the buffer before saving
+
+  (flycheck-select-checker 'typescript-tslint)
+
+  (if (not (setup-prettier))
+      (add-hook 'before-save-hook 'tide-format-before-save)))
+
+(defun setup-typescript-lsp-backend ()
+  "Typescript lsp backend setup."
+
+  (setq lsp-eslint-server-command 
+	`("node" 
+	  ;; ,(expand-file-name "~/.vscode/extensions/dbaeumer.vscode-eslint-2.1.14/server/out/eslintServer.js") 
+	  ;; install version "2.0.11"
+	  ,(expand-file-name "~/.emacs.d/server/vscode-eslint/server/out/eslintServer.js") 
+	  "--stdio"))
+  (lsp)
+  (flycheck-select-checker 'javascript-eslint))
+
+(defun setup-typescript-mode ()
+  "Typescript setup."
+
+  (eldoc-mode +1)
+  (electric-pair-mode 1)
+  (yas-minor-mode)
+  (yas-reload-all)
   (emmet-mode)
-  (add-hook 'before-save-hook 'tide-format-before-save))
+
+  (setq-local emmet-expand-jsx-className? t)
+
+  (if (find-filename-in-project ".eslintrc.js")
+      (setup-typescript-lsp-backend)
+    (setup-typescript-tide-backend)))
+
+(defun setup-prettier ()
+  "Enable prettier-mode if it's configured."
+  (when (find-filename-in-project ".prettierrc")
+    (prettier-mode)))
 
 (use-package nvm
   :ensure t)
@@ -31,10 +67,12 @@
 (use-package tide
   :ensure t
   :init
-  (setq typescript-indent-level 2)
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
-	tide-format-before-save nil)
-  (add-hook 'typescript-mode-hook 'setup-tide-mode))
+	tide-format-before-save nil))
+
+(after-load 'typescript-mode
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
 (use-package json-mode
   :ensure t
@@ -52,7 +90,7 @@
 	web-mode-enable-auto-quoting nil
 	web-mode-enable-current-element-highlight t
 	web-mode-auto-quote-style nil)
-
+  
   (setq web-mode-engines-alist
 	'(("php"    . "\\.htm\\'")))
 
@@ -81,13 +119,13 @@
     (flycheck-add-mode 'css-csslint 'web-mode)
     (flycheck-add-mode 'typescript-tslint 'web-mode)
     (flycheck-add-mode 'javascript-eslint 'web-mode))
-  
+
   (defun setup-webmode ()
     "Does some setup depending on the current file extension."
     (electric-pair-local-mode 1)
-    
+
     (let ((file-extension (file-name-extension buffer-file-name)))
-      
+
       (when (or
 	     (string-equal "php" file-extension)
 	     (string-match "html?" file-extension)
@@ -96,12 +134,12 @@
 	     (string-match "[jt]sx" file-extension))
 	(emmet-mode))
 
-      (when (string-match "[jt]sx?" file-extension)
-	(prettier-mode))
-      
+      (when (string-match "[t]sx?" file-extension)
+	(setup-prettier))
+
       (when (string-match "[jt]sx" file-extension)
-	(setup-tide-mode))
-      
+	(setup-typescript-mode))
+
       (when (string-equal "s?css" file-extension)
 	(setq-local flycheck-disabled-checkers '( javascript-eslint ))
 	(rainbow-mode)
@@ -110,7 +148,6 @@
 
   (add-hook 'web-mode-hook 'setup-webmode))
 
-
 (use-package js2-mode
   :ensure t
   :init
@@ -118,9 +155,9 @@
   (setq js-indent-level 2)
   (add-hook 'js2-mode-hook
 	    (lambda ()
-	      (setup-tide-mode))))
+	      (setup-typescript-mode))))
 
 
 
 (provide 'init-webmode)
-;;; mikus-webmode.el ends here
+;;; init-webmode.el ends here
