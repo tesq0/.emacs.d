@@ -16,22 +16,18 @@
   :hook ((typescript-mode . add-node-modules-path)
 	  (web-mode . add-node-modules-path)))
 
-(defun setup-typescript-tide-backend ()
+(defun setup-typescript-tide-linter ()
   "Typescript tide backend setup."
-  (tide-setup)
-  (tide-hl-identifier-mode +1)
-  (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
-  (setq-local company-manual-completion-fn #'company-tide)
-  ;; formats the buffer before saving
 
   (flycheck-select-checker 'typescript-tslint)
 
   (if (not (setup-prettier))
       (add-hook 'before-save-hook 'tide-format-before-save)))
 
-(defun setup-typescript-lsp-backend ()
+(defun setup-typescript-lsp-linter ()
   "Typescript lsp backend setup."
 
+  (setq lsp-eslint-validate ["javascript" "javascriptreact" "typescript" "typescriptreact" "html"])
   (setq lsp-eslint-server-command 
 	`("node" 
 	  ;; ,(expand-file-name "~/.vscode/extensions/dbaeumer.vscode-eslint-2.1.14/server/out/eslintServer.js") 
@@ -50,11 +46,16 @@
   (yas-reload-all)
   (emmet-mode)
 
+  (tide-setup)
+  (tide-hl-identifier-mode +1)
+  (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
+  (setq-local company-manual-completion-fn #'company-tide)
+
   (setq-local emmet-expand-jsx-className? t)
 
   (if (find-filename-in-project ".eslintrc.js")
-      (setup-typescript-lsp-backend)
-    (setup-typescript-tide-backend)))
+      (setup-typescript-lsp-linter)
+    (setup-typescript-tide-linter)))
 
 (defun setup-prettier ()
   "Enable prettier-mode if it's configured."
