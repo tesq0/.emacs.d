@@ -39,23 +39,21 @@
 
 (defun setup-typescript-mode ()
   "Typescript setup."
-
-  (eldoc-mode +1)
-  (electric-pair-mode 1)
-  (yas-minor-mode)
-  (yas-reload-all)
-  (emmet-mode)
+  (if (find-filename-in-project ".eslintrc.js")
+      (setup-typescript-lsp-linter)
+    (setup-typescript-tide-linter))
 
   (tide-setup)
   (tide-hl-identifier-mode +1)
   (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
   (setq-local company-manual-completion-fn #'company-tide)
-
   (setq-local emmet-expand-jsx-className? t)
 
-  (if (find-filename-in-project ".eslintrc.js")
-      (setup-typescript-lsp-linter)
-    (setup-typescript-tide-linter)))
+  (eldoc-mode +1)
+  (electric-pair-mode 1)
+  (yas-minor-mode)
+  (yas-reload-all)
+  (emmet-mode))
 
 (defun setup-prettier ()
   "Enable prettier-mode if it's configured."
@@ -69,7 +67,8 @@
   :ensure t
   :init
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
-	tide-format-before-save nil))
+	tide-format-before-save nil)
+  )
 
 (after-load 'typescript-mode
   (setq typescript-indent-level 2)
@@ -154,9 +153,7 @@
   :init
   (add-to-list 'auto-mode-alist '("\\.js\\'" .  js2-mode))
   (setq js-indent-level 2)
-  (add-hook 'js2-mode-hook
-	    (lambda ()
-	      (setup-typescript-mode))))
+  (add-hook 'js2-mode-hook #'setup-typescript-mode))
 
 
 
