@@ -29,11 +29,19 @@
 	  (dolist (fn save-project-commands)
 	    (funcall fn))))
 
+    (defun projectile-terminal ()
+      "Open a terminal in project root."
+      (interactive)
+      (let
+	  ((default-directory (projectile-ensure-project (projectile-project-root))))
+	(terminal)))
+
     (mikus-leader "s" 'mikus-search-map)
 
     (general-define-key
      :keymaps 'projectile-command-map
      "R" 'projectile-regenerate-tags-async
+     "t" 'projectile-terminal
      "r" 'mikus-tags-map
      "s" 'save--project)
     (general-define-key

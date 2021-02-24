@@ -165,12 +165,21 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   (interactive)
   (shell-command "start powershell"))
 
+(defun terminal-sentinel (process event)
+  "Kill buffer and window on shell PROCESS, EVENT termination."
+  (when (not (process-live-p process))
+    (let ((buf (process-buffer process)))
+      (when (buffer-live-p buf)
+	   (with-current-buffer buf
+          (kill-buffer))))))
+
 (defun terminal (&optional args)
+  "Open an external terminal with ARGS."
   (interactive)
-  (let ((cmd (format "%s %s" (getenv "TERMINAL") (or args ""))))
-    (async-shell-command cmd)
-    )
-  )
+  (let ((cmd (getenv "TERMINAL"))
+	(buffer (generate-new-buffer "terminal"))
+	(arg-string (or args (getenv "SHELL"))))
+    (set-process-sentinel (start-process "terminal" buffer cmd arg-string) #'terminal-sentinel)))
 
 (defun shell-other-window ()
   "Open a `shell' in a new window."
