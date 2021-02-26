@@ -417,8 +417,6 @@
 ;; snippets
 (use-package yasnippet
   :ensure t
-  :init (progn
-	  (add-to-list 'company-backends #'company-yasnippet))
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 

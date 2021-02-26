@@ -1,12 +1,6 @@
 (use-package company
   :init (progn
-	  (add-hook 'prog-mode-hook 'company-mode)
-	  (require 'company-etags)
-	  (after-load 'company-etags
-	    (progn
-	      (add-to-list 'company-etags-modes 'csharp-mode)
-	      (add-to-list 'company-etags-modes 'web-mode)
-	      (add-to-list 'company-etags-modes 'lua-mode))))
+	  (add-hook 'prog-mode-hook 'company-mode))
   :diminish "COMP"
   :config (progn
 
@@ -25,8 +19,7 @@
 	    (defun company-quit ()
 	      (interactive)
 	      (company-abort)
-	      (evil-keyboard-quit)
-	      )
+	      (evil-keyboard-quit))
 
 	    (general-define-key
 	     :keymaps '(insert company-active-map)
@@ -70,13 +63,12 @@
 		"<escape>" 'company-quit
 		"C-p" 'company-select-previous))
 
-	    (setq company-dabbrev-downcase nil
-
+	    (setq
 		  ;; make previous/next selection in the popup cycles
 		  company-selection-wrap-around t
 
 		  company-dabbrev-ignore-case nil
-
+		  company-dabbrev-downcase nil
 		  company-dabbrev-code-ignore-case t
 		  company-dabbrev-code-everywhere t
 		  company-dabbrev-code-other-buffers 'nil
@@ -95,22 +87,16 @@
 
 		  company-idle-delay 0.2
 		  company-minimum-prefix-length 1
-		  company-clang-insert-arguments t
 		  company-require-match nil
 		  )
+
 	    
-	    (setq company-backends '(company-yasnippet company-bbdb company-eclim company-semantic
-						       company-clang company-cmake
-						       company-files (company-dabbrev-code company-capf company-keywords)
-						       company-oddmuse company-dabbrev))
-
+	    (defvar company-backends '(company-yasnippet company-files (company-dabbrev-code
+								      company-capf
+								      company-keywords)
+						       company-dabbrev))
+	    
 	    (setq company-transformers '(company-sort-by-backend-importance company-sort-prefer-same-case-prefix))
-
-	    (defadvice company-in-string-or-comment (around company-in-string-or-comment-hack activate)
-	      ;; you can use (ad-get-arg 0) and (ad-set-arg 0) to tweak the arguments
-	      (if (memq major-mode '(php-mode html-mode web-mode nxml-mode))
-		  (setq ad-return-value nil)
-		ad-do-it))
 
 	    ;; press SPACE will accept the highlighted candidate and insert a space
 	    ;; `M-x describe-variable company-auto-complete-chars` for details
@@ -125,40 +111,8 @@
 		  '(not
 		    eshell-mode comint-mode erc-mode gud-mode rcirc-mode
 		    minibuffer-inactive-mode))
-
-	    (add-hook 'org-mode-hook 'company-ispell-setup)
-
-	    (defun toggle-company-ispell ()
-	      (interactive)
-	      (cond
-	       ((memq 'company-ispell company-backends)
-		(setq company-backends (delete 'company-ispell company-backends))
-		(message "company-ispell disabled"))
-	       (t
-		(add-to-list 'company-backends 'company-ispell)
-		(message "company-ispell enabled!"))))
-
-	    (defun company-ispell-setup ()
-	      ;; @see https://github.com/company-mode/company-mode/issues/50
-	      (when (boundp 'company-backends)
-		(make-local-variable 'company-backends)
-		(add-to-list 'company-backends 'company-ispell)
-		;; https://github.com/redguardtoo/emacs.d/issues/473
-		(if (and (boundp 'ispell-alternate-dictionary)
-			 ispell-alternate-dictionary)
-		    (setq company-ispell-dictionary ispell-alternate-dictionary))))
-	    (global-company-mode)
-	    ))
-
-(defun setup-company-box ()
-  (setq-local company-box--scrollbar-window t)
-  (setq-local company-box-enable-icon nil))
-
-;; (use-package company-box
-;; 	:ensure t
-;; 	:hook (company-mode . company-box-mode)
-;; 	:init
-;; 	(add-hook 'company-box-mode-hook 'setup-company-box))
+	    
+	    (global-company-mode)))
 
 ;; Package `company-prescient' provides intelligent sorting and
 ;; filtering for candidates in Company completions.

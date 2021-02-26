@@ -21,12 +21,4 @@
 (use-package groovy-mode
   :ensure t)
 
-(use-package lsp-java
-  :ensure t
-  :demand t
-  :init
-  (init-Java)
-  (add-hook 'java-mode-hook 'lsp)
-  (add-hook 'java-mode-hook 'setup-Java))
-
 (provide 'init-java)
