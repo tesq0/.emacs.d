@@ -55,6 +55,7 @@
 			    nil errbuf nil
 			    "fix"
 			    "--using-cache=no"
+			    "--path-mode=intersection"
 			    "--quiet"
 			    (or (and config
 				     (format "--config=%s" config))
