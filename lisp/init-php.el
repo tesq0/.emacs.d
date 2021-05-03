@@ -55,6 +55,7 @@
 			    nil errbuf nil
 			    "fix"
 			    "--using-cache=no"
+			    "--path-mode=intersection"
 			    "--quiet"
 			    (or (and config
 				     (format "--config=%s" config))
@@ -101,15 +102,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   :hook (php-mode . ggtags-mode)
   :ensure t
   :init
-  (add-hook 'php-mode-hook 'setup-php)
-  (after-load 'dap-mode
-    (progn
-      (require 'dap-php)
-      (setq dap-utils-unzip-script "7z x %s -o%s")
-      (dap-php-setup)
-      ()
-      )
-    ))
+  (add-hook 'php-mode-hook 'setup-php))
 
 (use-package geben
   :ensure t)
