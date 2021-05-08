@@ -433,5 +433,14 @@ nil if nothing is found."
     )
   )
 
+(defun file-class-name ()
+  (interactive)
+  (save-excursion
+    (call-interactively 'move-end-of-line)
+    (search-backward-regexp "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?class\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)")
+    (let ((ret (match-string 1)))
+      (message ret)
+      ret)))
+
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )
