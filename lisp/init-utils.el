@@ -415,5 +415,32 @@ nil if nothing is found."
   (yank))
 
 
+(defun find-filename-in-project (filename)
+  "Find the nearest FILENAME starting from project root."
+  (let* ((dir (or
+	       (and (fboundp 'projectile-project-root)
+		    (projectile-project-root))
+	       default-directory))
+	 (find-result
+	  (string-trim
+	   (shell-command-to-string
+	    (format "find %s -type f -name %s | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2- | head -n1" dir filename)))))
+    (or
+     (and
+      (not (string-empty-p find-result))
+      find-result)
+     nil)
+    )
+  )
+
+(defun file-class-name ()
+  (interactive)
+  (save-excursion
+    (call-interactively 'move-end-of-line)
+    (search-backward-regexp "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?class\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)")
+    (let ((ret (match-string 1)))
+      (message ret)
+      ret)))
+
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

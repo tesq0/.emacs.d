@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: prop
+# key: prop
+# --
+
+/**
+* $0
+*/
+private ${1:mixed} $$2;
+
+public function set${2:$(s-upper-camel-case yas-text)}($1 $$2): `(file-class-name)` {
+       $this->$2 = $$2;
+       return $this;
+}
+
+public function get${2:$(s-upper-camel-case yas-text)}(): $1 {
+       return $this->$2;
+}
+

@@ -159,13 +159,6 @@
   :config
   (post-setup-csharp))
 
-(use-package jetbrains
-  :ensure t
-  :config
-  (progn
-    (add-to-list 'jetbrains-major-mode-ide-alist '((csharp-mode . (rider))))
-    )
-  )
 
 (defvar csharp-org-langs (list "csharp" "cs"))
 
