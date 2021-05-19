@@ -401,11 +401,11 @@
 (use-package pomodoro
   :ensure t
   :init
-  (progn
     (setq pomodoro-sound-player "mpv"
-	  pomodoro-desktop-notification t))
-  :config
-  (pomodoro-add-to-mode-line))
+	  pomodoro-desktop-notification t
+	  pomodoro-play-sounds nil)
+    :config
+    (pomodoro-add-to-mode-line))
 
 (use-package edit-server
   :ensure t)
