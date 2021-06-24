@@ -157,6 +157,7 @@
 (require 'init-arduino)
 (require 'init-python)
 (require 'init-spellcheck)
+(require 'macros)
 
 
 ;; ERC client
