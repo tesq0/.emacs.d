@@ -19,7 +19,7 @@
 (defun setup-typescript-tide-linter ()
   "Typescript tide backend setup."
 
-  (flycheck-select-checker 'typescript-tslint)
+  (flycheck-select-checker 'javascript-tide)
 
   (if (not (setup-prettier))
       (add-hook 'before-save-hook 'tide-format-before-save)))
@@ -39,9 +39,6 @@
 
 (defun setup-typescript-mode ()
   "Typescript setup."
-  (if (find-filename-in-project ".eslintrc.js")
-      (setup-typescript-lsp-linter)
-    (setup-typescript-tide-linter))
 
   (tide-setup)
   (tide-hl-identifier-mode +1)
@@ -53,7 +50,11 @@
   (electric-pair-mode 1)
   (yas-minor-mode)
   (yas-reload-all)
-  (emmet-mode))
+  (emmet-mode)
+
+  (if (find-filename-in-project ".eslintrc.js")
+      (setup-typescript-lsp-linter)
+    (setup-typescript-tide-linter)))
 
 (defun setup-prettier ()
   "Enable prettier-mode if it's configured."
@@ -117,7 +118,7 @@
 
   (after-load 'flycheck
     (flycheck-add-mode 'css-csslint 'web-mode)
-    (flycheck-add-mode 'typescript-tslint 'web-mode)
+    (flycheck-add-mode 'javascript-tide 'web-mode)
     (flycheck-add-mode 'javascript-eslint 'web-mode))
 
   (defun setup-webmode ()
