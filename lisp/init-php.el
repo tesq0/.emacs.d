@@ -12,20 +12,7 @@
 
 (defun find-csfix-config ()
   "Find the nearest php-cs-fixer config file."
-  (let* ((dir (or
-	       (and (fboundp 'projectile-project-root)
-		    (projectile-project-root))
-	       default-directory))
-	 (config
-	  (string-trim
-	   (shell-command-to-string
-	    (format "find %s -type f -name .php_cs | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2- | head -n1" dir)))))
-    (or
-     (and
-      (not (string-empty-p config))
-      config)
-     nil)
-    ))
+  (find-filename-in-project ".php_cs"))
 
 (defun php-cs-fixer-fix ()
   "Run php cs fixer on the current buffer."
