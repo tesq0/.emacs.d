@@ -137,6 +137,7 @@
 	     (string-match "html?" file-extension)
 	     (string-equal "htm" file-extension)
 	     (string-equal "twig" file-extension)
+	     (string-equal "svelte" file-extension)
 	     (string-match "[jt]sx" file-extension))
 	(emmet-mode))
 
