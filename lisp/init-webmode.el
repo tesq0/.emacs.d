@@ -120,6 +120,7 @@
   (add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
   (add-to-list 'auto-mode-alist '("\\.twig\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
 
   (after-load 'flycheck
     (flycheck-add-mode 'css-csslint 'web-mode)
