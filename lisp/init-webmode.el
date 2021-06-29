@@ -19,7 +19,7 @@
 (defun setup-typescript-tide-linter ()
   "Typescript tide backend setup."
 
-  (flycheck-select-checker 'javascript-tide)
+  ;; (flycheck-select-checker 'javascript-tide)
 
   (if (not (setup-prettier))
       (add-hook 'before-save-hook 'tide-format-before-save)))
@@ -52,9 +52,10 @@
   (yas-reload-all)
   (emmet-mode)
 
-  (if (find-filename-in-project ".eslintrc.js")
-      (setup-typescript-lsp-linter)
-    (setup-typescript-tide-linter)))
+  ;; (if (find-filename-in-project ".eslintrc.js")
+  ;;     (setup-typescript-lsp-linter)
+  ;;   (setup-typescript-tide-linter))
+  )
 
 (defun setup-prettier ()
   "Enable prettier-mode if it's configured."
@@ -69,6 +70,10 @@
   :init
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
 	tide-format-before-save nil)
+
+  ;; (after-load
+      ;; (flycheck-add-mode 'javascript-tide 'web-mode)
+    ;; )
   )
 
 (after-load 'typescript-mode
@@ -118,7 +123,6 @@
 
   (after-load 'flycheck
     (flycheck-add-mode 'css-csslint 'web-mode)
-    (flycheck-add-mode 'javascript-tide 'web-mode)
     (flycheck-add-mode 'javascript-eslint 'web-mode))
 
   (defun setup-webmode ()
