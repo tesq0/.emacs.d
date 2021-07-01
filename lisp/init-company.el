@@ -4,6 +4,11 @@
   :diminish "COMP"
   :config (progn
 
+	    (require 'company-dabbrev)
+	    (require 'company-dabbrev-code)
+	    (require 'company-etags)
+	    (require 'company-capf)
+
 	    (defvar company-manual-completion-fn nil
 	      "value of type FUNCTION, the function to use by company-manual-complete")
 
