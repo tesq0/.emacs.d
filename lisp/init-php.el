@@ -3,6 +3,7 @@
 ;;; Configuration for php-mode
 
 ;;; Code:
+(require 'cl)
 
 (defun php-cs-fixer-command-is-ok ()
   "Check if php-cs-fixer is in PATH."
@@ -67,10 +68,49 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   (when (and
 	 buffer-file-name
 	 (string= (file-name-extension buffer-file-name) "php")
-	 (or (not (boundp 'geben-temporary-file-directory))
+	 (or (not (boundp geben-temporary-file-directory))
 	     (not (string-match geben-temporary-file-directory (file-name-directory buffer-file-name))))
 	 ) (php-cs-fixer-fix)))
 
+
+(defun insert-psr4-namespace ()
+  "Try auto resolving and inserting the current psr-4 namespace."
+  (interactive)
+  (let ((composer-json-path (find-filename-in-project "composer.json")))
+	(if composer-json-path
+	    (let* ((composer-json
+		    (json-read-file composer-json-path))
+		   (psr-4
+		     (alist-get 'psr-4
+			      (alist-get 'autoload composer-json))))
+	      (dolist (nsr psr-4)
+		(let* ((root (f-dirname composer-json-path))
+		       (key (car nsr))
+		       (val (string-trim (cdr nsr) "/" "/"))
+		       (r-path
+			(replace-regexp-in-string
+			 (regexp-quote root)
+			 ""
+			 (f-dirname (buffer-file-name))))
+		       (rp-list
+			(split-string (string-trim r-path "/" "/") "/"))
+		       (r-value
+			(car rp-list)))
+
+		  (when (string-equal val r-value)
+		    (insert
+		     (format "namespace %s%s;"
+			     key
+			     (string-join
+			      (cdr rp-list)
+			      "\\")
+			     ))
+		    (return nil))
+		  )
+		))
+	  (warn "Could not find composer.json in project")
+	  )
+	))
 
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
@@ -82,7 +122,14 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   (setq-local company-backends '(company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
   (setq-local company-manual-completion-fn #'company-capf)
   (electric-pair-mode t)
-  (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t))
+  (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
+
+  (when (eq (buffer-size (current-buffer)) 0)
+    (insert "<?php")
+    (newline 2)
+    (insert-psr4-namespace)
+    (call-interactively 'end-of-buffer)
+    (newline 2)))
 
 
 (use-package php-mode
