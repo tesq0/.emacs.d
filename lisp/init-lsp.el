@@ -3,6 +3,7 @@
   ;; :quelpa
   ;; (lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode")
   :config
+  (require 'dash-functional)
   (setq lsp-enable-indentation nil
 	lsp-inhibit-message t
 	lsp-eldoc-render-all t
