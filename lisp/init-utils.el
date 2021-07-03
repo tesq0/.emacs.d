@@ -414,24 +414,24 @@ nil if nothing is found."
       (kill-new (evil-find-WORD t))))
   (yank))
 
+(defun find-files (dir search &optional regexp-p)
+  "Find files in DIR matching SEARCH.
+If REGEXP-P is non-nil, treat SEARCH as a regex expression."
+  (split-string
+   (string-trim
+    (shell-command-to-string
+     (format "find %s -type f %s | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2-"
+	     dir
+	     (format "%s '%s'" (or (and regexp-p "-regex") "-name") search)))
+    "\n" "\n") "\n"))
 
 (defun find-filename-in-project (filename)
   "Find the nearest FILENAME starting from project root."
   (let* ((dir (or
 	       (and (fboundp 'projectile-project-root)
 		    (projectile-project-root))
-	       default-directory))
-	 (find-result
-	  (string-trim
-	   (shell-command-to-string
-	    (format "find %s -type f -name %s | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2- | head -n1" dir filename)))))
-    (or
-     (and
-      (not (string-empty-p find-result))
-      find-result)
-     nil)
-    )
-  )
+	       default-directory)))
+	 (car (find-files dir filename))))
 
 (defun file-class-name ()
   (interactive)
