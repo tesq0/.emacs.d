@@ -434,7 +434,9 @@
 
 (use-package yasnippet-snippets
   :ensure t
-  :after yasnippet)
+  :after yasnippet
+  :init
+  (yasnippet-snippets-initialize))
 
 (setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)

@@ -118,7 +118,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
   (lsp)
-  (yas-minor-mode)
+  (yas-minor-mode 1)
   (direnv-allow)
   ;; (setq-local company-backends (company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
   (setq-local company-manual-completion-fn #'company-capf)
