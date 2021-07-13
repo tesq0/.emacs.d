@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: FunctionComponent
+# key: fc
+# --
+
+const ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}: React.FC${2:$$(or (and (> (length yas-text) 0) (format "<%s>" (replace-regexp-in-string "[<>]" "" yas-text))) yas-text)} = ($3) => {
+	return ${0:null};
+};
