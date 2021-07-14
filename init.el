@@ -159,15 +159,6 @@
 (require 'init-spellcheck)
 (require 'macros)
 
-
-;; ERC client
-(after-load 'erc-backend
-  (progn
-    (require 'erc-sasl)
-    ;; e.g. irc\\.freenode\\.net, or .* for any host
-    (add-to-list 'erc-sasl-server-regexp-list "irc\\.freenode\\.net")))
-
-
 ;; auto revert mode
 (use-package autorevert
   :defer t
@@ -194,10 +185,6 @@
 (use-package restart-emacs
   :ensure t
   :bind* (("C-x C" . restart-emacs)))
-
-
-
-(require 'visual-basic-mode)
 
 (defvar mikus-flash-timer nil)
 (defvar point-before-jump nil)
@@ -268,9 +255,7 @@
   :ensure t)
 
 ;; defuns
-
 (require 'reindent-buffer)
-
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -338,27 +323,8 @@
 (after-load 'imenu
   (setq imenu-auto-rescan t))
 
-(require 'csharp-hs-forward-sexp)
-
 (use-package markdown-mode
   :ensure t)
-
-(use-package ahk-mode
-  :ensure t)
-
-(use-package mmm-mode
-  :commands mmm-mode
-  :config
-  (use-package mmm-auto
-    :ensure nil))
-
-(use-package sonic-pi
-  :ensure t
-  :init
-  (progn
-    (setq sonic-pi-server-bin "App\\Sonic Pi\\app\\server\\ruby\\bin\\sonic-pi-server.rb")
-    (setq sonic-pi-compile-extensions-bin "App\\Sonic Pi\\app\\server\\ruby\\bin\\compile-extensions.rb")
-    (setq sonic-pi-path "D:\\Programs\\SonicPiPortable\\")))
 
 (use-package dockerfile-mode
   :ensure t)
@@ -368,47 +334,8 @@
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package aweshell
-  :quelpa (aweshell :fetcher github :repo "manateelazycat/aweshell")
-  :init
-  (progn
-    (require 'aweshell)
-
-    (defun load-aweshell-company-bindings ()
-      (general-unbind company-active-map "RET"))
-    
-    (defun unload-aweshell-company-bindings ()
-      (message "UNLOAD")
-      (general-define-key :keymaps 'company-active-map
-			  "RET" 'company-complete-selection))
-
-    (defun handle-loadin-eshell-keybindings ()
-      (message "Handle loading eshell keybindings")
-      (if (eshell-mode)
-	  (load-aweshell-company-bindings)
-	(unload-aweshell-company-bindings)))
-    
-    (defun setup-aweshell-keybindings ()
-      (load-aweshell-company-bindings)
-      (general-define-key
-       :keymap 'eshell-mode-map
-       "C-n" 'eshell-next-input
-       "C-p" 'eshell-previous-input
-       "C-c c" 'aweshell-clear-buffer
-       "C-c n" 'aweshell-next
-       "C-c p" 'aweshell-prev
-       "C-c s" 'aweshell-sudo-toggle
-       "C-c x" 'aweshell-new))
-    )
-  )
-
 (use-package yaml-mode
   :ensure t)
-
-(use-package firestarter
-  :ensure t
-  :init
-  (firestarter-mode))
 
 (use-package pomodoro
   :ensure t
