@@ -73,55 +73,113 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 	     (not (string-match geben-temporary-file-directory (file-name-directory buffer-file-name))))
 	 ) (php-cs-fixer-fix)))
 
+(defun json2php-compile-json (json)
+  "Compile JSON to a PHP8 constructor from JSON."
+  (message "COMPILE %s" json)
+    (cond
+     ((stringp json)
+      (format "\"%s\"" json))
+     ((json-alist-p json)
+      (format "public function __construct(%s) {}"
+      (mapconcat 'identity (sort (mapcar #'json2php-compile-json json)
+	    (lambda (a b)
+	      (>= 0 (-
+	       (or (and (string-match "\?.+" a) 1) 0)
+	       (or (and (string-match "\?.+" b) 1) 0)
+	       )))
+	    ) ",\n")))
+     ((consp json)
+      (let* ((key (car json))
+	     (val (cdr json))
+	     (type (cond
+		    ((stringp val) "string")
+		    ((floatp val) "float")
+		    ((integerp val) "int")
+		    ((json-alist-p val) "object")
+		    ((vectorp val) "array")
+		    (t "mixed")))
+	     (optional (or (and (stringp val) (string-empty-p val) "\"\"")
+			     nil))
+	     (dvs (or (and optional "?") "")))
+	(format "private %s%s $%s" dvs type key)))
+     (t nil)))
+
+(defun json2php-vb-compile-in-project ()
+  "Compile all php.json files to php value object classes in your project."
+  (interactive)
+  (let ((dir (projectile-project-root)))
+    (if dir
+	(dolist (out (mapcar (lambda (file)
+			       (cons file (json2php-compile-json (json-read-file file))))
+			     (find-files dir ".*\.php\.json" t)))
+	  (let ((fname (file-name-base (car out)))
+		(compiled-output (cdr out)))
+	    (with-current-buffer (generate-new-buffer (format "JSON2PHP_OUTPUT_%s" fname))
+	      (insert "<?php")
+	      (newline 2)
+	      ;; (insert-psr4-namespace)
+	      (insert (format "class %s {" (replace-regexp-in-string "\.php" "" fname)))
+	      (newline 2)
+	      (insert compiled-output)
+	      (newline 2)
+	      (insert "}")
+	      (call-interactively #'mark-whole-buffer)
+	      (call-interactively #'evil-indent)
+	      (write-file (format "%s" (replace-regexp-in-string "\.json" "" fname)))
+	      (kill-current-buffer))
+	    ))
+      (warn "Not in project"))))
 
 (defun insert-psr4-namespace ()
   "Try auto resolving and inserting the current psr-4 namespace."
   (interactive)
   (let ((composer-json-path (find-filename-in-project "composer.json")))
-	(if composer-json-path
-	    (let* ((composer-json
-		    (json-read-file composer-json-path))
-		   (psr-4
-		     (alist-get 'psr-4
-			      (alist-get 'autoload composer-json))))
-	      (dolist (nsr psr-4)
-		(let* ((root (f-dirname composer-json-path))
-		       (key (car nsr))
-		       (val (string-trim (cdr nsr) "/" "/"))
-		       (r-path
-			(replace-regexp-in-string
-			 (regexp-quote root)
-			 ""
-			 (f-dirname (buffer-file-name))))
-		       (rp-list
-			(split-string (string-trim r-path "/" "/") "/"))
-		       (r-value
-			(car rp-list)))
+    (if composer-json-path
+	(let* ((composer-json
+		(json-read-file composer-json-path))
+	       (psr-4
+		(alist-get 'psr-4
+			   (alist-get 'autoload composer-json))))
+	  (dolist (nsr psr-4)
+	    (let* ((root (f-dirname composer-json-path))
+		   (key (car nsr))
+		   (val (string-trim (cdr nsr) "/" "/"))
+		   (r-path
+		    (replace-regexp-in-string
+		     (regexp-quote root)
+		     ""
+		     (f-dirname (buffer-file-name))))
+		   (rp-list
+		    (split-string (string-trim r-path "/" "/") "/"))
+		   (r-value
+		    (car rp-list)))
 
-		  (when (string-equal val r-value)
-		    (insert
-		     (format "namespace %s%s;"
-			     key
-			     (string-join
-			      (cdr rp-list)
-			      "\\")
-			     ))
-		    (return nil))
-		  )
-		))
-	  (warn "Could not find composer.json in project")
-	  )
-	))
+	      (when (string-equal val r-value)
+		(insert
+		 (format "namespace %s%s;"
+			 key
+			 (string-join
+			  (cdr rp-list)
+			  "\\")
+			 ))
+		(return nil))
+	      )
+	    ))
+      (warn "Could not find composer.json in project")
+      )
+    ))
 
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
   (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
   (lsp)
-  (yas-minor-mode)
+  (yas-minor-mode-on)
+  (yasnippet-snippets-initialize)
   (direnv-allow)
   ;; (setq-local company-backends (company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
   (setq-local company-manual-completion-fn #'company-capf)
+  (general-define-key)
   (electric-pair-mode t)
   (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
 
@@ -137,7 +195,12 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   :hook (php-mode . ggtags-mode)
   :ensure t
   :init
-  (add-hook 'php-mode-hook 'setup-php))
+  (add-hook 'php-mode-hook 'setup-php)
+
+  (general-define-key
+   :keymaps 'csharp-mode-map
+   "C-c l" 'omnisharp-helm-find-usages)
+  )
 
 (use-package geben
   :ensure t)
