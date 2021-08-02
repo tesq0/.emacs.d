@@ -335,6 +335,19 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 		     "xdg-open" URL)
     nil))
 
+(defun xdg-open (file &optional async)
+  "Opens file with xdg-open. Without optional argument ASYNC, it will wait for the file to finish playing or review."
+  (let ((command (format "xdg-open '%s'" file))
+	(process-connection-type nil))
+(if async
+    (async-shell-command command)
+  (shell-command command))))
+
+(defun xdg-open-files (files)
+  "Opens list of files with xdg-open one by one, waiting for each to finish."
+  (dolist (file files)
+(xdg-open file)))
+
 (defun switch-to-recently-selected-buffer ()
   "Switch to other buffer"
   (interactive)

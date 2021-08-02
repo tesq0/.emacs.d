@@ -1,7 +1,19 @@
 
 (after-load 'dired
+  
+  (defun my/dired-view ()
+    "View files, either as HTML or media"
+    (interactive)
+    (let* ((files (dired-get-marked-files))
+	   (how-many (length files))
+	   (extensions (mapcar 'file-name-extension files))
+	   (extensions (mapcar 'downcase extensions)))
+      (cond ((member "html" extensions) (eww-open-file (car files)))
+	    (t (if (> how-many 1) (xdg-open-files files)
+		 (xdg-open (car files) t))))))
 
   (define-key ctl-x-map (kbd "C-d") 'dired)
+  (define-key dired-mode-map (kbd "o") 'my/dired-view)
 
   (defcustom dired-show-hidden-files nil
     "Whether to show hidden files in dired"
