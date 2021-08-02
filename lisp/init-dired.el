@@ -14,6 +14,8 @@
 
   (define-key ctl-x-map (kbd "C-d") 'dired)
   (define-key dired-mode-map (kbd "o") 'my/dired-view)
+  (define-key dired-mode-map (kbd "C-c o") 'my/dired-view)
+  (define-key dired-mode-map (kbd "C-c C-o") 'my/dired-view)
 
   (defcustom dired-show-hidden-files nil
     "Whether to show hidden files in dired"
@@ -79,8 +81,8 @@
    "k" 'dired-next-line
    "l" 'dired-previous-line
    "n" 'evil-search-next
-   "C-c o" 'dired-view-file
-   "C-c C-o" 'dired-view-file
+   "C-c o" 'my/dired-view
+   "C-c C-o" 'my/dired-view
    )
 
   ;; ranger-like controls
