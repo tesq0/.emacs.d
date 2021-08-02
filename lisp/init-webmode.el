@@ -144,7 +144,9 @@
       (when (string-match "[t]sx?" file-extension)
 	(setup-prettier))
 
-      (when (string-match "[jt]sx" file-extension)
+      (when (or
+	     (string-match "[jt]sx" file-extension)
+	     (string-match "svelte" file-extension))
 	(setup-typescript-mode))
 
       (when (string-equal "s?css" file-extension)
