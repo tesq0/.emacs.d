@@ -473,6 +473,38 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    "C-o" nil
    )
 
+  ;; (defmacro define-timed-key (key predicate &optional time)
+
+
+  ;;   )
+
+  (defmacro define-evil-2char-chord-as-esc (command char doc &optional time)
+  "Defines a command that turns makes a 2 same character chord escape insert mode.
+\  (fn COMMAND CHAR DOC TIME)"
+    `(defun ,command ()
+       ,doc
+       (interactive)
+       (if (memq evil-state '(insert replace))
+	   (let ((changed? (buffer-modified-p)))
+	     (insert ,char)
+	     (let* ((tm (current-time))
+		    (ch (read-key)))
+	       (if (and (string-equal (char-to-string ch) ,char)
+			(< (time-to-seconds (time-since tm)) ,(or time 0.5)))
+		   (save-excursion
+		     (delete-char -1)
+		     (evil-force-normal-state)
+		     (set-buffer-modified-p changed?))
+		 (insert ch))))
+	 (call-interactively 'evil-next-line))
+       ))
+
+  (define-evil-2char-chord-as-esc evil-kk-as-esc "k"
+				"Make kk escape out of insert mode"
+				0.5)
+  
+  (define-key evil-insert-state-map "k" 'evil-kk-as-esc)
+
   (general-define-key
    :states 'insert
    "M-k" 'next-line
