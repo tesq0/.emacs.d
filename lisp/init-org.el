@@ -11,6 +11,13 @@
      "<M-S-return>" 'my/org-insert-todo-heading
      "<S-return>" 'org-insert-item
      )
+    (setq org-file-apps '(("pdf". system)
+			  (remote . emacs)
+			  (auto-mode . emacs)
+			  (directory . emacs)
+			  (system . "setsid -w xdg-open %s")
+			  (t . system)))
+
     (evil-define-key 'normal org-mode-map
       (kbd "M-n") 'org-move-item-down
       (kbd "M-p") 'org-move-item-up)
