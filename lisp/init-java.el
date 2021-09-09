@@ -18,7 +18,8 @@
   ;; (advice-remove 'lsp-java-boot--find-tools-jar #'lsp-java-boot--find-tools-jar-nixos)
   (setq lsp-java-format-enabled nil))
 
-(add-hook 'java-mode-hook 'lsp)
+(after-load 'lsp-java
+  (add-hook 'java-mode-hook 'lsp))
 
 (use-package groovy-mode
   :ensure t)

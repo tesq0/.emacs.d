@@ -129,7 +129,7 @@
 (require 'init-csharp)
 (require 'init-c)
 (require 'init-lsp)
-;; (require 'init-java)
+(require 'init-java)
 (require 'init-kotlin)
 (require 'init-webmode)
 (require 'init-php)
