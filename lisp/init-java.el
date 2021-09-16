@@ -19,7 +19,8 @@
   (setq lsp-java-format-enabled nil))
 
 (after-load 'lsp-java
-  (add-hook 'java-mode-hook 'lsp))
+  (add-hook 'java-mode-hook 'lsp)
+  (add-hook 'java-mode-hook 'yas-minor-mode))
 
 (use-package groovy-mode
   :ensure t)
