@@ -130,6 +130,7 @@
 
     :config
     (setq dired-omit-verbose nil
+	  dired-kill-when-opening-new-dired-buffer t
 	  dired-omit-files
 	  (concat dired-omit-files
 		  "\\|^.DS_Store\\'"
