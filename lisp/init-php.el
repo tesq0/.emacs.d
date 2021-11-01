@@ -162,7 +162,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 			  (cdr rp-list)
 			  "\\")
 			 ))
-		(return nil))
+		(cl-return nil))
 	      )
 	    ))
       (warn "Could not find composer.json in project")
@@ -193,7 +193,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 
 (use-package php-mode
   :hook (php-mode . ggtags-mode)
-  :ensure t
+  
   :init
   (add-hook 'php-mode-hook 'setup-php)
 
@@ -203,6 +203,6 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   )
 
 (use-package geben
-  :ensure t)
+  )
 
 (provide 'init-php)

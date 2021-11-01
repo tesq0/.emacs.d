@@ -1,5 +1,5 @@
 (use-package cider
-  :ensure t
+  
   :init
   (progn
     (setq
@@ -12,7 +12,7 @@
      "C-n" 'cider-repl-next-input)))
 
 (use-package flycheck-clojure
-  :ensure t
+  
   :init
   (flycheck-clojure-setup))
 

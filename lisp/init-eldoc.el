@@ -3,12 +3,9 @@
 ;; displayed in the echo area.
 
 ;;; Code
-
 (use-package eldoc
-  :demand t
   :init
   (progn
-
     ;; Original code from
     ;; https://github.com/PythonNut/emacs-config/blob/1a92a1ff1d563fa6a9d7281bbcaf85059c0c40d4/modules/config-intel.el#L130-L137,
     ;; thanks!
@@ -20,8 +17,6 @@
 			area."
       (not (and (bound-and-true-p flycheck-mode)
 		(flycheck-overlay-errors-at (point)))))
-
-    
     (defun eldoc-print ()
       "command to trigger eldoc, add that to 'eldoc-message-commands"
       (interactive))
@@ -30,7 +25,5 @@
     )
   :config
   (setq eldoc-echo-area-use-multiline-p t))
-
-
 
 (provide 'init-eldoc)

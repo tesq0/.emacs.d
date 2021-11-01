@@ -1,5 +1,4 @@
 (use-package org
-  :ensure t
   :init
   (progn
     (defun my/org-insert-todo-heading (ARG)
@@ -28,7 +27,7 @@
   )
 
 (use-package htmlize
-  :ensure t)
+  )
 
 (require 'ob-csharp)
 

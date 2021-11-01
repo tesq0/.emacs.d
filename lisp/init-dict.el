@@ -1,12 +1,12 @@
 (use-package google-translate
-  :ensure t
+  
   :init
   (progn
     (setq
      google-translate-default-source-language "English"
      google-translate-default-target-language "Polish")))
 (use-package dictionary
-  :ensure t
+  
   :init
   (progn
     (define-prefix-command 'dict-map)

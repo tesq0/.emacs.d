@@ -1,12 +1,12 @@
 (use-package ace-window
-  :ensure t
+  
   :defer 1
   :config 
   (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l ?\;))
   )
 
 (use-package hydra
-  :ensure t
+  
 
   )
 

@@ -1,5 +1,5 @@
 (use-package helm
-  :ensure t
+  
   :init
   (progn
     (defun helm-to-grep ()
@@ -69,7 +69,7 @@
 
 (use-package helm-xref
   :after helm
-  :ensure t
+  
   :init
   (progn
     (require 'helm-xref)

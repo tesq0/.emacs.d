@@ -12,14 +12,10 @@
     (dolist (fn functions)
       (evil-add-command-properties fn :jump t))))
 
-(use-package undo-tree
-  :ensure t
-  ;;:quelpa (undo-tree :fetcher git :url "http://www.dr-qubit.org/git/undo-tree.git")
-  )
+(use-package undo-tree)
 
 (use-package evil
   :ensure nil
-  :quelpa (evil :fetcher github :repo "emacs-evil/evil")
   :init
   (global-undo-tree-mode)
   (progn
@@ -58,7 +54,7 @@
 ;;; SUPPLEMENTARY PACKAGES
 
 (use-package avy
-  :ensure t
+  
   :init
   ;; This is the default
   ;; (setq avy-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -94,15 +90,15 @@
   )
 
 (use-package evil-surround
-  :ensure t
+  
   :config
   (global-evil-surround-mode))
 
 (use-package evil-nerd-commenter
-  :ensure t)
+  )
 
 (use-package drag-stuff
-  :ensure t)
+  )
 
 ;;; Start evil
 
@@ -584,7 +580,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   )
 
 (use-package evil-visualstar
-  :ensure t
+  
   :init
   (global-evil-visualstar-mode))
 

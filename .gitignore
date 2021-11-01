@@ -1,3 +1,7 @@
+*/**/.yas-compiled-snippets.el
+eln-cache
+.extension
+.dap-breakpoints
 .cache
 .emacs.desktop
 .emacs.desktop.lock

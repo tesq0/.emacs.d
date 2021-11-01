@@ -23,6 +23,6 @@
   (add-hook 'java-mode-hook 'yas-minor-mode))
 
 (use-package groovy-mode
-  :ensure t)
+  )
 
 (provide 'init-java)

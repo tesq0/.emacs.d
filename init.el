@@ -10,8 +10,6 @@
 (setq coding-system-for-write 'utf-8)                   ; use utf-8 by default for writing
 (setq initial-scratch-message "")                             ; print nothing and leave screen at insert mode
 
-
-(defun display-startup-echo-area-message () (message "Jestem fajny"))     ; change the default startup echo message
 (setq-default truncate-lines t)                     ; always truncate lines ;hello
 (setq large-file-warning-threshold (* 15 1024 1024))                ; increase theshold for larger files
 (fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
@@ -106,6 +104,13 @@
 
 (if (boundp 'constants) (require 'constants))
 
+(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
+  (require 'benchmark-init)
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
+  (benchmark-init/show-durations-tabulated))
+
 (defgroup init nil
   "Init packages config")
 
@@ -140,7 +145,7 @@
 (require 'init-search)
 (require 'init-diff)
 (require 'init-window)
-(require 'init-mc)
+;; (require 'init-mc)
 (require 'init-dict)
 (require 'init-mouse)
 (require 'init-wgrep)
@@ -151,7 +156,7 @@
 (require 'init-smartparens)
 (require 'init-vc)
 (require 'init-dart)
-(require 'init-mail)
+;; (require 'init-mail)
 (require 'init-godot)
 (require 'init-tex)
 (require 'init-arduino)
@@ -168,7 +173,6 @@
 
 ;; hint for bindings
 (use-package which-key
-  :ensure t
   :demand t
   :diminish which-key-mode
   :bind* (("C-c ?" . which-key-show-top-level))
@@ -183,7 +187,6 @@
 
 
 (use-package restart-emacs
-  :ensure t
   :bind* (("C-x C" . restart-emacs)))
 
 (defvar mikus-flash-timer nil)
@@ -219,25 +222,13 @@
 ;; flash current line
 (global-set-key (kbd "<C-return>") 'my/hl-line)
 
-
-;; better help
-
-(require 'help-fns+)
-
-;;; helm sys
-(require 'helm-sys)
-
-
 (use-package editorconfig
-  :ensure t
   :init (editorconfig-mode 1))
 
 (use-package elec-pair
-  :ensure t
   :config (electric-pair-mode t))
 
 (use-package darkroom
-  :ensure t
   :init
   (progn
     (require 'darkroom)
@@ -247,12 +238,7 @@
     )
   )
 
-;; (use-package company-tern
-;; 	:ensure t
-;; 	)
-
-(use-package rainbow-mode
-  :ensure t)
+(use-package rainbow-mode)
 
 ;; defuns
 (require 'reindent-buffer)
@@ -323,22 +309,17 @@
 (after-load 'imenu
   (setq imenu-auto-rescan t))
 
-(use-package markdown-mode
-  :ensure t)
+(use-package markdown-mode)
 
-(use-package dockerfile-mode
-  :ensure t)
+(use-package dockerfile-mode)
 
 (use-package rainbow-delimiters
-  :ensure t
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
 (use-package pomodoro
-  :ensure t
   :init
     (setq pomodoro-sound-player "mpv"
 	  pomodoro-desktop-notification t
@@ -346,8 +327,7 @@
     :config
     (pomodoro-add-to-mode-line))
 
-(use-package edit-server
-  :ensure t)
+(use-package edit-server)
 
 (use-package direnv
   :config
@@ -355,12 +335,10 @@
 
 ;; snippets
 (use-package yasnippet
-  :ensure t
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 (use-package yasnippet-snippets
-  :ensure t
   :after yasnippet
   :init
   (yasnippet-snippets-initialize))

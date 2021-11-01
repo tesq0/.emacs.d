@@ -9,11 +9,9 @@
       (evil-mc-set-pattern-for-range range nil))))
 
 (use-package evil-mc
-  :ensure t
   :init
   (progn
     (setq mc/always-run-for-all t)
-    (setq evil-mc-enable-bar-cursor nil)
     (setq evil-mc-one-cursor-show-mode-line-text t)
     (general-define-key
      :states '(motion normal visual)
@@ -28,6 +26,7 @@
 
     (global-evil-mc-mode t))
   :config
+  (setq evil-mc-enable-bar-cursor nil)
   (general-define-key
    :states '(motion normal visual)
    :keymaps 'evil-mc-key-map

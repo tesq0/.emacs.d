@@ -22,18 +22,16 @@
 (defun mikus:absolute ()
   (setq-local display-line-numbers t))
 
-(use-package doom-themes
-  :ensure t
-  :init
-  (progn
-    (doom-themes-org-config)
-    (add-hook 'after-init-hook (lambda () (load-theme 'doom-city-lights t)))
-    ))
 
-;; initial frame size
+(when (display-graphic-p) 
+  (use-package doom-themes
+    
+    :init
+    (progn
+      (doom-themes-org-config)
+      (add-hook 'after-init-hook (lambda () (load-theme 'doom-city-lights t)))
+      )))
 
-(add-to-list 'default-frame-alist '(height . 50))
-(add-to-list 'default-frame-alist '(width . 200))
 
 (defun fix-mouse-color (frame)
   "Fix mouse pointer color after creating a FRAME to be white."

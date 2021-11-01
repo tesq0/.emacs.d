@@ -52,12 +52,10 @@
 
 (use-package evil-magit
   :after magit
-  :demand t
-  :ensure nil
-  :quelpa (evil-magit :fetcher github :repo "tesq0/evil-magit"))
+  :demand t)
 
 (use-package magit
-  :ensure t
+  
   :init (initMagit))
 
 (use-package smerge-mode
@@ -111,7 +109,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 
 (use-package git-gutter
-  :ensure t
+  
   :init
   (progn
     (define-prefix-command 'mikus-gitgutter-map)

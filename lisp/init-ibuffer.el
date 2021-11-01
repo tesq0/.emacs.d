@@ -3,13 +3,13 @@
 
 
 (use-package fullframe
-  :ensure t)
+  )
 
 (after-load 'ibuffer
   (fullframe ibuffer ibuffer-quit))
 
 (use-package ibuffer-vc
-  :ensure t)
+  )
 
 
 (defun ibuffer-set-up-preferred-filters ()

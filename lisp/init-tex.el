@@ -1,8 +1,6 @@
 (use-package auctex
-  :ensure t
   :init
   (progn
-
     (setq tex-command "pdftex")
     (setq TeX-view-program-list '(("zathura" ("zathura %o"))))
     (setq TeX-view-program-selection '(((output-dvi has-no-display-manager) "dvi2tty") ((output-dvi
@@ -65,7 +63,7 @@ window and close the *TeX help* buffer."
 
 (use-package company-auctex
   :after auctex
-  :ensure t)
+  )
 
 
 (provide 'init-tex)

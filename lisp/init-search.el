@@ -3,7 +3,7 @@
   (cl-pushnew "-g !**/MessagePack*" rg-command-line-flags))
 
 (use-package fzf
-  :ensure t
+  
   :init
   (progn
 
@@ -31,7 +31,7 @@
     ))
 
 (use-package rg
-  :ensure t
+  
   :init
   (progn
 

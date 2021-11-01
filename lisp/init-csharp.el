@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-(require 'open-in-msvs)
 (require 'open-in-vscode)
 
 (defun initCsharp ()
@@ -125,7 +124,7 @@
 
 
 (use-package omnisharp
-  :ensure t
+  
   :init
   (progn
     (add-hook 'csharp-mode-hook 'initCsharp t)

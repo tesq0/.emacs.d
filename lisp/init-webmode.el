@@ -5,14 +5,11 @@
 
 ;;; Code:
 
-(use-package emmet-mode
-  :ensure t)
+(use-package emmet-mode)
 
-(use-package prettier
-  :ensure t)
+(use-package prettier)
 
 (use-package add-node-modules-path
-  :ensure t
   :hook ((typescript-mode . add-node-modules-path)
 	  (web-mode . add-node-modules-path)))
 
@@ -62,11 +59,9 @@
   (when (find-filename-in-project ".prettierrc")
     (prettier-mode)))
 
-(use-package nvm
-  :ensure t)
+(use-package nvm)
 
 (use-package tide
-  :ensure t
   :init
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
 	tide-format-before-save nil)
@@ -81,14 +76,12 @@
   (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
 (use-package json-mode
-  :ensure t
   :init
   (defun setup-json()
     (setq json-reformat:indent-width 1))
   (setup-json))
 
 (use-package web-mode
-  :ensure t
   :init
   (setq web-mode-markup-indent-offset 2
 	web-mode-css-indent-offset 4
@@ -159,7 +152,6 @@
   (add-hook 'web-mode-hook 'setup-webmode))
 
 (use-package js2-mode
-  :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.js\\'" .  js2-mode))
   (setq js-indent-level 2)

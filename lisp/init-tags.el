@@ -1,6 +1,5 @@
 (use-package ggtags
   :hook (csharp-mode . ggtags-mode)
-  :ensure t
   :init
   (progn
     (define-prefix-command 'helm-gtags-map)

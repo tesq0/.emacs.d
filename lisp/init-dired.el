@@ -87,7 +87,6 @@
 
   ;; ranger-like controls
   (use-package dired-ranger
-    :ensure t
     :init
     (general-define-key
      :keymaps 'dired-copy-map
@@ -97,10 +96,7 @@
      "p" 'dired-ranger-paste
      "m" 'dired-ranger-move))
 
-  ;; colourful
   (use-package diredfl
-    :ensure nil
-    :quelpa (diredfl :fetcher github :repo "purcell/diredfl")
     :hook (dired-mode . diredfl-mode))
 
   (use-package dired-x

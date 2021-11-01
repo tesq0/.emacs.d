@@ -1,6 +1,4 @@
-(use-package dart-mode
-  :ensure t)
+(use-package dart-mode)
 (use-package flutter
-  :after dart-mode
-  :ensure t)
+  :after dart-mode)
 (provide 'init-dart)

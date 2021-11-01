@@ -1,5 +1,5 @@
 (use-package general
-  :ensure t
+  
   :config
   (general-override-mode)
   (general-evil-setup))

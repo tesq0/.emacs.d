@@ -1,5 +1,5 @@
 (use-package evil-smartparens
-  :ensure t
+  
   :init
   (progn
 

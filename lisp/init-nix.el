@@ -1,5 +1,5 @@
 (use-package nix-mode
-  :ensure t
+  
   :init
   (defun init-nix-mode ()
     (setq-local company-backends '(company-yasnippet company-files (company-dabbrev-code company-capf company-keywords) company-dabbrev)))

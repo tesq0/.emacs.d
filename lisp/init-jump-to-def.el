@@ -1,6 +1,6 @@
 ;; jump to definition
 (use-package dumb-jump
-  :ensure t
+  
   :init
   (progn
     (add-hook 'dumb-jump-after-jump-hook 'my/hl-line)

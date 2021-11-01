@@ -1,6 +1,6 @@
 
 (use-package languagetool
-  :ensure t
+  
   :demand t)
 
 

@@ -1,7 +1,5 @@
 (use-package lsp-mode
-  :ensure t
-  ;; :quelpa
-  ;; (lsp-mode :fetcher github :repo "emacs-lsp/lsp-mode")
+  
   :config
   (require 'dash-functional)
   (setq lsp-enable-indentation nil
@@ -12,13 +10,13 @@
 
 (use-package company-lsp
   :after company
-  :ensure t
+  
   :config
   (setq company-lsp-cache-candidates t))
 
 (use-package lsp-ui
   :after lsp-mode
-  :ensure t
+  
   :config
   (setq lsp-ui-sideline-enable nil
 	lsp-ui-doc-enable nil

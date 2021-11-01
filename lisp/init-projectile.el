@@ -1,5 +1,4 @@
 (use-package helm-projectile
-  :ensure t
   :diminish
   :init
   (progn
@@ -9,7 +8,7 @@
     (helm-projectile-on)
     (define-key projectile-command-map (kbd "<ESC>") nil)
     (defvar my-find-command)
-    (setq my-find-command (or (and sys/win32p "mfd.rb") "fd --hidden --exclude '.git' -t f . -0"))
+    (setq my-find-command "fd --hidden --exclude '.git' -t f . -0")
     (setq-default projectile-git-command my-find-command)
     (setq-default projectile-generic-command my-find-command)
     (setq projectile-indexing-method 'alien)
@@ -52,7 +51,6 @@
   )
 
 (use-package imenu-anywhere
-  :ensure t
   :init
   (progn
     (mikus-leader "I" 'imenu-anywhere)))
