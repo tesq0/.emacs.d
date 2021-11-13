@@ -26,9 +26,8 @@
     (setq user-emacs-directory (concat (getenv "HOME") "\\.emacs.d"))))
 
 (when (memq window-system '(mac ns x))
-  (use-package exec-path-from-shell
-    
-    :init
-    (exec-path-from-shell-initialize)))
+   (setq mac-option-modifier 'alt
+	 mac-command-modifier 'meta)
+   (use-package exec-path-from-shell :init (exec-path-from-shell-initialize)))
 
 (provide 'init-system)

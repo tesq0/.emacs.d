@@ -173,13 +173,26 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	   (with-current-buffer buf
           (kill-buffer))))))
 
-(defun terminal (&optional args)
-  "Open an external terminal with ARGS."
+;; (defun terminal (&optional args)
+;;   "Open an external terminal with ARGS."
+;;   (interactive)
+;;   (let ((cmd (getenv "TERMINAL"))
+;; 	(buffer (generate-new-buffer "terminal"))
+;; 	(arg-string (or args (getenv "SHELL"))))
+;;     (set-process-sentinel (start-process "terminal" buffer cmd arg-string) #'terminal-sentinel)))
+
+(defun my-term-handle-exit (&optional process-name msg)
+  (message "%s | %s" process-name msg)
+  (kill-buffer (current-buffer)))
+
+(advice-add 'term-handle-exit :after 'my-term-handle-exit)
+
+(defun terminal ()
   (interactive)
-  (let ((cmd (getenv "TERMINAL"))
-	(buffer (generate-new-buffer "terminal"))
-	(arg-string (or args (getenv "SHELL"))))
-    (set-process-sentinel (start-process "terminal" buffer cmd arg-string) #'terminal-sentinel)))
+ (ansi-term "/bin/zsh"))
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
 
 (defun shell-other-window ()
   "Open a `shell' in a new window."
@@ -443,8 +456,11 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (let* ((dir (or
 	       (and (fboundp 'projectile-project-root)
 		    (projectile-project-root))
-	       default-directory)))
-	 (car (find-files dir filename))))
+	       default-directory))
+	 (file-at-root-lvl (format "%s/%s" dir filename)))
+    (or (and (file-exists-p file-at-root-lvl) file-at-root-lvl)
+     (car (find-files dir filename))
+     )))
 
 (defun file-class-name ()
   (interactive)

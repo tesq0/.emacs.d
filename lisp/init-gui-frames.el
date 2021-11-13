@@ -14,7 +14,8 @@
 (if (fboundp 'set-scroll-bar-mode)
     (set-scroll-bar-mode nil))
 ;; no menu bar
-(if (fboundp 'menu-bar-mode)
+(if (and (fboundp 'menu-bar-mode)
+	 (not sys/macp))
     (menu-bar-mode -1))
 
 (provide 'init-gui-frames)

@@ -13,26 +13,26 @@
   :hook ((typescript-mode . add-node-modules-path)
 	  (web-mode . add-node-modules-path)))
 
-(defun setup-typescript-tide-linter ()
-  "Typescript tide backend setup."
+;; (defun setup-typescript-tide-linter ()
+;;   "Typescript tide backend setup."
 
   ;; (flycheck-select-checker 'javascript-tide)
 
-  (if (not (setup-prettier))
-      (add-hook 'before-save-hook 'tide-format-before-save)))
+  ;; (if (not (setup-prettier))
+  ;;     (add-hook 'before-save-hook 'tide-format-before-save)))
 
-(defun setup-typescript-lsp-linter ()
-  "Typescript lsp backend setup."
+;; (defun setup-typescript-lsp-linter ()
+;;   "Typescript lsp backend setup."
 
-  (setq lsp-eslint-validate ["javascript" "javascriptreact" "typescript" "typescriptreact" "html"])
-  (setq lsp-eslint-server-command 
-	`("node" 
-	  ;; ,(expand-file-name "~/.vscode/extensions/dbaeumer.vscode-eslint-2.1.14/server/out/eslintServer.js") 
-	  ;; install version "2.0.11"
-	  ,(expand-file-name "~/.emacs.d/server/vscode-eslint/server/out/eslintServer.js") 
-	  "--stdio"))
-  (lsp)
-  (flycheck-select-checker 'javascript-eslint))
+;;   (setq lsp-eslint-validate ["javascript" "javascriptreact" "typescript" "typescriptreact" "html"])
+;;   (setq lsp-eslint-server-command 
+;; 	`("node" 
+;; 	  ;; ,(expand-file-name "~/.vscode/extensions/dbaeumer.vscode-eslint-2.1.14/server/out/eslintServer.js") 
+;; 	  ;; install version "2.0.11"
+;; 	  ,(expand-file-name "~/.emacs.d/server/vscode-eslint/server/out/eslintServer.js") 
+;; 	  "--stdio"))
+;;   (lsp)
+;;   (flycheck-select-checker 'javascript-eslint))
 
 (defun setup-typescript-mode ()
   "Typescript setup."
@@ -135,8 +135,9 @@
 	     (string-match "[jt]sx" file-extension))
 	(emmet-mode))
 
-      (when (string-match "[t]sx?" file-extension)
-	(setup-prettier))
+      ;; (when (string-match "[jt]sx?" file-extension)
+      ;; 	(setup-prettier)
+      ;; 	)
 
       (when (or
 	     (string-match "[jt]sx" file-extension)

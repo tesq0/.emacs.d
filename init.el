@@ -145,8 +145,8 @@
 (require 'init-search)
 (require 'init-diff)
 (require 'init-window)
-;; (require 'init-mc)
-(require 'init-dict)
+(require 'init-mc)
+;; (require 'init-dict)
 (require 'init-mouse)
 (require 'init-wgrep)
 (require 'init-asm)
@@ -161,7 +161,7 @@
 (require 'init-tex)
 (require 'init-arduino)
 (require 'init-python)
-(require 'init-spellcheck)
+;; (require 'init-spellcheck)
 (require 'macros)
 
 ;; auto revert mode
@@ -227,16 +227,6 @@
 
 (use-package elec-pair
   :config (electric-pair-mode t))
-
-(use-package darkroom
-  :init
-  (progn
-    (require 'darkroom)
-    (setq darkroom-text-scale-increase 1)
-    (general-define-key
-     "<C-f11>" 'darkroom-mode)
-    )
-  )
 
 (use-package rainbow-mode)
 
@@ -326,6 +316,9 @@
 	  pomodoro-play-sounds nil)
     :config
     (pomodoro-add-to-mode-line))
+
+(when (>= emacs-major-version 23)
+  (defun server-ensure-safe-dir (dir) "Noop" t))
 
 (use-package edit-server)
 

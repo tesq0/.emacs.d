@@ -366,6 +366,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
    "C-s" 'my/evil-line-substitute
    "C-S-s" 'my/evil-global-substitute)
 
+  (define-key ctl-x-map (kbd "w") 'hydra-window/body)
+  (define-key ctl-x-map (kbd "a") 'ace-window)
+
   (mikus-leader
     "ci" 'evilnc-comment-or-uncomment-lines
     "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
