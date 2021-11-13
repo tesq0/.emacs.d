@@ -189,7 +189,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 (defun terminal ()
   (interactive)
- (ansi-term "/bin/zsh"))
+ (ansi-term (getenv "SHELL")))
 
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
