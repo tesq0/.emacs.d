@@ -48,19 +48,21 @@
    "a" 'vc-annotate
    "f" 'magit-find-file
    "c" 'vc-find-conflicted-file
-   "b" 'magit-blame))
+   "b" 'magit-blame)
+
+  (mikus-leader
+      "g"  'mikus-magit-map)
+  )
 
 (use-package evil-magit
   :after magit
-  :demand t)
+  :hook (magit-mode . evil-magit-init))
 
 (use-package magit
-  
   :init (initMagit))
 
 (use-package smerge-mode
   :after hydra
-  :ensure nil
   :config
   (defhydra unpackaged/smerge-hydra
     (:color pink :hint nil :post (smerge-auto-leave))
@@ -109,8 +111,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 
 (use-package git-gutter
-  
-  :init
+  :hook (prog-mode . git-gutter-mode)
+  :config
   (progn
     (define-prefix-command 'mikus-gitgutter-map)
     (general-define-key
@@ -122,7 +124,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
      "d" 'git-gutter:popup-diff)
     (general-define-key
      :keymaps 'mikus-magit-map
-     "g" 'mikus-gitgutter-map)
-    (add-hook 'prog-mode-hook #'git-gutter-mode)))
+     "g" 'mikus-gitgutter-map)))
 
 (provide 'init-magit)

@@ -1,5 +1,4 @@
 (use-package cider
-  
   :init
   (progn
     (setq
@@ -12,8 +11,7 @@
      "C-n" 'cider-repl-next-input)))
 
 (use-package flycheck-clojure
-  
-  :init
+  :config
   (flycheck-clojure-setup))
 
 (provide 'init-clojure)

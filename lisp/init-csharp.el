@@ -5,8 +5,6 @@
 
 ;;; Code:
 
-(require 'open-in-vscode)
-
 (defun initCsharp ()
   "Initate csharp speciifc stuff."
   (omnisharp-mode)
@@ -16,8 +14,6 @@
   (setenv "GTAGSLABEL" "pygments")
 
   (setq-local yas-indent-line 'fixed)
-  (yas-minor-mode)
-  (yas-reload-all)
   
   (defvar csharp-eldoc-commands (obarray-make 1))
   (set (intern "eldoc-print" csharp-eldoc-commands) 1)
@@ -124,38 +120,34 @@
 
 
 (use-package omnisharp
-  
-  :init
-  (progn
-    (add-hook 'csharp-mode-hook 'initCsharp t)
-    (setq omnisharp-imenu-support t)
-    (setq omnisharp-eldoc-support t)
-    (setq omnisharp-auto-complete-want-documentation t)
-    ;; (setq omnisharp-debug nil)
-    (cond
-     ( sys/macp
-       (setq omnisharp-server-executable-path (concat user-emacs-directory "/.cache/omnisharp/server/v1.32.6/run"))
-       )
-     ( sys/linuxp
-       (setq omnisharp-server-executable-path "omnisharp")
-       )
-     ( sys/win32p
-       (setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
-       ))
-
-    (general-define-key
-     :keymaps 'csharp-mode-map
-     "M-." 'omnisharp-go-to-definition
-     "M->" 'omnisharp-go-to-definition-other-window
-     "C-c u" 'omnisharp-helm-find-usages
-     "C-c i" 'omnisharp-find-implementations
-     "C-c r" 'omnisharp-run-code-action-refactoring
-     "C-c C-r" 'omnisharp-navigate-to-region
-     "C-c R" 'omnisharp-rename
-     )
-
-    )
+  :commands omnisharp-mode
+  :hook (csharp-mode . initCsharp)
   :config
+  (setq omnisharp-imenu-support t)
+  (setq omnisharp-eldoc-support t)
+  (setq omnisharp-auto-complete-want-documentation t)
+  ;; (setq omnisharp-debug nil)
+  (cond
+   ( sys/macp
+     (setq omnisharp-server-executable-path (concat user-emacs-directory "/.cache/omnisharp/server/v1.32.6/run"))
+     )
+   ( sys/linuxp
+     (setq omnisharp-server-executable-path "omnisharp")
+     )
+   ( sys/win32p
+     (setq omnisharp-server-executable-path (concat user-emacs-directory "\\.cache\\omnisharp\\OmniSharp.exe"))
+     ))
+
+  (general-define-key
+   :keymaps 'csharp-mode-map
+   "M-." 'omnisharp-go-to-definition
+   "M->" 'omnisharp-go-to-definition-other-window
+   "C-c u" 'omnisharp-helm-find-usages
+   "C-c i" 'omnisharp-find-implementations
+   "C-c r" 'omnisharp-run-code-action-refactoring
+   "C-c C-r" 'omnisharp-navigate-to-region
+   "C-c R" 'omnisharp-rename)
+
   (post-setup-csharp))
 
 

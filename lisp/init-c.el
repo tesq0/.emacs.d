@@ -36,7 +36,7 @@
   (add-to-list 'c-default-style '(c-mode . "mikus-c"))
   )
 
-(after-load 'cc-mode
+(with-eval-after-load 'cc-mode
   (init-c-style))
 
 (provide 'init-c)

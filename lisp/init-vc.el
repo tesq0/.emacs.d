@@ -1,5 +1,5 @@
 
-(after-load 'vc
+(with-eval-after-load 'vc
   (fullframe vc-annotate quit-window)
 
   (general-define-key

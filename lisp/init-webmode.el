@@ -65,15 +65,11 @@
   :init
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
 	tide-format-before-save nil)
-
-  ;; (after-load
-      ;; (flycheck-add-mode 'javascript-tide 'web-mode)
-    ;; )
   )
 
-(after-load 'typescript-mode
+(with-eval-after-load 'typescript-mode
   (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook 'setup-typescript-mode))
+  (add-hook 'typescript-mode-hook 'setup-typescript-mode)
 
 (use-package json-mode
   :init
@@ -116,9 +112,9 @@
   (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ftl\\'" . web-mode))
 
-  (after-load 'flycheck
+  (with-eval-after-load 'flycheck
     (flycheck-add-mode 'css-csslint 'web-mode)
-    (flycheck-add-mode 'javascript-eslint 'web-mode))
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
   (defun setup-webmode ()
     "Does some setup depending on the current file extension."

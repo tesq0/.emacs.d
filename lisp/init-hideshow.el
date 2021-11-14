@@ -1,6 +1,5 @@
 
 (use-package hideshow
-  
   :init
   (progn
     (defvar hs-special-modes-alist

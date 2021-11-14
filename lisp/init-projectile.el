@@ -1,62 +1,55 @@
-(use-package helm-projectile
-  :diminish
+(use-package projectile
+  :commands projectile-mode
   :init
-  (progn
-    (projectile-mode)
-    (setq projectile-enable-caching t
-	  helm-projectile-fuzzy-match nil)
-    (helm-projectile-on)
-    (define-key projectile-command-map (kbd "<ESC>") nil)
-    (defvar my-find-command)
-    (setq my-find-command "fd --hidden --exclude '.git' -t f . -0")
-    (setq-default projectile-git-command my-find-command)
-    (setq-default projectile-generic-command my-find-command)
-    (setq projectile-indexing-method 'alien)
-    (setq projectile-tags-backend 'auto)
-    (define-prefix-command 'mikus-tags-map)
-    (define-prefix-command 'mikus-search-map)
-    (general-define-key
-     :keymaps 'projectile-command-map
-     "ESC" 'keyboard-quit
-     "<tab>" 'projectile-project-buffers-other-buffer)
+  (define-prefix-command 'mikus-tags-map)
+  (define-prefix-command 'mikus-search-map)
+  (projectile-mode +1)
+  (mikus-leader "s" 'mikus-search-map)
+  :config
+  (mikus-leader "p" 'projectile-command-map)
+  (setq projectile-enable-caching t)
+  (define-key projectile-command-map (kbd "<ESC>") nil)
+  (defvar my-find-command)
+  (setq my-find-command "fd --hidden --exclude '.git' -t f . -0")
+  (setq-default projectile-git-command my-find-command)
+  (setq-default projectile-generic-command my-find-command)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-tags-backend 'auto)
+  (general-define-key
+   :keymaps 'projectile-command-map
+   "ESC" 'keyboard-quit
+   "<tab>" 'projectile-project-buffers-other-buffer)
 
-    (defvar save-project-commands '(save-all-buffers))
+  (defvar save-project-commands '(save-all-buffers))
 
-    (defun save--project ()
-      (interactive)
-      (if (listp save-project-commands)
-	  (dolist (fn save-project-commands)
-	    (funcall fn))))
+  (defun save--project ()
+    (interactive)
+    (if (listp save-project-commands)
+	(dolist (fn save-project-commands)
+	  (funcall fn))))
 
-    (defun projectile-terminal ()
-      "Open a terminal in project root."
-      (interactive)
-      (let
-	  ((default-directory (projectile-ensure-project (projectile-project-root))))
-	(terminal)))
+  (defun projectile-terminal ()
+    "Open a terminal in project root."
+    (interactive)
+    (let
+	((default-directory (projectile-ensure-project (projectile-project-root))))
+      (terminal)))
 
-    (mikus-leader "s" 'mikus-search-map)
+  (general-define-key
+   :keymaps 'projectile-command-map
+   "R" 'projectile-regenerate-tags-async
+   "t" 'projectile-terminal
+   "r" 'mikus-tags-map
+   "s" 'save--project)
 
-    (general-define-key
-     :keymaps 'projectile-command-map
-     "R" 'projectile-regenerate-tags-async
-     "t" 'projectile-terminal
-     "r" 'mikus-tags-map
-     "s" 'save--project)
-    (general-define-key
-     :keymaps 'mikus-search-map
-     "a" 'projectile-ag)
-    )
-  (setq projectile-tags-backend '(etags-select))
-  )
+  (general-define-key
+   :keymaps 'mikus-search-map
+   "a" 'projectile-ag)
 
-(use-package imenu-anywhere
-  :init
-  (progn
-    (mikus-leader "I" 'imenu-anywhere)))
+  (setq projectile-tags-backend '(etags-select)))
 
 ;; Tags
-(after-load 'helm-projectile
+(with-eval-after-load 'projectile
 
   (defvar projectile-custom-ignored-files '())
 
@@ -100,8 +93,6 @@
   (general-define-key
    :keymaps 'mikus-tags-map
    "r" 'projectile-regenerate-tags
-   "R" 'projectile-regenerate-tags-async)
+   "R" 'projectile-regenerate-tags-async))
 
-
-  )
 (provide 'init-projectile)

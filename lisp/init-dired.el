@@ -1,5 +1,5 @@
 
-(after-load 'dired
+(with-eval-after-load 'dired
   
   (defun my/dired-view ()
     "View files, either as HTML or media"

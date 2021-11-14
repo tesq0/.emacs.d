@@ -3,8 +3,6 @@
 ;;; Configuration for php-mode
 
 ;;; Code:
-(require 'cl)
-(require 'company-capf)
 
 (defun php-cs-fixer-command-is-ok ()
   "Check if php-cs-fixer is in PATH."
@@ -171,16 +169,12 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
+  (require 'cl)
+  (ggtags-mode)
   (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
   (lsp)
-  (yas-minor-mode 1)
-  (yasnippet-snippets-initialize)
   (direnv-allow)
-  ;; (setq-local company-backends (company-files (company-dabbrev-code :with company-capf company-yasnippet company-keywords) ))
-  (setq-local company-manual-completion-fn #'company-capf)
-  (general-define-key)
-  (electric-pair-mode t)
   (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
 
   (when (eq (buffer-size (current-buffer)) 0)
@@ -192,17 +186,9 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 
 
 (use-package php-mode
-  :hook (php-mode . ggtags-mode)
+  :hook (php-mode . setup-php))
   
-  :init
-  (add-hook 'php-mode-hook 'setup-php)
 
-  (general-define-key
-   :keymaps 'csharp-mode-map
-   "C-c l" 'omnisharp-helm-find-usages)
-  )
-
-(use-package geben
-  )
+(use-package geben)
 
 (provide 'init-php)

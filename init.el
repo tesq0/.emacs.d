@@ -122,11 +122,19 @@
 (require 'init-gui-frames)
 (require 'init-modeline)
 (require 'init-general)
-(require 'init-jump-to-def)
+;; (require 'init-jump-to-def)
+
+(use-package undo-tree
+  :commands global-undo-tree-mode
+  :init
+  (global-undo-tree-mode)
+  :config
+  (global-set-key (kbd "C-z") 'undo-tree-undo)
+  (global-set-key (kbd "C-S-z") 'undo-tree-redo))
+
 (require 'init-evil)
 (require 'init-flycheck)
 (require 'init-magit)
-(require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-company)
 (require 'init-eldoc)
@@ -138,10 +146,10 @@
 (require 'init-kotlin)
 (require 'init-webmode)
 (require 'init-php)
-(require 'init-hideshow)
+;; (require 'init-hideshow)
 (require 'init-hydra)
 (require 'init-projectile)
-(require 'init-helm)
+;; (require 'init-helm)
 (require 'init-search)
 (require 'init-diff)
 (require 'init-window)
@@ -149,19 +157,17 @@
 ;; (require 'init-dict)
 (require 'init-mouse)
 (require 'init-wgrep)
-(require 'init-asm)
+;; (require 'init-asm)
 (require 'init-clojure)
 (require 'init-tags)
 (require 'init-nix)
 (require 'init-smartparens)
 (require 'init-vc)
 (require 'init-dart)
-;; (require 'init-mail)
 (require 'init-godot)
 (require 'init-tex)
 (require 'init-arduino)
 (require 'init-python)
-;; (require 'init-spellcheck)
 (require 'macros)
 
 ;; auto revert mode
@@ -184,10 +190,6 @@
   ;; turn on which key and add some names for default/common prefixes
   (which-key-enable-god-mode-support)
   (which-key-mode))
-
-
-(use-package restart-emacs
-  :bind* (("C-x C" . restart-emacs)))
 
 (defvar mikus-flash-timer nil)
 (defvar point-before-jump nil)
@@ -223,20 +225,18 @@
 (global-set-key (kbd "<C-return>") 'my/hl-line)
 
 (use-package editorconfig
-  :init (editorconfig-mode 1))
+  :hook (prog-mode . editorconfig-mode))
 
 (use-package elec-pair
-  :config (electric-pair-mode t))
+  :hook (prog-mode . electric-pair-mode))
 
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :hook (prog-mode))
 
 ;; defuns
 (require 'reindent-buffer)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
-
-(global-set-key (kbd "C-z") 'undo-tree-undo)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
 
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
@@ -296,45 +296,32 @@
   "C-?" nil
   "M-_" nil)
 
-(after-load 'imenu
+(with-eval-after-load 'imenu
   (setq imenu-auto-rescan t))
 
 (use-package markdown-mode)
 
 (use-package dockerfile-mode)
 
-(use-package rainbow-delimiters
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
 (use-package yaml-mode)
 
-(use-package pomodoro
-  :init
-    (setq pomodoro-sound-player "mpv"
-	  pomodoro-desktop-notification t
-	  pomodoro-play-sounds nil)
-    :config
-    (pomodoro-add-to-mode-line))
+(use-package rainbow-delimiters
+  :hook (prog-mode. rainbow-delimiters-mode))
 
 (when (>= emacs-major-version 23)
   (defun server-ensure-safe-dir (dir) "Noop" t))
 
-(use-package edit-server)
-
 (use-package direnv
-  :config
-  (direnv-mode))
+  :hook (prog-mode . direnv-mode))
 
 ;; snippets
 (use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+  :init
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :hook (prog-mode . yas-minor-mode))
 
 (use-package yasnippet-snippets
-  :after yasnippet
-  :init
-  (yasnippet-snippets-initialize))
+  :after yasnippet)
 
 (setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)

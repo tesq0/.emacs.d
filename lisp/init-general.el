@@ -4,7 +4,7 @@
   (general-override-mode)
   (general-evil-setup))
 
-(after-load 'general
+(with-eval-after-load 'general
   (progn
     (general-define-key
      :keymaps 'package-menu-mode-map

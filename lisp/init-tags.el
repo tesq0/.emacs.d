@@ -66,7 +66,7 @@
 
     (mikus-leader "t" 'helm-gtags-map)))
 
-(after-load 'company-gtags
+(with-eval-after-load 'company-gtags
   (setq company-gtags-insert-arguments nil))
 
 
