@@ -5,80 +5,90 @@
 
 ;;; Code:
 
-(use-package emmet-mode)
+(use-package emmet-mode
+  :init
+  (defun maybe-emmet-mode ()
+    (when-file-extension-matches
+     '("php"
+       "html?"
+       "htm"
+       "twig"
+       "svelte"
+       "[jt]sx") 'emmet-mode))
+  :hook (web-mode . maybe-emmet-mode))
 
-(use-package prettier)
+(use-package prettier
+  :init
+  (defun setup-prettier ()
+    "Enable prettier-mode if it's configured."
+    (when (find-filename-in-project ".prettierrc")
+      (prettier-mode))))
 
 (use-package add-node-modules-path
   :hook ((typescript-mode . add-node-modules-path)
 	  (web-mode . add-node-modules-path)))
 
-;; (defun setup-typescript-tide-linter ()
-;;   "Typescript tide backend setup."
-
-  ;; (flycheck-select-checker 'javascript-tide)
-
-  ;; (if (not (setup-prettier))
-  ;;     (add-hook 'before-save-hook 'tide-format-before-save)))
-
-;; (defun setup-typescript-lsp-linter ()
-;;   "Typescript lsp backend setup."
-
-;;   (setq lsp-eslint-validate ["javascript" "javascriptreact" "typescript" "typescriptreact" "html"])
-;;   (setq lsp-eslint-server-command 
-;; 	`("node" 
-;; 	  ;; ,(expand-file-name "~/.vscode/extensions/dbaeumer.vscode-eslint-2.1.14/server/out/eslintServer.js") 
-;; 	  ;; install version "2.0.11"
-;; 	  ,(expand-file-name "~/.emacs.d/server/vscode-eslint/server/out/eslintServer.js") 
-;; 	  "--stdio"))
-;;   (lsp)
-;;   (flycheck-select-checker 'javascript-eslint))
-
-(defun setup-typescript-mode ()
-  "Typescript setup."
-
-  (tide-setup)
-  (tide-hl-identifier-mode +1)
-  (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
-  (setq-local company-manual-completion-fn #'company-tide)
-  (setq-local emmet-expand-jsx-className? t)
-
-  (eldoc-mode +1)
-  (electric-pair-mode 1)
-  (yas-minor-mode)
-  (yas-reload-all)
-  (emmet-mode)
-
-  ;; (if (find-filename-in-project ".eslintrc.js")
-  ;;     (setup-typescript-lsp-linter)
-  ;;   (setup-typescript-tide-linter))
-  )
-
-(defun setup-prettier ()
-  "Enable prettier-mode if it's configured."
-  (when (find-filename-in-project ".prettierrc")
-    (prettier-mode)))
-
 (use-package nvm)
 
 (use-package tide
+  :after web-mode
+  :commands (tide-setup)
   :init
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
-	tide-format-before-save nil)
-  )
+  (defun setup-tide-mode ()
+    "Typescript setup."
+    (tide-setup)
+    (tide-hl-identifier-mode +1)
+    (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
+    (setq-local company-manual-completion-fn #'company-tide)
+    (setq-local emmet-expand-jsx-className? t))
 
-(with-eval-after-load 'typescript-mode
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook 'setup-typescript-mode)
+  (defun maybe-tide-mode ()
+    "Setup tide mode when the current file extension matches"
+    (when-file-extension-matches
+     '("[jt]sx" "svelte")
+     'setup-tide-mode))
+
+  :hook ((typescript-mode . setup-tide-mode)
+	 (web-mode . maybe-tide-mode))
+  :config
+  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
+	tide-format-before-save nil))
+
+(use-package typescript-mode
+  :config
+  (setq typescript-indent-level 2))
 
 (use-package json-mode
-  :init
-  (defun setup-json()
-    (setq json-reformat:indent-width 1))
-  (setup-json))
+  :after web-mode
+  :mode ("\\.json\\'" . json-mode)
+  :config
+  (setq json-reformat:indent-width 1))
 
 (use-package web-mode
+  :mode (("\\.jsx\\'" . web-mode)
+	 ("\\.tsx\\'" . web-mode)
+	 ("\\.vue\\'" . web-mode)
+	 ("\\.css\\'" . web-mode)
+	 ("\\.cshtml\\'" . web-mode)
+	 ("\\.htm\\'" . web-mode)
+	 ("\\.twig\\'" . web-mode)
+	 ("\\.svelte\\'" . web-mode)
+	 ("\\.ftl\\'" . web-mode))
   :init
+  (defun setup-webmode ()
+    "Does some setup depending on the current file extension."
+
+    ;; (turn-on-eldoc-mode)
+
+    (let ((file-extension (file-name-extension buffer-file-name)))
+      (when (string-equal "s?css" file-extension)
+	(setq-local flycheck-disabled-checkers '( javascript-eslint ))
+	(add-to-list (make-local-variable 'company-backends)
+		     'company-css))))
+
+  (add-hook 'web-mode-hook 'setup-webmode)
+
+  :config
   (setq web-mode-markup-indent-offset 2
 	web-mode-css-indent-offset 4
 	web-mode-code-indent-offset 2
@@ -101,60 +111,20 @@
       ad-do-it))
 
   ;; use web-mode for js,jsx and css files
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.htm\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-  (add-to-list 'auto-mode-alist '("\\.twig\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.ftl\\'" . web-mode))
 
   (with-eval-after-load 'flycheck
     (flycheck-add-mode 'css-csslint 'web-mode)
     (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
-  (defun setup-webmode ()
-    "Does some setup depending on the current file extension."
-    (electric-pair-local-mode 1)
-
-    (let ((file-extension (file-name-extension buffer-file-name)))
-
-      (when (or
-	     (string-equal "php" file-extension)
-	     (string-match "html?" file-extension)
-	     (string-equal "htm" file-extension)
-	     (string-equal "twig" file-extension)
-	     (string-equal "svelte" file-extension)
-	     (string-match "[jt]sx" file-extension))
-	(emmet-mode))
-
-      ;; (when (string-match "[jt]sx?" file-extension)
-      ;; 	(setup-prettier)
-      ;; 	)
-
-      (when (or
-	     (string-match "[jt]sx" file-extension)
-	     (string-match "svelte" file-extension))
-	(setup-typescript-mode))
-
-      (when (string-equal "s?css" file-extension)
-	(setq-local flycheck-disabled-checkers '( javascript-eslint ))
-	(rainbow-mode)
-	(add-to-list (make-local-variable 'company-backends)
-		     'company-css))))
-
-  (add-hook 'web-mode-hook 'setup-webmode))
-
 (use-package js2-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.js\\'" .  js2-mode))
-  (setq js-indent-level 2)
-  (add-hook 'js2-mode-hook #'setup-typescript-mode))
+  :mode ("\\.js\\'" .  js2-mode)
+  :hook (js2-mode . setup-typescript-mode)
+  :config
+  (setq js-indent-level 2))
 
 
+(use-package rainbow-mode
+  :mode ("\\.[s]css\\'" . rainbow-mode))
 
 (provide 'init-webmode)
 ;;; init-webmode.el ends here

@@ -4,8 +4,8 @@
 
 ;;; Code
 (use-package eldoc
-  :commands eldoc-mode
-  :hook (prog-mode . eldoc-mode)
+  :demand
+  :hook (prog-mode . turn-eldoc-mode-on)
   :config
   ;; Original code from
   ;; https://github.com/PythonNut/emacs-config/blob/1a92a1ff1d563fa6a9d7281bbcaf85059c0c40d4/modules/config-intel.el#L130-L137,

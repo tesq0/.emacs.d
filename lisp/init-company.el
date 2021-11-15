@@ -1,6 +1,5 @@
 (use-package company
-  :init (progn
-	  (add-hook 'prog-mode-hook 'company-mode))
+  :hook (prog-mode . company-mode)
   :diminish "COMP"
   :config (progn
 
@@ -122,21 +121,13 @@
 ;; Package `company-prescient' provides intelligent sorting and
 ;; filtering for candidates in Company completions.
 (use-package company-prescient
-  :demand t
   :after company
-  :config
-
-  ;; Use `prescient' for Company menus.
-  (company-prescient-mode +1))
+  :hook (company-mode . company-prescient-mode))
 
 (use-package helm-company
-  :demand t
   :after company
-  :config
-  (progn
-    (general-define-key
-     :keymaps 'company-active-map
-     "C-s" 'helm-company)))
-
+  :commands (helm-company)
+  :bind (:map company-active-map
+	 ("C-s" . helm-company)))
 
 (provide 'init-company)

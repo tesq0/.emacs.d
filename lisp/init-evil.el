@@ -39,14 +39,16 @@
 ;;; SUPPLEMENTARY PACKAGES
 
 (use-package evil-surround
-  :hook (evil-mode . evil-surround-mode))
+  :after evil
+  :hook (evil-local-mode . evil-surround-mode))
 
 (use-package evil-nerd-commenter)
 
 (use-package drag-stuff)
 
 (use-package evil-visualstar
-  :hook (evil-mode . evil-visualstar-mode))
+  :after evil
+  :hook (evil-local-mode . evil-visualstar-mode))
 
 (with-eval-after-load 'evil
 
@@ -68,19 +70,20 @@
 
   (mikus-evil-setup-command-props)
 
-  (progn
-    (setq evil-mode-line-format nil
-	  evil-insert-state-cursor '(bar "White")
-	  evil-normal-state-cursor '(box "White")
-	  evil-visual-state-cursor '(box "#F86155"))
-    (setq evil-move-cursor-back nil)
-    (setq evil-search-module 'evil-search)
-    (setq evil-want-C-d-scroll nil
-	  evil-want-C-u-scroll nil)
-    (setq evil-ex-search-persistent-highlight nil)
-    (setq evil-want-fine-undo nil)
-    (setq evil-kill-on-visual-paste nil)
-    (setq evil-undo-system 'undo-tree))
+  (setq evil-mode-line-format nil
+	evil-insert-state-cursor '(bar "White")
+	evil-normal-state-cursor '(box "White")
+	evil-visual-state-cursor '(box "#F86155"))
+  (setq evil-move-cursor-back nil)
+  (setq evil-search-module 'evil-search)
+  (setq evil-want-C-d-scroll nil
+	evil-want-C-u-scroll nil)
+  (setq evil-ex-search-persistent-highlight nil)
+  (setq evil-want-fine-undo nil)
+  (setq evil-kill-on-visual-paste nil)
+
+  (with-eval-after-load 'undo-tree
+    (evil-set-undo-system 'undo-tree))
 
   ;; Evil modes
   (dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode vc-annotate-mode))
@@ -235,23 +238,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   ;; Could be useful for reference
 
   ;; (defmacro evil-define-register-command (command register &rest body)
-  ;; 	"Define a command COMMAND that using the register REGISTER.
+  ;;	"Define a command COMMAND that using the register REGISTER.
 
   ;; \(fn COMMAND BODY...)"
-  ;; 	(when (and command register body)
-  ;; 		`(evil-define-command ,command ,register
-  ;; 			 (interactive "<C>")
-  ;; 			 ,@body)))
+  ;;	(when (and command register body)
+  ;;		`(evil-define-command ,command ,register
+  ;;			 (interactive "<C>")
+  ;;			 ,@body)))
 
   ;; (evil-define-register-command
   ;;  my/evil-substitute-from-register (register)
   ;;  (let* ((content (get-register register)))
-  ;; 	 (my/evil-substitute nil content)))
+  ;;	 (my/evil-substitute nil content)))
 
   ;; (evil-define-register-command
   ;;  my/evil-global-substitute-from-register (register)
   ;;  (let* ((content (get-register register)))
-  ;; 	 (my/evil-substitute t content)))
+  ;;	 (my/evil-substitute t content)))
 
   (defun evil-join-and-indent-upwards ()
     (interactive)
@@ -320,7 +323,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
      "C-S-v" 'yank
      "C-S-c" 'evil-yank
      "C-x w" 'mark-window)
-    
+
     (general-define-key
      :keymaps '(minibuffer-local-map
 		minibuffer-local-ns-map
@@ -334,14 +337,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
      )
 
     (global-set-key [escape] 'evil-keyboard-quit) ;;evil-exit-emacs-state
-    
+
     (define-key ctl-x-map (kbd "C-j") 'delete-blank-lines)
 
     (general-create-definer mikus-leader
       :prefix "SPC"
       :states '(normal motion visual)
       :keymaps 'override)
-    
+
     (general-define-key
      :keymaps '( compilation-mode-map compilation-minor-mode-map )
      ;; :states '(motion normal)
@@ -392,7 +395,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (general-define-key
 
      :states '(motion normal)
-     
+
      "C-;"  'mikus-scroll-column-right
      "C-j"  'mikus-scroll-column-left
      "M-;"  nil
@@ -488,7 +491,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-evil-2char-chord-as-esc evil-kk-as-esc "k"
       "Make kk escape out of insert mode"
       0.5)
-    
+
     (define-key evil-insert-state-map "k" 'evil-kk-as-esc)
 
     (general-define-key

@@ -1,5 +1,4 @@
 (use-package nix-mode
-  
   :init
   (defun init-nix-mode ()
     (setq-local company-backends '(company-yasnippet company-files (company-dabbrev-code company-capf company-keywords) company-dabbrev)))
@@ -8,7 +7,7 @@
 
   )
 
-(with-eval-after-load "lsp"
+(with-eval-after-load 'lsp
   (progn
     (add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
     (lsp-register-client

@@ -460,5 +460,24 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
       (message ret)
       ret)))
 
+(defun ensure-list (obj)
+  "Wraps OBJ in a list if it's not already."
+  (or (and (listp obj) obj)
+      (list obj)))
+
+
+(defun mapcheck-while (list check-fn fn)
+  "Call CHECK-FN on every element of LIST, if non-nil, call FN, and end the loop."
+  (and (listp list)
+       (let ((el (car list)))
+	 (or (when (funcall check-fn el)
+	       (funcall fn) t)
+	   (mapcheck-while (cdr list) check-fn fn)))))
+
+(defun when-file-extension-matches (exts fn)
+  "Do FN when any of EXTS matches current buffer's file ext."
+  (let* ((file-extension (file-name-extension buffer-file-name)))
+    (mapcheck-while (ensure-list exts) (lambda (ext) (string-match ext file-extension)) fn)))
+
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

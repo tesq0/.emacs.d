@@ -4,7 +4,7 @@
   (require 'dash-functional)
   (setq lsp-enable-indentation nil
 	lsp-inhibit-message t
-	lsp-eldoc-render-all t
+	lsp-eldoc-render-all n
 	lsp-enable-file-watchers nil
 	lsp-highlight-symbol-at-point nil))
 

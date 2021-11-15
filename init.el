@@ -157,7 +157,7 @@
 ;; (require 'init-hideshow)
 (require 'init-hydra)
 (require 'init-projectile)
-;; (require 'init-helm)
+(require 'init-helm)
 (require 'init-search)
 (require 'init-diff)
 (require 'init-window)
@@ -180,8 +180,7 @@
 
 ;; auto revert mode
 (use-package autorevert
-  :defer t
-  :diminish auto-revert-mode)
+  :hook (text-mode . auto-revert-mode))
 
 (setq debug-on-error nil)
 
@@ -237,9 +236,6 @@
 
 (use-package elec-pair
   :hook (prog-mode . electric-pair-mode))
-
-(use-package rainbow-mode
-  :hook (prog-mode))
 
 ;; defuns
 (require 'reindent-buffer)
@@ -319,8 +315,8 @@
 (when (>= emacs-major-version 23)
   (defun server-ensure-safe-dir (dir) "Noop" t))
 
-(use-package direnv
-  :hook (prog-mode . direnv-mode))
+;; (use-package direnv
+;;   :hook (prog-mode . direnv-mode))
 
 ;; snippets
 (use-package yasnippet
