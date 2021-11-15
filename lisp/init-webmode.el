@@ -70,6 +70,7 @@
 	 ("\\.vue\\'" . web-mode)
 	 ("\\.css\\'" . web-mode)
 	 ("\\.cshtml\\'" . web-mode)
+	 ("\\.blade.php\\'" . web-mode)
 	 ("\\.htm\\'" . web-mode)
 	 ("\\.twig\\'" . web-mode)
 	 ("\\.svelte\\'" . web-mode)

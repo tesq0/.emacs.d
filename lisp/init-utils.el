@@ -470,9 +470,10 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   "Call CHECK-FN on every element of LIST, if non-nil, call FN, and end the loop."
   (and (listp list)
        (let ((el (car list)))
-	 (or (when (funcall check-fn el)
+	 (or (eq el nil)
+	     (when (funcall check-fn el)
 	       (funcall fn) t)
-	   (mapcheck-while (cdr list) check-fn fn)))))
+	     (mapcheck-while (cdr list) check-fn fn)))))
 
 (defun when-file-extension-matches (exts fn)
   "Do FN when any of EXTS matches current buffer's file ext."
