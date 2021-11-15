@@ -310,7 +310,7 @@
 (use-package yaml-mode)
 
 (use-package rainbow-delimiters
-  :hook (prog-mode. rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (when (>= emacs-major-version 23)
   (defun server-ensure-safe-dir (dir) "Noop" t))
