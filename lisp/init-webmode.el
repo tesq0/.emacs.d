@@ -40,7 +40,8 @@
     (tide-hl-identifier-mode +1)
     (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
     (setq-local company-manual-completion-fn #'company-tide)
-    (setq-local emmet-expand-jsx-className? t))
+    (setq-local emmet-expand-jsx-className? t)
+    (eldoc-mode +1))
 
   (defun maybe-tide-mode ()
     "Setup tide mode when the current file extension matches"
@@ -49,6 +50,7 @@
      'setup-tide-mode))
 
   :hook ((typescript-mode . setup-tide-mode)
+	 (js2-mode . setup-tide-mode)
 	 (web-mode . maybe-tide-mode))
   :config
   (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
@@ -119,7 +121,6 @@
 
 (use-package js2-mode
   :mode ("\\.js\\'" .  js2-mode)
-  :hook (js2-mode . setup-typescript-mode)
   :config
   (setq js-indent-level 2))
 
