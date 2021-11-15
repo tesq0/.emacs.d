@@ -49,7 +49,7 @@
   (setq projectile-tags-backend '(etags-select)))
 
 (use-package helm-projectile
-  :commands helm-projectile-on
+  :commands helm-projectile-switch-project
   :after projectile
   :bind (:map projectile-command-map
 	      ("p" . helm-projectile-switch-project)))
