@@ -1,15 +1,12 @@
 (use-package ace-window
-  
-  :defer 1
+  :commands (ace-window)
+  :bind (("C-c w" . hydra-window)
+	 ("C-c a" . ace-window))
   :config 
-  (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l ?\;))
-  )
+  (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l ?\;)))
 
 (use-package hydra
-  
-
-  )
-
+  :demand)
 
 (defun hydra-move-splitter-left (arg)
   "Move window splitter left."

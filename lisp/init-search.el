@@ -28,12 +28,12 @@
 	      ("p" . rg-dwim-project-dir)
 	      ("P" . rg-project))
   :config
-
   (defun rg-reload ()
     (interactive)
     (rg-rerun))
 
   (defvar rg-cur-regexp "Regexp of rg's current search pattern" nil)
+  (defvar rg-opt-multiline "Should add the --multiline option?" nil)
 
   ;; (defun rg-maybe-set-evil-search-pattern (&rest args)
   ;;   (let* ((search-pattern (cl-struct-slot-value 'rg-search 'pattern rg-cur-search))
@@ -44,6 +44,18 @@
   ;;   )
 
   ;; (advice-add 'rg-filter :after #'rg-maybe-set-evil-search-pattern)
+
+  (defun rg-command-line-flags ()
+    (and rg-opt-multiline (list "--multiline")))
+
+
+  (defun rg-rerun-toggle-multiline ()
+    (interactive)
+    (setq-local rg-opt-multiline (not rg-opt-multiline))
+    (message "rg-opt-multiline %s" rg-opt-multiline)
+    (rg-rerun))
+
+  (setq rg-hide-command nil)
 
   (rg-define-search rg-project-merge-conflicts
     :dir project
@@ -62,6 +74,7 @@
    :keymaps 'rg-mode-map
    :states '(visual normal)
    "r" 'rg-rerun-change-regexp
+   "m" 'rg-rerun-toggle-multiline
    "f" 'rg-rerun-change-files
    "d" 'rg-rerun-change-dir
    "l" 'evil-previous-line

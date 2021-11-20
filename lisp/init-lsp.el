@@ -1,5 +1,5 @@
 (use-package lsp-mode
-  
+  :commands (lsp)
   :config
   (require 'dash-functional)
   (setq lsp-enable-indentation nil
@@ -10,7 +10,6 @@
 
 (use-package company-lsp
   :after company
-  
   :config
   (setq company-lsp-cache-candidates t))
 

@@ -70,7 +70,7 @@
   :mode (("\\.jsx\\'" . web-mode)
 	 ("\\.tsx\\'" . web-mode)
 	 ("\\.vue\\'" . web-mode)
-	 ("\\.css\\'" . web-mode)
+	 ("\\.[s]?css\\'" . web-mode)
 	 ("\\.cshtml\\'" . web-mode)
 	 ("\\.blade.php\\'" . web-mode)
 	 ("\\.htm\\'" . web-mode)

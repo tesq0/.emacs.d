@@ -246,7 +246,7 @@
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
 
 (define-prefix-command	'toggle-map)
-(global-set-key (kbd "C-c o") 'toggle-map)
+(global-set-key (kbd "C-c t") 'toggle-map)
 
 (general-define-key
  :keymaps 'toggle-map
@@ -286,6 +286,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
+(define-prefix-command	'open-map)
+(global-set-key (kbd "C-c o") 'open-map)
+
 ;; Annoying undo tree keybindings
 (general-unbind
   :keymaps 'undo-tree-map
@@ -317,6 +320,11 @@
 
 ;; (use-package direnv
 ;;   :hook (prog-mode . direnv-mode))
+
+(use-package open-in-vscode
+  :commands (open-in-vscode)
+  :bind (:map open-map
+	      ("v" . open-in-vscode)))
 
 ;; snippets
 (use-package yasnippet
