@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: useLocalization 
+# key: useLocalization 
+# type: command
+# --
+
+(insert (format "const {%s: t} = useLocalization();" js-localization-function)) 
+
+(save-excursion
+ (evil-normal-state)
+ (re-search-backward "localization")
+ (lsp-execute-code-action (car (lsp-code-actions-at-point))))

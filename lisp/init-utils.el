@@ -480,5 +480,9 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (let* ((file-extension (file-name-extension buffer-file-name)))
     (mapcheck-while (ensure-list exts) (lambda (ext) (string-match ext file-extension)) fn)))
 
+
+(defun file-basename (filename)
+  (replace-regexp-in-string "\\..*" "" (file-name-nondirectory filename)))
+
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

@@ -15,9 +15,14 @@
        "twig"
        "svelte"
        "[jt]sx") 'emmet-mode))
-  :hook (web-mode . maybe-emmet-mode))
+  :hook (web-mode . maybe-emmet-mode)
+  :config
+  (setq emmet-expand-jsx-className? t))
 
 (use-package prettier
+  :commands (prettier-prettify)
+  :bind (("C-c f" . prettier-prettify)
+	 ("C-x f" . prettier-prettify))
   :init
   (defun setup-prettier ()
     "Enable prettier-mode if it's configured."
@@ -28,35 +33,47 @@
   :hook ((typescript-mode . add-node-modules-path)
 	  (web-mode . add-node-modules-path)))
 
-(use-package nvm)
 
-(use-package tide
-  :after web-mode
-  :commands (tide-setup)
-  :init
-  (defun setup-tide-mode ()
-    "Typescript setup."
-    (tide-setup)
-    (tide-hl-identifier-mode +1)
-    (setq-local company-backends '((company-yasnippet company-tide company-files company-dabbrev-code company-keywords)))
-    (setq-local company-manual-completion-fn #'company-tide)
-    (setq-local emmet-expand-jsx-className? t)
-    (eldoc-mode +1))
+(defgroup nightwatch nil
+  "Nightwatch."
+  :group 'root)
 
-  (defun maybe-tide-mode ()
-    "Setup tide mode when the current file extension matches"
-    (when-file-extension-matches
-     '("[jt]sx" "svelte")
-     'setup-tide-mode))
+(defcustom nightwatch-test-cmd "npx nw -t %s --"
+  "Command to use for running a nightwatch test."
+  :type 'string
+  :group 'nightwatch)
 
-  :hook ((typescript-mode . setup-tide-mode)
-	 (js2-mode . setup-tide-mode)
-	 (web-mode . maybe-tide-mode))
-  :config
-  (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil :indentSize 2 :tabSize 2)
-	tide-format-before-save nil))
+(defgroup javascript nil
+  "Javascript."
+  :group 'root)
+
+(defcustom js-localization-function "t"
+  "Localization function."
+  :type 'string
+  :group 'javascript)
+
+(defun nightwatch-test-current-file ()
+  "Run a nightwatch test defined in the current file."
+  (interactive)
+  (compile (format nightwatch-test-cmd (buffer-file-name))))
+
+(defun jest-test-current-file ()
+  "Run a jest test defined in the current file."
+  (interactive)
+  (compile (format "npx jest %s" (file-basename (buffer-name)))))
+
+(define-prefix-command 'js-test-prefix-map)
+(define-key 'js-test-prefix-map "j" 'jest-test-current-file)
+(define-key 'js-test-prefix-map "n" 'nightwatch-test-current-file)
+
+
+(defun setup-js-intellisense ()
+  "JS intellisense."
+  (local-set-key (kbd "C-x t") 'js-test-prefix-map)
+  (eldoc-mode +1))
 
 (use-package typescript-mode
+  :hook (typescript-mode . setup-js-intellisense)
   :config
   (setq typescript-indent-level 2))
 
@@ -81,7 +98,9 @@
   (defun setup-webmode ()
     "Does some setup depending on the current file extension."
 
-    ;; (turn-on-eldoc-mode)
+    (when-file-extension-matches
+     '("[jt]sx" "svelte")
+     'setup-js-intellisense)
 
     (let ((file-extension (file-name-extension buffer-file-name)))
       (when (string-equal "s?css" file-extension)
@@ -92,6 +111,11 @@
   (add-hook 'web-mode-hook 'setup-webmode)
 
   :config
+
+  (general-unbind
+    :keymaps 'web-mode-map
+    "C-c C-s")
+
   (setq web-mode-markup-indent-offset 2
 	web-mode-css-indent-offset 4
 	web-mode-code-indent-offset 2

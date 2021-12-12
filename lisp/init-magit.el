@@ -44,6 +44,7 @@
    "s" 'magit-status
    "e" 'magit-ediff
    "d" 'magit-diff
+   "w" 'magit-worktree
    "l" 'magit-log
    "a" 'vc-annotate
    "f" 'magit-find-file

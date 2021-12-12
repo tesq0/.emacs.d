@@ -95,10 +95,7 @@
 		  )
 
 	    
-	    (defvar company-backends '(company-yasnippet company-files (company-dabbrev-code
-								      company-capf
-								      company-keywords)
-						       company-dabbrev))
+	    (setq company-backends '((company-files company-dabbrev-code company-yasnippet :with company-keywords)))
 	    
 	    (setq company-transformers '(company-sort-by-backend-importance company-sort-prefer-same-case-prefix))
 

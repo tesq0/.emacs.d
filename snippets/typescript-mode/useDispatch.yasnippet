@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: useDispatch
+# key: useDispatch
+# type: command
+# --
+
+(condition-case nil  
+    (save-excursion
+      (re-search-backward "import.*useDispatch.*"))
+(error (save-excursion
+	   (goto-line 1)
+	   (end-of-line)
+	   (newline)
+	   (insert "import {useDispatch} from 'react-redux';"))))
+
+(insert "const dispatch = useDispatch();")
+

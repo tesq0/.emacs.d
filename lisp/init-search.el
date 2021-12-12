@@ -1,3 +1,7 @@
+(with-eval-after-load 'isearch
+  (define-key isearch-mode-map (kbd "C-w") 'isearch-delete-char)
+  (define-key isearch-mode-map (kbd "C-g") 'isearch-exit))
+
 (use-package fzf
   :demand
   :init

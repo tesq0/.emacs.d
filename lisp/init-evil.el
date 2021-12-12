@@ -464,8 +464,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
     ;; (defmacro define-timed-key (key predicate &optional time)
 
-
-    ;;   )
+;;   )
 
     (defmacro define-evil-2char-chord-as-esc (command char doc &optional time)
       "Defines a command that turns makes a 2 same character chord escape insert mode.

@@ -27,11 +27,15 @@
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+(defconst emacs-server-socket-dir (expand-file-name "server" user-emacs-directory))
 (defconst emacs-backup-dir "/tmp/backup-emacs")
 
-(dolist (d (list emacs-tmp-dir emacs-backup-dir))
+(dolist (d (list emacs-tmp-dir emacs-backup-dir emacs-server-socket-dir))
   (if (not (file-exists-p d))
       (make-directory d t)))
+
+(with-eval-after-load 'server
+  (setq server-socket-dir emacs-server-socket-dir))
 
 (setq backup-by-copying t)
 
@@ -176,7 +180,7 @@
 (require 'init-tex)
 (require 'init-arduino)
 (require 'init-python)
-(require 'macros)
+(require 'init-macros)
 
 ;; auto revert mode
 (use-package autorevert
@@ -289,6 +293,8 @@
 (define-prefix-command	'open-map)
 (global-set-key (kbd "C-c o") 'open-map)
 
+(global-set-key (kbd "<C-tab>") 'switch-to-the-window-that-displays-the-most-recently-selected-buffer)
+
 ;; Annoying undo tree keybindings
 (general-unbind
   :keymaps 'undo-tree-map
@@ -328,8 +334,18 @@
 
 ;; snippets
 (use-package yasnippet
+  :commands (yas-insert-snippet yas-new-snippet yas-visit-snippet-file)
   :init
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (define-prefix-command 'my-snippet-map)
+  :config
+  (define-key 'my-snippet-map "i" 'yas-insert-snippet)
+  (define-key 'my-snippet-map "n" 'yas-new-snippet)
+  (define-key 'my-snippet-map "v" 'yas-visit-snippet-file)
+  (yas-reload-all)
+  :bind (:map yas-minor-mode-map
+	      ("C-c C-s" . my-snippet-map)
+	      ("C-c s" . my-snippet-map))
   :hook (prog-mode . yas-minor-mode))
 
 (use-package yasnippet-snippets

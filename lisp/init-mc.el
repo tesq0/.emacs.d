@@ -9,8 +9,9 @@
       (evil-mc-set-pattern-for-range range nil))))
 
 (use-package evil-mc
-  :commands (evil-mc-mode)
-  :hook (evil-mode . evil-mc-mode)
+  :commands (global-evil-mc-mode)
+  :init
+  (global-evil-mc-mode)
   :config
   (setq mc/always-run-for-all t)
   (setq evil-mc-one-cursor-show-mode-line-text t)
