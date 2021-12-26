@@ -28,7 +28,7 @@
      "M-x" 'helm-M-x
      "C-x C-f" 'helm-find-files
      "C-c q" 'helm-show-kill-ring
-     "C-x b" 'switch-to-buffer)
+     "C-x b" 'helm-buffers-list)
     (mikus-leader
       "i" 'helm-imenu
       "o" 'helm-occur

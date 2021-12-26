@@ -21,6 +21,12 @@
     "Whether to show hidden files in dired"
     :group 'dired
     :type 'boolean)
+
+  (defun dired-eval-marked-file ()
+    (interactive)
+    (let ((path (dired-get-filename)))
+      (when path
+	(eval-file path))))
   
   (defun dired-copy-file-path ()
     (interactive)
@@ -82,6 +88,9 @@
    "l" 'dired-previous-line
    "n" 'evil-search-next
    "C-c o" 'my/dired-view
+   "C-c C-e" 'dired-eval-marked-file
+   "C-x e" 'dired-eval-marked-file
+   "C-x C-e" 'dired-eval-marked-file
    "C-c C-o" 'my/dired-view
    )
 

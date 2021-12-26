@@ -11,7 +11,7 @@
     (setq-local company-manual-completion-fn 'company-capf)
     (flycheck-mode nil))
   :hook ((web-mode . (lambda ()
-		       (when-file-extension-matches '("[jt]sx" "svelte") 'boot-lsp)))
+		       (when-file-extension-matches '("[jt]sx" "svelte" "[sl]?css") 'boot-lsp)))
 	 (typescript-mode . boot-lsp)
 	 (js2-mode . boot-lsp)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -22,7 +22,9 @@
 	lsp-headerline-breadcrumb-enable nil
 	lsp-eldoc-render-all n
 	lsp-enable-file-watchers nil
-	lsp-highlight-symbol-at-point nil))
+	lsp-highlight-symbol-at-point nil)
+  (add-to-list 'lsp-language-id-configuration '(".*\\.scss" . "scss"))
+  )
 
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol

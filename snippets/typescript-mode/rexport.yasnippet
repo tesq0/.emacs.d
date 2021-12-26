@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: rexport
+# key: rexport
+# type: command
+# --
+(call-interactively
+(lambda (filename)
+(interactive "f")
+(insert (format "export {%s} from \"./%s\";" (file-basename filename)
+(file-basename (file-relative-name filename))
+filename))))

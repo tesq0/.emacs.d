@@ -295,6 +295,11 @@
 
 (global-set-key (kbd "<C-tab>") 'switch-to-the-window-that-displays-the-most-recently-selected-buffer)
 
+(define-prefix-command	'insert-stuff-map)
+(define-key insert-stuff-map (kbd "b") 'insert-buffer-basename)
+(global-set-key (kbd "C-c i") 'insert-stuff-map)
+
+
 ;; Annoying undo tree keybindings
 (general-unbind
   :keymaps 'undo-tree-map
@@ -306,6 +311,7 @@
 (general-unbind
   "C-_" nil
   "C-/" nil
+  "C-x m" nil
   "C-?" nil
   "M-_" nil)
 

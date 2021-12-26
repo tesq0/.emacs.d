@@ -159,15 +159,15 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   (when (not (process-live-p process))
     (let ((buf (process-buffer process)))
       (when (buffer-live-p buf)
-	   (with-current-buffer buf
-          (kill-buffer))))))
+	(with-current-buffer buf
+	  (kill-buffer))))))
 
 ;; (defun terminal (&optional args)
 ;;   "Open an external terminal with ARGS."
 ;;   (interactive)
 ;;   (let ((cmd (getenv "TERMINAL"))
-;; 	(buffer (generate-new-buffer "terminal"))
-;; 	(arg-string (or args (getenv "SHELL"))))
+;;	(buffer (generate-new-buffer "terminal"))
+;;	(arg-string (or args (getenv "SHELL"))))
 ;;     (set-process-sentinel (start-process "terminal" buffer cmd arg-string) #'terminal-sentinel)))
 
 (defun my-term-handle-exit (&optional process-name msg)
@@ -178,7 +178,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 
 (defun terminal ()
   (interactive)
- (ansi-term (getenv "SHELL")))
+  (ansi-term (getenv "SHELL")))
 
 (eval-after-load "term"
   '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
@@ -241,12 +241,12 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   (kill-new (buffer-file-name)))
 
 
-(defun rename-file-and-buffer ()
+(defun rename-file-and-buffer (&optional rename)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive)
   (let*  ((name (buffer-name))
 	  (filename (buffer-file-name))
-	  (new-name (read-from-minibuffer "New name: " name)))
+	  (new-name (or (and rename (funcall rename filename)) (read-from-minibuffer "New name: " name))))
     (if (not filename)
 	(message "Buffer '%s' is not visiting a file!" name)
       (if (get-buffer new-name)
@@ -332,7 +332,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	  (try-xdg-open default-directory))))
 
 (defun try-xdg-open (URL)
-  (if (and (stringp URL) (not (string-empty-p URL)) (executable-find "xdg-open")) 
+  (if (and (stringp URL) (not (string-empty-p URL)) (executable-find "xdg-open"))
       (start-process "xdg-open" nil
 		     "xdg-open" URL)
     nil))
@@ -341,14 +341,14 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   "Opens file with xdg-open. Without optional argument ASYNC, it will wait for the file to finish playing or review."
   (let ((command (format "xdg-open '%s'" file))
 	(process-connection-type nil))
-(if async
-    (async-shell-command command)
-  (shell-command command))))
+    (if async
+	(async-shell-command command)
+      (shell-command command))))
 
 (defun xdg-open-files (files)
   "Opens list of files with xdg-open one by one, waiting for each to finish."
   (dolist (file files)
-(xdg-open file)))
+    (xdg-open file)))
 
 (defun switch-to-recently-selected-buffer ()
   "Switch to other buffer"
@@ -429,15 +429,25 @@ nil if nothing is found."
       (kill-new (evil-find-WORD t))))
   (yank))
 
+(defun format-find-find-command (dir search &optional regexp-p)
+  (format "find %s -type f %s"
+	  dir
+	  (format "%s '%s'" (or (and regexp-p "-regex") "-name") search)))
+
+(defun format-fd-find-command (dir search &rest)
+  (format "fd --hidden -t f %s %s" search dir))
+
+(defvar format-find-command 'format-fd-find-command)
+
+(defvar find-sort-command "awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2-")
+
 (defun find-files (dir search &optional regexp-p)
   "Find files in DIR matching SEARCH.
 If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (split-string
    (string-trim
     (shell-command-to-string
-     (format "find %s -type f %s | awk '{ print length, $0 }' | sort -n -s | cut -d \" \" -f2-"
-	     dir
-	     (format "%s '%s'" (or (and regexp-p "-regex") "-name") search)))
+     (format "%s | %s" (apply format-find-command dir search regexp-p) find-sort-command))
     "\n" "\n") "\n"))
 
 (defun find-filename-in-project (filename)
@@ -448,8 +458,8 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
 	       default-directory))
 	 (file-at-root-lvl (format "%s/%s" dir filename)))
     (or (and (file-exists-p file-at-root-lvl) file-at-root-lvl)
-     (car (find-files dir filename))
-     )))
+	(car (find-files dir filename))
+	)))
 
 (defun file-class-name ()
   (interactive)
@@ -483,6 +493,44 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
 
 (defun file-basename (filename)
   (replace-regexp-in-string "\\..*" "" (file-name-nondirectory filename)))
+
+(defun file-path-no-extension (filepath)
+  (concat (file-name-directory filepath) (file-basename filepath)))
+
+(defun my/file-relative-name (filename &rest rest)
+  (let ((r (apply 'file-relative-name filename rest)))
+    (if (char-equal (car (string-to-list r)) (string-to-char "."))
+	r
+      (format "./%s" r))))
+
+(defun eval-file (path)
+  (let ((default-directory (file-name-directory path)))
+    (with-temp-buffer
+      (insert-file-contents path)
+      (eval-buffer))))
+
+(defun async-shell-command-in-buffer-or-switch-to-buffer (command buffer-name)
+  (let ((buffer (get-buffer buffer-name)))
+    (if buffer
+	(switch-to-buffer buffer)
+      (async-shell-command
+       command (get-buffer-create buffer-name))
+      )))
+
+(defun async-shell-command-confirm-kill-process (&rest args)
+  (let ((async-shell-command-buffer 'confirm-kill-process))
+    (apply #'async-shell-command args)))
+
+(defun rename-file-and-buffer-to-word-at-point ()
+  (interactive)
+  (rename-file-and-buffer (lambda (filename)
+			    (format "%s.%s"
+				    (word-at-point t)
+				    (file-name-extension filename)))))
+
+(defun insert-buffer-basename ()
+  (interactive)
+  (insert (file-basename (buffer-file-name))))
 
 (provide 'init-utils)
 ;;(display-buffer-pop-up-window buf '((window-height . 40)) )

@@ -10,7 +10,7 @@
   (setq projectile-enable-caching t)
   (define-key projectile-command-map (kbd "<ESC>") nil)
   (defvar my-find-command)
-  (setq my-find-command "fd --hidden --exclude '.git' -t f . -0")
+  (setq my-find-command "fd --no-ignore-vcs --ignore-file .gitignore --hidden --exclude '.git' -t f . -0")
   (setq-default projectile-git-command my-find-command)
   (setq-default projectile-generic-command my-find-command)
   (setq projectile-indexing-method 'alien)
@@ -28,6 +28,24 @@
 	(dolist (fn save-project-commands)
 	  (funcall fn))))
 
+  (defun projectile-completing-read-file (&rest rest)
+    (-if-let* ((project-root (projectile-acquire-root))
+	       (file (apply 'projectile-completing-read "Find file:" (projectile-project-files project-root) rest))
+	       (path (expand-file-name file project-root)))
+	path
+      (error "Failed to read project file")))
+
+  (defun projectile-eval-file (&optional filename)
+    (interactive)
+    (let ((path (projectile-completing-read-file :initial-input (or filename ""))))
+      (if (string-equal (file-name-extension path) "el")
+      (eval-file path)
+      (warn "Selected non-elisp file."))))
+
+  (defun projectile-eval-start-or-file ()
+    (interactive)
+    (projectile-eval-file "start.el"))
+
   (defun projectile-terminal ()
     "Open a terminal in project root."
     (interactive)
@@ -40,7 +58,9 @@
    "R" 'projectile-regenerate-tags-async
    "t" 'projectile-terminal
    "r" 'mikus-tags-map
-   "s" 'save--project)
+   "s" 'save--project
+   "e" 'projectile-eval-start-or-file
+   "E" 'projectile-eval-file)
 
   (general-define-key
    :keymaps 'mikus-search-map

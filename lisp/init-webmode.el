@@ -62,9 +62,29 @@
   (interactive)
   (compile (format "npx jest %s" (file-basename (buffer-name)))))
 
+
+(defun goto-create-jest-test-for-file (filename)
+  (let* ((test-filename
+	  (format "%s.spec.%s"
+		  (file-basename filename) (file-name-extension filename)))
+	 (test-filepath (expand-file-name (format "__tests__/%s" test-filename)
+					  (file-name-directory filename)))
+	 (test-file-exits (file-exists-p test-filepath)))
+    (cl-labels ((hook-cb ()
+			 (yas-expand-snippet
+			  (yas-lookup-snippet "jestDescribe" 'typescript-mode))
+			 (remove-hook 'find-file-hook #'hook-cb)))
+      (add-hook 'find-file-hook #'hook-cb)
+      (find-file test-filepath))))
+
+(defun goto-create-jest-test-for-current-file ()
+  (interactive)
+  (goto-create-jest-test-for-file (buffer-file-name)))
+
 (define-prefix-command 'js-test-prefix-map)
 (define-key 'js-test-prefix-map "j" 'jest-test-current-file)
 (define-key 'js-test-prefix-map "n" 'nightwatch-test-current-file)
+(define-key 'js-test-prefix-map "g" 'goto-create-jest-test-for-current-file)
 
 
 (defun setup-js-intellisense ()
@@ -74,6 +94,8 @@
 
 (use-package typescript-mode
   :hook (typescript-mode . setup-js-intellisense)
+  :mode (("\\.js\\'" . typescript-mode)
+	 ("\\.ts\\'" . typescript-mode))
   :config
   (setq typescript-indent-level 2))
 
@@ -90,7 +112,7 @@
 	 ("\\.[s]?css\\'" . web-mode)
 	 ("\\.cshtml\\'" . web-mode)
 	 ("\\.blade.php\\'" . web-mode)
-	 ("\\.htm\\'" . web-mode)
+	 ("\\.htm[l]?\\'" . web-mode)
 	 ("\\.twig\\'" . web-mode)
 	 ("\\.svelte\\'" . web-mode)
 	 ("\\.ftl\\'" . web-mode))
@@ -100,13 +122,7 @@
 
     (when-file-extension-matches
      '("[jt]sx" "svelte")
-     'setup-js-intellisense)
-
-    (let ((file-extension (file-name-extension buffer-file-name)))
-      (when (string-equal "s?css" file-extension)
-	(setq-local flycheck-disabled-checkers '( javascript-eslint ))
-	(add-to-list (make-local-variable 'company-backends)
-		     'company-css))))
+     'setup-js-intellisense))
 
   (add-hook 'web-mode-hook 'setup-webmode)
 
@@ -117,7 +133,7 @@
     "C-c C-s")
 
   (setq web-mode-markup-indent-offset 2
-	web-mode-css-indent-offset 4
+	web-mode-css-indent-offset nil
 	web-mode-code-indent-offset 2
 	web-mode-enable-auto-quoting nil
 	web-mode-enable-current-element-highlight t
@@ -139,18 +155,14 @@
 
   ;; use web-mode for js,jsx and css files
 
-  (with-eval-after-load 'flycheck
-    (flycheck-add-mode 'css-csslint 'web-mode)
-    (flycheck-add-mode 'javascript-eslint 'web-mode)))
-
-(use-package js2-mode
-  :mode ("\\.js\\'" .  js2-mode)
-  :config
-  (setq js-indent-level 2))
-
+  ;; (with-eval-after-load 'flycheck
+  ;;   (flycheck-add-mode 'css-csslint 'web-mode)
+  ;;   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ;;   )
+  )
 
 (use-package rainbow-mode
-  :mode ("\\.[s]css\\'" . rainbow-mode))
+  :hook (web-mode . (lambda () (when-file-extension-matches "[s]?css" 'rainbow-mode))))
 
 (provide 'init-webmode)
 ;;; init-webmode.el ends here
