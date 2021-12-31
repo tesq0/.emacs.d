@@ -31,7 +31,7 @@
 
 (use-package add-node-modules-path
   :hook ((typescript-mode . add-node-modules-path)
-	  (web-mode . add-node-modules-path)))
+	 (web-mode . add-node-modules-path)))
 
 
 (defgroup nightwatch nil
@@ -63,6 +63,15 @@
   (compile (format "npx jest %s" (file-basename (buffer-name)))))
 
 
+(defvar jest-new-file nil)
+
+(defun jest-test-after-find-file ()
+  (and
+   jest-new-file
+   (yas-expand-snippet
+    (yas-lookup-snippet "jestDescribe" 'typescript-mode)))
+  (setq jest-new-file nil))
+
 (defun goto-create-jest-test-for-file (filename)
   (let* ((test-filename
 	  (format "%s.spec.%s"
@@ -70,12 +79,9 @@
 	 (test-filepath (expand-file-name (format "__tests__/%s" test-filename)
 					  (file-name-directory filename)))
 	 (test-file-exits (file-exists-p test-filepath)))
-    (cl-labels ((hook-cb ()
-			 (yas-expand-snippet
-			  (yas-lookup-snippet "jestDescribe" 'typescript-mode))
-			 (remove-hook 'find-file-hook #'hook-cb)))
-      (add-hook 'find-file-hook #'hook-cb)
-      (find-file test-filepath))))
+    (when (not test-file-exits)
+      (setq jest-new-file test-filepath))
+    (find-file test-filepath)))
 
 (defun goto-create-jest-test-for-current-file ()
   (interactive)
@@ -86,11 +92,19 @@
 (define-key 'js-test-prefix-map "n" 'nightwatch-test-current-file)
 (define-key 'js-test-prefix-map "g" 'goto-create-jest-test-for-current-file)
 
+(define-minor-mode js-test-minor-mode
+  "Javascript testing mode."
+
+  :lighter "js-test"
+  (if js-test-minor-mode
+      (progn
+	(local-set-key (kbd "C-x t") 'js-test-prefix-map)
+	(add-hook 'find-file-hook 'jest-test-after-find-file))
+    (remove-hook 'find-file-hook 'jest-test-after-find-file)))
 
 (defun setup-js-intellisense ()
   "JS intellisense."
-  (local-set-key (kbd "C-x t") 'js-test-prefix-map)
-  (eldoc-mode +1))
+  (js-test-minor-mode 1))
 
 (use-package typescript-mode
   :hook (typescript-mode . setup-js-intellisense)

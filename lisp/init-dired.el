@@ -35,6 +35,7 @@
 	(message (format "Copied path %s" path))
 	(kill-new path))))
 
+
   (define-prefix-command 'dired-copy-map)
   (define-prefix-command 'dired-paste-map)
   (define-prefix-command 'go-map)

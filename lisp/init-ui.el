@@ -5,7 +5,7 @@
 (cond
  (sys/win32p 
   (set-face-attribute 'default nil
-		      :family "Consolas" :height 110))
+		      :family "Consolas" :height 160))
  (sys/linuxp
   (set-face-attribute 'default nil
 		      :family "Hack" :height 120))

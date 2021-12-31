@@ -21,7 +21,8 @@
 	      (flycheck-overlay-errors-at (point)))))
   (defun eldoc-print ()
     "command to trigger eldoc, add that to 'eldoc-message-commands"
-    (interactive))
+    (interactive)
+    (eldoc-print-current-symbol-info))
   (eldoc-add-command 'eldoc-print)
   (mikus-leader "h" 'eldoc-print)
   (setq eldoc-echo-area-use-multiline-p t))
