@@ -97,7 +97,7 @@
     (let* ((default-directory (projectile-project-root))
 	   (file-extension (or projectile-tags-file-extensions "."))
 	   (directories (or dirs projectile-tags-files-to-process default-directory))
-	   (find-command (format "fd %s %s > %sgtags.files" file-extension directories default-directory))
+	   (find-command (format "fd -t f %s %s > %sgtags.files" file-extension directories default-directory))
 	   (gtags-command (format "gtags -v %s" (directory-file-name default-directory))))
       (message (format "find files command %s" find-command))
       (shell-command find-command)

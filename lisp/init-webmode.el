@@ -60,10 +60,46 @@
 (defun jest-test-current-file ()
   "Run a jest test defined in the current file."
   (interactive)
-  (compile (format "npx jest %s" (file-basename (buffer-name)))))
-
+  (let ((default-directory (or (projectile-project-root) default-directory)))
+   (compile (format "npx jest %s" (buffer-file-name)))))
 
 (defvar jest-new-file nil)
+
+(defun parse-js-exports (filename)
+  (let ((json (shell-command-to-string
+    (format "deno run --allow-read %s %s"
+	    "/Users/mikolaj.galkowski/Projects/js-langserver/get-exports.ts"
+	    filename))))
+    (message json)
+  (json-parse-string json
+   :array-type 'list)))
+
+(defmacro define-js-module-import-command (command doc &optional find-file-strategy)
+  `(defun ,command (filename exported-variable)
+     ,doc
+     (interactive (let* ((fn
+			  (or ,find-file-strategy
+			      (read-file-name "Find file: " nil default-directory (confirm-nonexistent-file-or-buffer))))
+			 (exports (parse-js-exports fn)))
+			 (list fn
+			       (if (length= exports 0) (file-basename fn)
+				 (format "{%s}" (if (length= exports 1) (car exports)
+						 (completing-read "Choose import" exports)))))))
+     (insert (format "import %s from \"%s\";" exported-variable
+		     (let ((index-file (expand-file-name "index.ts" (file-name-directory filename))))
+		       (if (and
+			    (file-exists-p index-file)
+			    (with-temp-buffer
+			      (insert-file-contents index-file)
+			      (condition-case nil (re-search-forward (format "export {%s} from.*" (file-basename filename)))
+				(error nil)
+				(:success t))))
+			   (string-trim-right (my/file-relative-name (file-name-directory filename)) "\/")
+			 (file-path-no-extension (my/file-relative-name filename))))))))
+
+(define-js-module-import-command js-module-relative-import "Import a js module relatively.")
+(define-js-module-import-command js-module-project-import "Import a js module in project."
+  (if (fboundp 'projectile-completing-read-file) (projectile-completing-read-file)))
 
 (defun jest-test-after-find-file ()
   (and

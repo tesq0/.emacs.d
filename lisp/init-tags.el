@@ -1,6 +1,10 @@
 (use-package ggtags
-  :hook (csharp-mode . ggtags-mode)
-  :init
+  :commands (ggtags-mode)
+  :hook ((csharp-mode . ggtags-mode)
+	 (typescript-mode . ggtags-mode)
+	 (web-mode . ggtags-mode))
+  :config
+  (setenv "GTAGSLABEL" "pygments")
   (progn
     (define-prefix-command 'helm-gtags-map)
     (setq ggtags-highlight-tag nil

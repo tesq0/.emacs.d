@@ -86,7 +86,7 @@
     (evil-set-undo-system 'undo-tree))
 
   ;; Evil modes
-  (dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode vc-annotate-mode))
+  (dolist (mode '(eww-mode debugger-mode dired-mode help-mode rg-mode helm-occur ggtags-global-mode vc-annotate-mode compilation-mode shell-mode))
     (evil-set-initial-state mode 'normal))
 
   ;; Emacs modes
@@ -362,8 +362,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (define-key ctl-x-map (kbd "a") 'ace-window)
 
     (mikus-leader
-      "ci" 'evilnc-comment-or-uncomment-lines
-      "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+      "cl" 'evilnc-comment-or-uncomment-lines
       "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
       "cc" 'evilnc-copy-and-comment-lines
       "cp" 'evilnc-comment-or-uncomment-paragraphs
@@ -375,22 +374,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       "u"  'hydra-utils/body
       "a"  'ace-window
       "k"  'kill-buffer
-      "ef" 'flycheck-buffer
-      "el" 'flycheck-list-errors
-      "en" 'flycheck-next-error
       "ep" 'flycheck-previous-error
       "r"  'evil-use-register
       "x"  'helm-M-x
       "<SPC>" 'whitespace-cleanup
       "\\" 'nil
       "<tab>" 'switch-to-recently-selected-buffer
-      )
+      "ef" 'flycheck-buffer
+      "el" 'flycheck-list-errors
+      "en" 'flycheck-next-error)
 
     (mikus-leader
       "jf" 'evil-jump-forward
       "jb" 'evil-jump-backward
-      "js" 'evil-jump-backward-swap
-      )
+      "js" 'evil-jump-backward-swap)
 
     (general-define-key
 
@@ -462,9 +459,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
      "C-o" nil
      )
 
-    ;; (defmacro define-timed-key (key predicate &optional time)
+    (general-define-key
+     :states '(insert)
+     "C-v" nil)
 
-;;   )
+    (general-unbind
+      "C-v")
 
     (defmacro define-evil-2char-chord-as-esc (command char doc &optional time)
       "Defines a command that turns makes a 2 same character chord escape insert mode.
@@ -491,7 +491,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       "Make kk escape out of insert mode"
       0.5)
 
-    (define-key evil-insert-state-map "k" 'evil-kk-as-esc)
+    ;; (define-key evil-insert-state-map "k" 'evil-kk-as-esc)
 
     (general-define-key
      :states 'insert

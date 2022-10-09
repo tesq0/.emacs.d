@@ -400,18 +400,43 @@ buffer is not visiting a file."
   (shell-command "i3-msg split h")
   (make-frame))
 
-(defun camel-to-burger-case ()
-  "Convert word at point from camelCase to burger-case"
+(defun string-append-to-uppercase-chars (string string-to-append)
+  "Append STRING-TO-APPEND to uppercase characters in STRING."
+  (replace-regexp-in-string "\\([A-Z]\\)" (format "\\1%s" string-to-append) string))
+
+(defun string-camel-to-burger-case (string)
+  "Change camelCase STRING to burger-case."
+  (downcase (string-append-to-uppercase-chars string "-")))
+
+(defun string-camel-to-caps (string)
+  "Change camelCase STRING to CAPS_CASE."
+  (upcase (string-append-to-uppercase-chars string "_")))
+
+;; (string-camel-to-caps "camelCase")
+
+;; (string-camel-to-burger-case "camelCase")
+
+;; (replace-regexp-in-string "\\([A-Z]\\)" "-\\1" "CamelCale")
+
+(defun modify-word-at-point (fn)
+  "Modify word at point with FN."
   (interactive)
   (let* ((case-fold-search nil)
 	 (bounds (bounds-of-thing-at-point 'word))
 	 (s (car bounds))
 	 (e (cdr bounds))
 	 (word (buffer-substring-no-properties s e))
-	 (new-word (downcase (replace-regexp-in-string "\\([A-Z]\\)" "-\\1" word))))
+	 (new-word (funcall fn word)))
     (delete-region s e)
     (goto-char s)
     (insert (format "\"%s\"" new-word))))
+
+(defun camel-to-burger-case ()
+  "Convert word at point from camelCase to burger-case."
+  (interactive)
+  (modify-word-at-point
+   (lambda (word)
+     (string-camel-to-burger-case word))))
 
 (defun evil-find-WORD (forward)
   "Return WORD near point as a string.
@@ -434,7 +459,7 @@ nil if nothing is found."
 	  dir
 	  (format "%s '%s'" (or (and regexp-p "-regex") "-name") search)))
 
-(defun format-fd-find-command (dir search &rest)
+(defun format-fd-find-command (dir search &rest rest)
   (format "fd --hidden -t f %s %s" search dir))
 
 (defvar format-find-command 'format-fd-find-command)

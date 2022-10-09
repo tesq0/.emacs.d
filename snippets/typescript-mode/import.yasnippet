@@ -3,20 +3,4 @@
 # key: import
 # type: command
 # --
-(call-interactively
- (lambda (filename)
-   (interactive 
-    (if (fboundp 'projectile-completing-read-file)
-	(list (projectile-completing-read-file))
-      (find-file-read-args "Find file: " (confirm-nonexistent-file-or-buffer))))
-   (insert (format "import {%s} from \"%s\";" (file-basename filename)
-		   (let ((index-file (expand-file-name "index.ts" (file-name-directory filename))))
-		     (if (and
-			  (file-exists-p index-file)
-			  (with-temp-buffer
-			    (insert-file-contents index-file)
-			    (condition-case nil (re-search-forward (format "export {%s} from.*" (file-basename filename)))
-			      (error nil)
-			      (:success t))))
-			 (string-trim-right (my/file-relative-name (file-name-directory filename)) "\/")
-		       (file-path-no-extension (my/file-relative-name filename))))))))
+(call-interactively #'js-module-relative-import)

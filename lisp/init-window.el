@@ -20,6 +20,7 @@
 	    (ggtags-global-mode            :select t													:size 0.5	 :align below)
 	    ("*eshell*"                    :select t                          :other t               )
 	    ("*Shell Command Output*"      :select nil                                               )
+	    ("*Flycheck errors*"           :select t                          :align below           )
 	    ("\\*Async Shell.*\\*" :regexp t :ignore t                                                 )
 	    (occur-mode                    :select nil                                   :align t    )
 	    ("*Help*"                      :select t   :inhibit-window-quit t :other t               )

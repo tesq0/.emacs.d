@@ -26,7 +26,7 @@
      )
     (general-define-key
      "M-x" 'helm-M-x
-     "C-x C-f" 'helm-find-files
+     "C-x C-f" 'find-file
      "C-c q" 'helm-show-kill-ring
      "C-x b" 'helm-buffers-list)
     (mikus-leader

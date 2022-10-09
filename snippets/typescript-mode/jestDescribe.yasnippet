@@ -2,7 +2,7 @@
 # name: jestDescribe
 # key: describe
 # --
-describe('${1:`(concat (file-basename (buffer-file-name)) " " "test")`}', () => {
+describe('${1:`(concat (file-basename (buffer-file-name)) "::")`}', () => {
   it('${2:should produce correct result}', () => {
     expect($0);
   });

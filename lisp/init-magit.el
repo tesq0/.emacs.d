@@ -53,7 +53,8 @@
 
   (mikus-leader
       "g"  'mikus-magit-map)
-  (magit-wip-mode))
+  ;; (magit-wip-mode)
+  )
 
 (use-package evil-magit
   :after magit

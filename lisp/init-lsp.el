@@ -4,7 +4,8 @@
   (defvar lsp-keymap-prefix "C-c l")
   (defun boot-lsp ()
     (lsp)
-    (setq company-backends (default-value 'company-backends)))
+    (setq company-backends (default-value 'company-backends))
+    (setq-local company-manual-completion-fn 'company-capf))
   :hook ((web-mode . (lambda ()
 		       (when-file-extension-matches '("[jt]sx" "svelte" "[sl]?css") 'boot-lsp)))
 	 (typescript-mode . boot-lsp)
@@ -13,6 +14,7 @@
   :config
   (setq lsp-enable-indentation nil
 	lsp-enable-xref t
+	lsp-disabled-clients '(flow-ls)
 	lsp-inhibit-message t
 	lsp-headerline-breadcrumb-enable nil
 	lsp-eldoc-render-all nil

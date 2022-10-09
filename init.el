@@ -27,7 +27,7 @@
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
-(defconst emacs-server-socket-dir (expand-file-name "server" user-emacs-directory))
+(defconst emacs-server-socket-dir (expand-file-name "socket" user-emacs-directory))
 (defconst emacs-backup-dir "/tmp/backup-emacs")
 
 (dolist (d (list emacs-tmp-dir emacs-backup-dir emacs-server-socket-dir))
