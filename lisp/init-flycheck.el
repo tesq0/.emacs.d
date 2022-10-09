@@ -1,5 +1,5 @@
 (use-package flycheck
-  :commnads (flycheck-mode)
+  :commands (flycheck-mode)
   :hook (prog-mode . flycheck-mode)
   :init
   (setq flycheck-check-syntax-automatically '(save))

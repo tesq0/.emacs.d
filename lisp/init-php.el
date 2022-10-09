@@ -170,8 +170,8 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
   (require 'cl)
-  (ggtags-mode)
-  (setenv "GTAGSLABEL" nil)
+  ;; (ggtags-mode)
+  ;; (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
   (lsp)
   (direnv-allow)

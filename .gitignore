@@ -45,3 +45,4 @@ lsp-cache
 .lsp-session-v1
 %backup%~
 server
+*~undo-tree~
