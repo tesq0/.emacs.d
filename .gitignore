@@ -45,3 +45,4 @@ lsp-cache
 server
 *~undo-tree~
 projects
+vendor-loaddefs.el

@@ -170,8 +170,6 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
   (setq-local c-basic-offset 4)
-  (direnv-allow)
-  ;; (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
 
   (when (eq (buffer-size (current-buffer)) 0)
     (insert "<?php")
@@ -179,8 +177,6 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
     (insert-psr4-namespace)
     (call-interactively 'end-of-buffer)
     (newline 2)))
-
-(autoload 'php-mode "php-mode-hook")
 
 (add-hook 'php-mode-hook 'setup-php)
 

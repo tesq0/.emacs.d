@@ -93,8 +93,6 @@
 
 (setq desktop-dirname (expand-file-name "save" user-emacs-directory))
 
-(recentf-mode)
-
 
 ;; TRAMP
 ;; (add-to-list 'tramp-default-proxies-alist
@@ -105,17 +103,6 @@
 
 
 ;; manually installed packages
-
-(defun add-to-loadpath-recursive (dir)
-  (let ((default-directory dir))
-    (normal-top-level-add-to-load-path '("."))
-    (normal-top-level-add-subdirs-to-load-path)))
-
-(add-to-loadpath-recursive (expand-file-name "vendor" user-emacs-directory))
-
-
-(add-to-list 'load-path
-	     (expand-file-name "lisp" user-emacs-directory))
 
 (if (boundp 'constants) (require 'constants))
 
@@ -129,10 +116,31 @@
           (lambda ()
             (setq gc-cons-threshold gc-threshold)))
 
-
 (setq read-process-output-max (* 1024 1024))
 
-(fido-vertical-mode)
+;; External packages
+
+(defvar +vendor-dir+ (expand-file-name "vendor" user-emacs-directory))
+(defvar +loaddefs-path+ (expand-file-name "vendor-loaddefs.el" +vendor-dir+))
+
+(defun add-to-loadpath-recursive (dir)
+  (let ((default-directory dir))
+    (normal-top-level-add-to-load-path '("."))
+    (normal-top-level-add-subdirs-to-load-path)))
+
+(add-to-loadpath-recursive +vendor-dir+)
+
+(defun generate-vendor-loaddefs ()
+  (loaddefs-generate (seq-filter #'file-directory-p
+				 (directory-files-recursively +vendor-dir+ "" t )) +loaddefs-path+))
+
+(when (not (file-exists-p +loaddefs-path+))
+  (generate-vendor-loaddefs))
+
+(load "vendor-loaddefs")
+
+(add-to-list 'load-path
+	     (expand-file-name "lisp" user-emacs-directory))
 
 
 (defgroup init nil
@@ -148,6 +156,7 @@
 (require 'init-eldoc)
 (require 'init-org)
 (require 'init-c)
+(require 'init-php)
 ;; (require 'init-webmode)
 (require 'init-search)
 (require 'init-diff)
@@ -158,6 +167,8 @@
 
 (require 'init-macros)
 
+(recentf-mode)
+(fido-vertical-mode)
 (setq debug-on-error nil)
 
 (defvar mikus-flash-timer nil)
@@ -211,7 +222,6 @@
 (define-key fast-ex-map (kbd "p") 'power-shell)
 (define-key fast-ex-map (kbd "t") 'terminal)
 
-(global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 (define-key ctl-x-5-map (kbd "n") 'make-frame)
 (define-key ctl-x-5-map (kbd "b") 'switch-to-buffer-other-frame)
 (define-key ctl-x-5-map (kbd "o") 'delete-other-frames)
