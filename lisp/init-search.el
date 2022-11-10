@@ -1,53 +1,47 @@
+(define-prefix-command 'mikus-search-map)
+
+(global-set-key (kbd "C-c s") 'mikus-search-map)
+
 (with-eval-after-load 'isearch
   (define-key isearch-mode-map (kbd "C-w") 'isearch-delete-char)
   (define-key isearch-mode-map (kbd "C-g") 'isearch-exit))
 
-(use-package fzf
-  :demand
-  :init
-  (defun fzf ()
-    "Starts a fzf session."
-    (interactive)
-    (if (fboundp #'projectile-project-root)
-	(fzf/start (condition-case err
-		       (or (projectile-project-root) default-directory)
-		     (error
-		      default-directory)))
-      (fzf/start default-directory)))
+;; (load 'fzf)
 
-  (defun fcd ()
-    (interactive)
-    (fzf/start "" (format "fd -t d %s" default-directory)))
+;; (defun fzf ()
+;;     "Starts a fzf session."
+;;     (interactive)
+;;     (if (fboundp #'projectile-project-root)
+;; 	(fzf/start (condition-case err
+;; 		       (or (projectile-project-root) default-directory)
+;; 		     (error
+;; 		      default-directory)))
+;;       (fzf/start default-directory)))
 
-  (general-define-key
-   :keymaps 'mikus-search-map
-   "f" 'fzf))
+;;   (defun fcd ()
+;;     (interactive)
+;;     (fzf/start "" (format "fd -t d %s" default-directory)))
 
-(use-package rg
-  :commands (rg-dwi-current-dir rg-dwim-project-dir rg rg-project)
-  :bind (:map mikus-search-map
-	      ("d" . rg-dwim-current-dir)
-	      ("r" . rg)
-	      ("g" . find-grep)
-	      ("p" . rg-dwim-project-dir)
-	      ("P" . rg-project))
-  :config
+;; (define-key mikus-search-map "f" 'fzf)
+
+(autoload 'rg "rg")
+(autoload 'rg-project "rg")
+(autoload 'rg-dwim-current-dir "rg")
+(autoload 'rg-dwim-project-dir "rg")
+
+(define-key mikus-search-map "d" 'rg-dwim-current-dir)
+(define-key mikus-search-map "r" 'rg)
+(define-key mikus-search-map "g" 'find-grep)
+(define-key mikus-search-map "p" 'rg-dwim-project-dir)
+(define-key mikus-search-map "P" 'rg-project)
+
+(with-eval-after-load 'rg
   (defun rg-reload ()
     (interactive)
     (rg-rerun))
 
   (defvar rg-cur-regexp "Regexp of rg's current search pattern" nil)
   (defvar rg-opt-multiline "Should add the --multiline option?" nil)
-
-  ;; (defun rg-maybe-set-evil-search-pattern (&rest args)
-  ;;   (let* ((search-pattern (cl-struct-slot-value 'rg-search 'pattern rg-cur-search))
-  ;; 						 (regexp (regexp-quote search-pattern)))
-  ;; 				(message "auto jump %s" regexp)
-  ;; 				(setq evil-ex-search-pattern (list regexp t t))
-  ;; 				)
-  ;;   )
-
-  ;; (advice-add 'rg-filter :after #'rg-maybe-set-evil-search-pattern)
 
   (defun rg-command-line-flags ()
     (and rg-opt-multiline (list "--multiline")))
@@ -62,32 +56,18 @@
   (setq rg-hide-command nil)
 
   (rg-define-search rg-project-merge-conflicts
-    :dir project
-    :query "<<<<<<<"
-    :files current)
+		    :dir project
+		    :query "<<<<<<<"
+		    :files current)
 
-  (general-define-key
-   :keymaps 'mikus-search-map
-   "g" 'find-grep
-   "m" 'rg-project-merge-conflicts)
+  (define-key 'mikus-search-map "m" 'rg-project-merge-conflicts)
 
-  (general-unbind rg-mode-map
-    "e" "n" "p")
-
-  (general-define-key
-   :keymaps 'rg-mode-map
-   :states '(visual normal)
-   "r" 'rg-rerun-change-regexp
-   "m" 'rg-rerun-toggle-multiline
-   "f" 'rg-rerun-change-files
-   "d" 'rg-rerun-change-dir
-   "l" 'evil-previous-line
-   "C-c C-p" 'wgrep-change-to-wgrep-mode
-   "C-c C-r" 'rg-reload)
-
-  (general-define-key
-   :keymaps 'grep-mode-map
-   "C-c C-p" 'wgrep-change-to-wgrep-mode)
+  (define-key rg-mode-map "r" 'rg-rerun-change-regexp)
+  (define-key rg-mode-map "m" 'rg-rerun-toggle-multiline)
+  (define-key rg-mode-map "f" 'rg-rerun-change-files)
+  (define-key rg-mode-map "d" 'rg-rerun-change-dir)
+  (define-key rg-mode-map "C-c C-p" 'wgrep-change-to-wgrep-mode)
+  (define-key rg-mode-map "C-c C-r" 'rg-reload)
   
   (setq rg-group-result nil))
 

@@ -5,9 +5,9 @@
 
 ;;; Code:
 
-(use-package emmet-mode
-  :init
-  (defun maybe-emmet-mode ()
+(autoload 'emmet-mode "emmet-mode")
+
+(defun maybe-emmet-mode ()
     (when-file-extension-matches
      '("php"
        "html?"
@@ -15,24 +15,20 @@
        "twig"
        "svelte"
        "[jt]sx") 'emmet-mode))
-  :hook (web-mode . maybe-emmet-mode)
-  :config
+
+(with-eval-after-load 'emmet-mode
   (setq emmet-expand-jsx-className? t))
 
-(use-package prettier
-  :commands (prettier-prettify)
-  :bind (("C-c f" . prettier-prettify)
-	 ("C-x f" . prettier-prettify))
-  :init
-  (defun setup-prettier ()
-    "Enable prettier-mode if it's configured."
-    (when (find-filename-in-project ".prettierrc")
-      (prettier-mode))))
 
-(use-package add-node-modules-path
-  :hook ((typescript-mode . add-node-modules-path)
-	 (web-mode . add-node-modules-path)))
-
+;; (use-package prettier
+;;   :commands (prettier-prettify)
+;;   :bind (("C-c f" . prettier-prettify)
+;; 	 ("C-x f" . prettier-prettify))
+;;   :init
+;;   (defun setup-prettier ()
+;;     "Enable prettier-mode if it's configured."
+;;     (when (find-filename-in-project ".prettierrc")
+;;       (prettier-mode))))
 
 (defgroup nightwatch nil
   "Nightwatch."
@@ -142,46 +138,43 @@
   "JS intellisense."
   (js-test-minor-mode 1))
 
-(use-package typescript-mode
-  :hook (typescript-mode . setup-js-intellisense)
-  :mode (("\\.js\\'" . typescript-mode)
-	 ("\\.ts\\'" . typescript-mode))
-  :config
-  (setq typescript-indent-level 2))
+;; (use-package typescript-mode
+;;   :hook (typescript-mode . setup-js-intellisense)
+;;   :mode (("\\.js\\'" . typescript-mode)
+;; 	 ("\\.ts\\'" . typescript-mode))
+;;   :config
+;;   (setq typescript-indent-level 2))
 
-(use-package json-mode
-  :after web-mode
-  :mode ("\\.json\\'" . json-mode)
-  :config
-  (setq json-reformat:indent-width 1))
+;; (use-package json-mode
+;;   :after web-mode
+;;   :mode ("\\.json\\'" . json-mode)
+;;   :config
+;;   (setq json-reformat:indent-width 1))
 
-(use-package web-mode
-  :mode (("\\.jsx\\'" . web-mode)
-	 ("\\.tsx\\'" . web-mode)
-	 ("\\.vue\\'" . web-mode)
-	 ("\\.[s]?css\\'" . web-mode)
-	 ("\\.cshtml\\'" . web-mode)
-	 ("\\.blade.php\\'" . web-mode)
-	 ("\\.htm[l]?\\'" . web-mode)
-	 ("\\.twig\\'" . web-mode)
-	 ("\\.svelte\\'" . web-mode)
-	 ("\\.ftl\\'" . web-mode))
-  :init
-  (defun setup-webmode ()
+(autoload 'web-mode "web-mode-hook")
+
+(defun setup-webmode ()
     "Does some setup depending on the current file extension."
 
     (when-file-extension-matches
      '("[jt]sx" "svelte")
      'setup-js-intellisense))
 
-  (add-hook 'web-mode-hook 'setup-webmode)
+(add-hook 'web-mode-hook 'setup-webmode)
+(add-hook 'web-mode-hook 'maybe-emmet-mode)
 
-  :config
+;; (("\\.jsx\\'" . web-mode)
+;;  ("\\.tsx\\'" . web-mode)
+;;  ("\\.vue\\'" . web-mode)
+;;  ("\\.[s]?css\\'" . web-mode)
+;;  ("\\.cshtml\\'" . web-mode)
+;;  ("\\.blade.php\\'" . web-mode)
+;;  ("\\.htm[l]?\\'" . web-mode)
+;;  ("\\.twig\\'" . web-mode)
+;;  ("\\.svelte\\'" . web-mode)
+;;  ("\\.ftl\\'" . web-mode))
 
-  (general-unbind
-    :keymaps 'web-mode-map
-    "C-c C-s")
-
+(with-eval-after-load 'web-mode
   (setq web-mode-markup-indent-offset 2
 	web-mode-css-indent-offset nil
 	web-mode-code-indent-offset 2
@@ -201,18 +194,7 @@
     (if (equal web-mode-content-type "jsx")
 	(let ((web-mode-enable-part-face nil))
 	  ad-do-it)
-      ad-do-it))
-
-  ;; use web-mode for js,jsx and css files
-
-  ;; (with-eval-after-load 'flycheck
-  ;;   (flycheck-add-mode 'css-csslint 'web-mode)
-  ;;   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  ;;   )
-  )
-
-(use-package rainbow-mode
-  :hook (web-mode . (lambda () (when-file-extension-matches "[s]?css" 'rainbow-mode))))
+      ad-do-it)))
 
 (provide 'init-webmode)
 ;;; init-webmode.el ends here

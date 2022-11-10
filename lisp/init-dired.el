@@ -1,6 +1,7 @@
+(add-hook 'dired-load-hook
+          (function (lambda () (load "dired-x"))))
 
 (with-eval-after-load 'dired
-  
   (defun my/dired-view ()
     "View files, either as HTML or media"
     (interactive)
@@ -46,19 +47,33 @@
 	  ( "projects" . (filename "~/Projects"))
 	  ( "vid" . (filename "~/Videos"))
 	  ( "screenshot" . (filename "~/screenshoots"))))
-  
-  (general-define-key
-   :keymaps 'dired-copy-map
-   "p" 'dired-copy-file-path
-   "n" 'dired-copy-filename-as-kill)
+
+
+  (define-key dired-copy-map "p" 'dired-copy-file-path)
+  (define-key dired-copy-map "n" 'dired-copy-filename-as-kill)
 
   (defun dired-xdg-open ()
     (interactive)
     (let ((url (dired-get-filename)))
       (try-xdg-open url)))
 
-  (general-unbind dired-mode-map
-    "<" ">" ";" "e" "v" "g" "N")
+
+  (define-key dired-mode-map "i" 'dired-show-file-type)
+  (define-key dired-mode-map "y" 'dired-copy-map)
+  (define-key dired-mode-map "p" 'dired-paste-map)
+  (define-key dired-mode-map "C-d" 'dired-dragon)
+  (define-key dired-mode-map "M" 'dired-mark-unmarked-files)
+  (define-key dired-mode-map "M" 'dired-mark-unmarked-files)
+  (define-key dired-mode-map "<mouse-1>" 'dired-mouse-find-file)
+  (define-key dired-mode-map "<mouse-2>" 'dired-find-file-other-window)
+  (define-key dired-mode-map "<mouse-3>" 'dired-up-directory)
+  (define-key dired-mode-map "<" 'dired-up-directory)
+  (define-key dired-mode-map "g" 'bookmark-jump)
+  (define-key dired-mode-map "C-c o" 'my/dired-view)
+  (define-key dired-mode-map "C-c C-e" 'dired-eval-marked-file)
+  (define-key dired-mode-map "C-x e" 'dired-eval-marked-file)
+  (define-key dired-mode-map "C-x C-e" 'dired-eval-marked-file)
+  (define-key dired-mode-map "C-c C-o" 'my/dired-view)
 
   (defun dired-dragon (&optional file-list)
     (interactive
@@ -67,74 +82,31 @@
     (let* ((file-string (string-join file-list " "))
 	   (command (format "dragon -a -x %s &" file-string)))
       (shell-command command)))
-  
-  (general-define-key
-   :keymaps 'dired-mode-map
-   "i" 'dired-show-file-type
-   "y" 'dired-copy-map
-   "p" 'dired-paste-map
-   "C-d" 'dired-dragon
-   "M" 'dired-mark-unmarked-files
-   "M" 'dired-mark-unmarked-files
-   "<mouse-1>" 'dired-mouse-find-file
-   "<mouse-2>" 'dired-find-file-other-window
-   "<mouse-3>" 'dired-up-directory
-   :states '(normal motion)
-   ";" 'evil-forward-char
-   "e" 'evil-forward-word-end
-   "<" 'dired-up-directory
-   "g" 'bookmark-jump
-   ">" 'dired-find-file
-   "k" 'dired-next-line
-   "l" 'dired-previous-line
-   "n" 'evil-search-next
-   "C-c o" 'my/dired-view
-   "C-c C-e" 'dired-eval-marked-file
-   "C-x e" 'dired-eval-marked-file
-   "C-x C-e" 'dired-eval-marked-file
-   "C-c C-o" 'my/dired-view
-   )
 
-  ;; ranger-like controls
-  (use-package dired-ranger
-    :init
-    (general-define-key
-     :keymaps 'dired-copy-map
-     "y" 'dired-ranger-copy)
-    (general-define-key
-     :keymaps 'dired-paste-map
-     "p" 'dired-ranger-paste
-     "m" 'dired-ranger-move))
 
-  (use-package diredfl
-    :hook (dired-mode . diredfl-mode))
+  ;; allow to change permissions
+  (setq wdired-allow-to-change-permissions t
+	;; Always copy/delete recursively
+        dired-recursive-copies  'always
+        dired-recursive-deletes 'top
+	dired-auto-revert-buffer t))
 
-  (use-package dired-x
-    :ensure nil
-    :demand t
-    :init
-    
-    (defun dired-toggle-show-hidden-files ()
-      (interactive)
-      (setq dired-show-hidden-files (not dired-show-hidden-files))
-      (when (eq major-mode 'dired-mode)
-	(let ((prefix-arg (not dired-show-hidden-files)))
-	  (call-interactively 'dired-omit-mode))))
 
-    (defun dired-maybe-show-hidden-files ()
-      (when (not dired-show-hidden-files)
-	(dired-omit-mode)
-	)
-      )
+(with-eval-after-load 'dired-x
+  (defun dired-toggle-show-hidden-files ()
+    (interactive)
+    (setq dired-show-hidden-files (not dired-show-hidden-files))
+    (when (eq major-mode 'dired-mode)
+      (let ((prefix-arg (not dired-show-hidden-files)))
+	(call-interactively 'dired-omit-mode))))
 
-    (add-hook 'dired-mode-hook 'dired-maybe-show-hidden-files)
-    
-    (general-define-key
-     :keymaps 'dired-mode-map
-     :states '(normal motion)
-     "h" 'dired-toggle-show-hidden-files)
+  (defun dired-maybe-show-hidden-files ()
+    (when (not dired-show-hidden-files)
+      (dired-omit-mode)))
 
-    :config
+  (add-hook 'dired-mode-hook 'dired-maybe-show-hidden-files)
+  (define-key dired-mode-map "h" 'dired-toggle-show-hidden-files)
+
     (setq dired-omit-verbose nil
 	  dired-kill-when-opening-new-dired-buffer t
 	  dired-omit-files
@@ -146,6 +118,7 @@
 		  "\\|^.ccls-cache\\'"
 		  "\\|\\(?:\\.js\\)?\\.meta\\'"
 		  "\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'"))
+    
     ;; Disable the prompt about whether I want to kill the Dired buffer for a
     ;; deleted directory. Of course I do!
     (setq dired-clean-confirm-killing-deleted-buffers nil)
@@ -162,16 +135,9 @@
 	      ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\|webm\\)\\(?:\\.part\\)?\\'" ,cmd)
 	      ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
 	      ("\\.html?\\'" ,cmd)
-	      ("\\.md\\'" ,cmd))))
-    )
-
-  ;; allow to change permissions
-  (setq wdired-allow-to-change-permissions t
-	;; Always copy/delete recursively
-        dired-recursive-copies  'always
-        dired-recursive-deletes 'top
-	dired-auto-revert-buffer t)
-  )
+	      ("\\.md\\'" ,cmd)))))
 
 
 (provide 'init-dired)
+
+

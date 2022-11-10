@@ -97,7 +97,7 @@
     (normal-top-level-add-to-load-path '("."))
     (normal-top-level-add-subdirs-to-load-path)))
 
-(add-to-loadpath-recursive (expand-file-name "site-lisp" user-emacs-directory))
+(add-to-loadpath-recursive (expand-file-name "vendor" user-emacs-directory))
 
 (let ((nixos-lisp-path "/run/current-system/sw/share/emacs/site-lisp"))
   (when (file-exists-p nixos-lisp-path)
@@ -107,13 +107,6 @@
 	     (expand-file-name "lisp" user-emacs-directory))
 
 (if (boundp 'constants) (require 'constants))
-
-(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
-  (require 'benchmark-init)
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
-(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
-  (benchmark-init/show-durations-tabulated))
 
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold most-positive-fixnum)
@@ -128,84 +121,39 @@
 
 (setq read-process-output-max (* 1024 1024))
 
+;; (autoload "global-undo-tree-mode" 'undo-tree)
+;; (global-undo-tree-mode)
+
+;; (with-eval-after-load 'undo-tree
+;;   (global-set-key (kbd "C-z") 'undo-tree-undo)
+;;   (global-set-key (kbd "C-S-z") 'undo-tree-redo))
+
+
 (defgroup init nil
   "Init packages config")
 
-(require 'init-package)
 (require 'init-const)
 (require 'init-system)
 (require 'init-ui)
 (require 'init-utils)
-(require 'init-gui-frames)
 (require 'init-modeline)
-(require 'init-general)
-;; (require 'init-jump-to-def)
-
-(use-package undo-tree
-  :commands global-undo-tree-mode
-  :init
-  (global-undo-tree-mode)
-  :config
-  (global-set-key (kbd "C-z") 'undo-tree-undo)
-  (global-set-key (kbd "C-S-z") 'undo-tree-redo))
-
-(require 'init-evil)
-(require 'init-flycheck)
 (require 'init-magit)
-(require 'init-dired)
-(require 'init-company)
+;; (require 'init-dired)
 (require 'init-eldoc)
 (require 'init-org)
-(require 'init-csharp)
 (require 'init-c)
-(require 'init-lsp)
-(require 'init-java)
-(require 'init-kotlin)
-(require 'init-webmode)
-(require 'init-php)
-;; (require 'init-hideshow)
-(require 'init-hydra)
-(require 'init-projectile)
-(require 'init-helm)
+;; (require 'init-webmode)
+;; (require 'init-projectile)
 (require 'init-search)
 (require 'init-diff)
-(require 'init-window)
-(require 'init-mc)
-;; (require 'init-dict)
 (require 'init-mouse)
-(require 'init-wgrep)
-;; (require 'init-asm)
-(require 'init-clojure)
-(require 'init-tags)
-(require 'init-nix)
-(require 'init-smartparens)
-(require 'init-vc)
-(require 'init-dart)
-(require 'init-godot)
-(require 'init-tex)
-(require 'init-arduino)
-(require 'init-python)
+;; (require 'init-clojure)
+;; (require 'init-tags)
+;; (require 'init-vc)
+
 (require 'init-macros)
 
-;; auto revert mode
-(use-package autorevert
-  :hook (text-mode . auto-revert-mode))
-
 (setq debug-on-error nil)
-
-;; hint for bindings
-(use-package which-key
-  :demand t
-  :diminish which-key-mode
-  :bind* (("C-c ?" . which-key-show-top-level))
-  :config
-  ;; workaround for emacs 26
-  (if (version< emacs-version "26")
-      (message "Tracking stable Emacs")
-    (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window))
-  ;; turn on which key and add some names for default/common prefixes
-  (which-key-enable-god-mode-support)
-  (which-key-mode))
 
 (defvar mikus-flash-timer nil)
 (defvar point-before-jump nil)
@@ -240,31 +188,24 @@
 ;; flash current line
 (global-set-key (kbd "<C-return>") 'my/hl-line)
 
-(use-package editorconfig
-  :hook (prog-mode . editorconfig-mode))
+;; (add-hook 'prog-mode-hook editorconfig-mode)
 
-(use-package elec-pair
-  :hook (prog-mode . electric-pair-mode))
-
-;; defuns
-(require 'reindent-buffer)
+(add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
 
-(define-prefix-command	'toggle-map)
-(global-set-key (kbd "C-c t") 'toggle-map)
-
-(general-define-key
- :keymaps 'toggle-map
+(defvar-keymap toggle-map
  "l" 'linum-mode
  "t" 'toggle-truncate-lines
  "d" 'toggle-debug-on-error)
 
+(global-set-key (kbd "C-c t") 'toggle-map)
+
 (define-prefix-command	'fast-ex-map)
-(mikus-leader "x" 'fast-ex-map)
+(global-set-key (kbd "C-c x") 'fast-ex-map)
 (define-key fast-ex-map (kbd "e") 'aweshell-new)
 (define-key fast-ex-map (kbd "f") 'explorer)
 (define-key fast-ex-map (kbd "p") 'power-shell)
@@ -273,9 +214,7 @@
 (define-key ctl-x-map (kbd "D") 'ranger)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
-;;(evil-leader/set-key "f" 'ctl-x-5-prefix)
 (define-key ctl-x-5-map (kbd "n") 'make-frame)
-;; (define-key ctl-x-5-map (kbd "N") 'hmake-frame)
 (define-key ctl-x-5-map (kbd "b") 'switch-to-buffer-other-frame)
 (define-key ctl-x-5-map (kbd "o") 'delete-other-frames)
 (define-key ctl-x-5-map (kbd "c") 'delete-frame)
@@ -304,33 +243,31 @@
 (define-key insert-stuff-map (kbd "b") 'insert-buffer-basename)
 (global-set-key (kbd "C-c i") 'insert-stuff-map)
 
-
 ;; Annoying undo tree keybindings
-(general-unbind
-  :keymaps 'undo-tree-map
-  "C-_" nil
-  "C-/" nil
-  "C-?" nil
-  "M-_" nil)
+;; (general-unbind
+;;   :keymaps 'undo-tree-map
+;;   "C-_" nil
+;;   "C-/" nil
+;;   "C-?" nil
+;;   "M-_" nil)
 
-(general-unbind
-  "C-_" nil
-  "C-/" nil
-  "C-x m" nil
-  "C-?" nil
-  "M-_" nil)
+;; (general-unbind
+;;   "C-_" nil
+;;   "C-/" nil
+;;   "C-x m" nil
+;;   "C-?" nil
+;;   "M-_" nil)
 
 (with-eval-after-load 'imenu
   (setq imenu-auto-rescan t))
 
-(use-package markdown-mode)
+;; (use-package markdown-mode)
 
-(use-package dockerfile-mode)
 
-(use-package yaml-mode)
+;; (use-package yaml-mode)
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+;; (use-package rainbow-delimiters
+;;   :hook (prog-mode . rainbow-delimiters-mode))
 
 (when (>= emacs-major-version 23)
   (defun server-ensure-safe-dir (dir) "Noop" t))
@@ -338,29 +275,31 @@
 ;; (use-package direnv
 ;;   :hook (prog-mode . direnv-mode))
 
-(use-package open-in-vscode
-  :commands (open-in-vscode)
-  :bind (:map open-map
-	      ("v" . open-in-vscode)))
+;; (use-package open-in-vscode
+;;   :commands (open-in-vscode)
+;; ;;   :bind (:map open-map
+;; 	      ("v" . open-in-vscode)))
 
 ;; snippets
-(use-package yasnippet
-  :commands (yas-insert-snippet yas-new-snippet yas-visit-snippet-file)
-  :init
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+
+(autoload 'yas-insert-snippet "yasnippet")
+
+(with-eval-after-load 'yasnippet
+  (load 'yasnippet-snippets)
   (define-prefix-command 'my-snippet-map)
-  :config
   (define-key 'my-snippet-map "i" 'yas-insert-snippet)
   (define-key 'my-snippet-map "n" 'yas-new-snippet)
   (define-key 'my-snippet-map "v" 'yas-visit-snippet-file)
-  (yas-reload-all)
-  :bind (:map yas-minor-mode-map
-	      ("C-c C-s" . my-snippet-map)
-	      ("C-c s" . my-snippet-map))
-  :hook (prog-mode . yas-minor-mode))
 
-(use-package yasnippet-snippets
-  :after yasnippet)
+  ;; Load custom snippets
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-reload-all)
+
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+
+  (keymap-set yas-minor-mode-map (kbd "C-c C-s") my-snippet-map)
+  (keymap-set yas-minor-mode-map (kbd "C-c s") my-snippet-map))
+
 
 (setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
 (load custom-file 'noerror)

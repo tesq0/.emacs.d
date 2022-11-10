@@ -8,10 +8,4 @@
 
 (setq scroll-step 5) ;; keyboard scroll one line at a time
 
-(general-define-key
- "<C-mouse-4>" 'mikus-scroll-column-left
- "<C-mouse-5>" 'mikus-scroll-column-right
- "<C-S-mouse-4>" 'text-scale-increase
- "<C-S-mouse-5>" 'text-scale-decrease)
-
 (provide 'init-mouse)

@@ -28,6 +28,7 @@
 (when (memq window-system '(mac ns x))
    (setq mac-option-modifier 'alt
 	 mac-command-modifier 'meta)
-   (use-package exec-path-from-shell :init (exec-path-from-shell-initialize)))
+   (load "exec-path-from-shell")
+   (exec-path-from-shell-initialize))
 
 (provide 'init-system)

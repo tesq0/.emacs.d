@@ -3,34 +3,7 @@
   :group 'init)
 
 
-;;----------------------------------------------------------------------------
-;; macros
-;;----------------------------------------------------------------------------
 
-(defmacro radian-defadvice (name arglist where place docstring &rest body)
-  "Define an advice called NAME and add it to a function.
-ARGLIST is as in `defun'. WHERE is a keyword as passed to
-`advice-add', and PLACE is the function to which to add the
-advice, like in `advice-add'. DOCSTRING and BODY are as in
-`defun'."
-  (declare (indent 2)
-	   (doc-string 5))
-  (unless (stringp docstring)
-    (error "radian-defadvice: no docstring provided"))
-  `(progn
-     (defun ,name ,arglist
-       ,(let ((article (if (string-match-p "^:[aeiou]" (symbol-name where))
-			   "an"
-			 "a")))
-	  (format "%s\n\nThis is %s `%S' advice for `%S'."
-		  docstring article where
-		  (if (and (listp place)
-			   (memq (car place) ''function))
-		      (cadr place)
-		    place)))
-       ,@body)
-     (advice-add ',place ',where #',name)
-     ',name))
 
 ;;----------------------------------------------------------------------------
 ;; String utilities missing from core emacs

@@ -169,13 +169,9 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 
 (defun setup-php ()
   "Configure local stuff when changing to php-mode."
-  (require 'cl)
-  ;; (ggtags-mode)
-  ;; (setenv "GTAGSLABEL" nil)
   (setq-local c-basic-offset 4)
-  (lsp)
   (direnv-allow)
-  (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
+  ;; (add-hook 'before-save-hook #'php-cs-fixer-before-save nil t)
 
   (when (eq (buffer-size (current-buffer)) 0)
     (insert "<?php")
@@ -184,11 +180,9 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
     (call-interactively 'end-of-buffer)
     (newline 2)))
 
+(autoload 'php-mode "php-mode-hook")
 
-(use-package php-mode
-  :hook (php-mode . setup-php))
-  
+(add-hook 'php-mode-hook 'setup-php)
 
-(use-package geben)
 
 (provide 'init-php)

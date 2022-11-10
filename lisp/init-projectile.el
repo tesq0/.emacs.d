@@ -1,24 +1,23 @@
-(use-package projectile
-  :commands projectile-mode
-  :init
+(autoload 'projectile "projectile-mode")
+(add-hook 'prog-mode-hook 'projectile-mode)
+
+(with-eval-after-load 'projectile
+
   (define-prefix-command 'mikus-tags-map)
-  (define-prefix-command 'mikus-search-map)
-  (projectile-mode +1)
-  (mikus-leader "s" 'mikus-search-map)
-  :config
-  (mikus-leader "p" 'projectile-command-map)
+  
   (setq projectile-enable-caching t)
+
   (define-key projectile-command-map (kbd "<ESC>") nil)
+
   (defvar my-find-command)
   (setq my-find-command "fd --no-ignore-vcs --ignore-file .gitignore --hidden --exclude '.git' -t f . -0")
   (setq-default projectile-git-command my-find-command)
   (setq-default projectile-generic-command my-find-command)
   (setq projectile-indexing-method 'alien)
   (setq projectile-tags-backend 'auto)
-  (general-define-key
-   :keymaps 'projectile-command-map
-   "ESC" 'keyboard-quit
-   "<tab>" 'projectile-project-buffers-other-buffer)
+
+  (define-key projectile-command-map "ESC" 'keyboard-quit)
+  (define-key projectile-command-map "<tab>" 'projectile-project-buffers-other-buffer)
 
   (defvar save-project-commands '(save-all-buffers))
 
@@ -32,15 +31,15 @@
     (-if-let* ((project-root (projectile-acquire-root))
 	       (file (apply 'projectile-completing-read "Find file:" (projectile-project-files project-root) rest))
 	       (path (expand-file-name file project-root)))
-	path
-      (error "Failed to read project file")))
+	      path
+	      (error "Failed to read project file")))
 
   (defun projectile-eval-file (&optional filename)
     (interactive)
     (let ((path (projectile-completing-read-file :initial-input (or filename ""))))
       (if (string-equal (file-name-extension path) "el")
-      (eval-file path)
-      (warn "Selected non-elisp file."))))
+	  (eval-file path)
+	(warn "Selected non-elisp file."))))
 
   (defun projectile-eval-start-or-file ()
     (interactive)
@@ -53,29 +52,18 @@
 	((default-directory (projectile-ensure-project (projectile-project-root))))
       (terminal)))
 
-  (general-define-key
-   :keymaps 'projectile-command-map
-   "R" 'projectile-regenerate-tags-async
-   "t" 'projectile-terminal
-   "r" 'mikus-tags-map
-   "s" 'save--project
-   "e" 'projectile-eval-start-or-file
-   "E" 'projectile-eval-file)
+  (define-key projectile-command-map "R" 'projectile-regenerate-tags-async)
+  (define-key projectile-command-map "t" 'projectile-terminal)
+  (define-key projectile-command-map "r" 'mikus-tags-map)
+  (define-key projectile-command-map "s" 'save--project)
+  (define-key projectile-command-map "e" 'projectile-eval-start-or-file)
+  (define-key projectile-command-map "E" 'projectile-eval-file)
 
-  (general-define-key
-   :keymaps 'mikus-search-map
-   "a" 'projectile-ag)
+  (define-key mikus-search-map "a" 'projectile-ag)
 
-  (setq projectile-tags-backend '(etags-select)))
+  (setq projectile-tags-backend '(etags-select))
 
-(use-package helm-projectile
-  :commands helm-projectile-switch-project
-  :after projectile
-  :bind (:map projectile-command-map
-	      ("p" . helm-projectile-switch-project)))
-
-;; Tags
-(with-eval-after-load 'projectile
+  ;; Tags
 
   (defvar projectile-custom-ignored-files '())
 
@@ -116,9 +104,7 @@
       (async-shell-command command)))
 
 
-  (general-define-key
-   :keymaps 'mikus-tags-map
-   "r" 'projectile-regenerate-tags
-   "R" 'projectile-regenerate-tags-async))
+  (define-key mikus-tags-map "r" 'projectile-regenerate-tags)
+  (define-key mikus-tags-map "R" 'projectile-regenerate-tags-async))
 
 (provide 'init-projectile)

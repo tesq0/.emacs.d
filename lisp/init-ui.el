@@ -1,6 +1,3 @@
-
-
-
 ;; FONT
 (cond
  (sys/win32p 
@@ -21,16 +18,6 @@
   (setq-local display-line-numbers 'visual))
 (defun mikus:absolute ()
   (setq-local display-line-numbers t))
-
-
-(when (display-graphic-p) 
-  (use-package doom-themes
-    
-    :init
-    (progn
-      (doom-themes-org-config)
-      (add-hook 'after-init-hook (lambda () (load-theme 'doom-city-lights t)))
-      )))
 
 
 (defun fix-mouse-color (frame)
