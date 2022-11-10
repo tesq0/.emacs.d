@@ -31,7 +31,6 @@ util
 workspace
 ycmd
 constants*
-lisp/init-slack.el
 transient
 GTAGS
 GRTAGS
@@ -39,10 +38,10 @@ GPATH
 custom-set-variables.el
 quelpa/*
 request
-lisp/flycheck_init-ibuffer.el
 helm-adaptive-history
 lsp-cache
 .lsp-session-v1
 %backup%~
 server
 *~undo-tree~
+projects

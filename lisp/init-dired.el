@@ -14,7 +14,6 @@
 		 (xdg-open (car files) t))))))
 
   (define-key ctl-x-map (kbd "C-d") 'dired)
-  (define-key dired-mode-map (kbd "o") 'my/dired-view)
   (define-key dired-mode-map (kbd "C-c o") 'my/dired-view)
   (define-key dired-mode-map (kbd "C-c C-o") 'my/dired-view)
 

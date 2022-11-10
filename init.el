@@ -1,29 +1,47 @@
-(setq user-full-name "Mikołaj Gałkowski")                 ; My name
-;;(setq gc-cons-threshold (* 500 1024 1024))                  ; increase the threshold for garbage collection - 100 MB
-;;(setq delete-old-versions -1)                     ; delete excess backup versions silently
-;;(setq version-control t)                      ; use version control for backups
-;;(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))             ; which directory to put backups file
-(setq inhibit-startup-screen t)                     ; inhibit useless and old-school startup screen
-(setq visible-bell nil)                       ; no visible bell for errors
-(setq ring-bell-function 'ignore)                   ; silent bell when you make a mistake
-(setq coding-system-for-read 'utf-8)                    ; use utf-8 by default for reading
-(setq coding-system-for-write 'utf-8)                   ; use utf-8 by default for writing
-(setq initial-scratch-message "")                             ; print nothing and leave screen at insert mode
+;; My name
+(setq user-full-name "Mikołaj Gałkowski")
 
-(setq-default truncate-lines t)                     ; always truncate lines ;hello
-(setq large-file-warning-threshold (* 15 1024 1024))                ; increase theshold for larger files
-(fset 'yes-or-no-p 'y-or-n-p)                     ; prompt for 'y' or 'n' instead of 'yes' or 'no'
-;; (setq-default abbrev-mode t)                      ; turn on abbreviations by default
-(setq recenter-positions '(middle top bottom))                    ; recenter from the top instead of the middle
-;; (put 'narrow-to-defun 'disabled nil)                    ; enable narrowing to function
-(when (fboundp 'winner-mode)                      ; when you can find 'winner-mode'
-  (winner-mode 1))                        ; activate winner mode
-;;(setq enable-recursive-minibuffers t)                   ; use the minibuffer while using the minibuffer
-(setq echo-keystrokes 0.05)                     ; when to echo keystrokes
-;;(setq frame-resize-pixelwise t)                     ; resize based on pixels to remove annoying gaps
-(setq-default tab-width 8)                        ; default tab width
-(show-paren-mode 1)                     ; hightlight pharentheses and shit
-;; (setq x-super-keysym 'meta)             ;use super as meta
+;; inhibit useless and old-school startup screen
+(setq inhibit-startup-screen t)
+
+;; no visible bell for errors
+(setq visible-bell nil)
+
+;; silent bell when you make a mistake
+(setq ring-bell-function 'ignore)
+
+;; use utf-8 by default for reading
+(setq coding-system-for-read 'utf-8)
+
+;; use utf-8 by default for writing
+(setq coding-system-for-write 'utf-8)                   
+
+;; print nothing and leave screen at insert mode
+(setq initial-scratch-message "")
+
+;; always truncate lines ;hello
+(setq-default truncate-lines t)
+
+;; increase theshold for larger files
+(setq large-file-warning-threshold (* 15 1024 1024))
+
+;; prompt for 'y' or 'n' instead of 'yes' or 'no'
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; recenter from the top instead of the middle
+(setq recenter-positions '(middle top bottom))
+
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
+
+;; when to echo keystrokes
+(setq echo-keystrokes 0.05)
+
+;; default tab width
+(setq-default tab-width 8)
+
+;; hightlight pharentheses and shit
+(show-paren-mode 1)
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
@@ -77,10 +95,6 @@
 
 (recentf-mode)
 
-;; extra functions
-(add-to-list 'load-path
-	     (expand-file-name "defuns" user-emacs-directory))
-
 
 ;; TRAMP
 ;; (add-to-list 'tramp-default-proxies-alist
@@ -99,9 +113,6 @@
 
 (add-to-loadpath-recursive (expand-file-name "vendor" user-emacs-directory))
 
-(let ((nixos-lisp-path "/run/current-system/sw/share/emacs/site-lisp"))
-  (when (file-exists-p nixos-lisp-path)
-    (add-to-loadpath-recursive nixos-lisp-path)))
 
 (add-to-list 'load-path
 	     (expand-file-name "lisp" user-emacs-directory))
@@ -121,12 +132,7 @@
 
 (setq read-process-output-max (* 1024 1024))
 
-;; (autoload "global-undo-tree-mode" 'undo-tree)
-;; (global-undo-tree-mode)
-
-;; (with-eval-after-load 'undo-tree
-;;   (global-set-key (kbd "C-z") 'undo-tree-undo)
-;;   (global-set-key (kbd "C-S-z") 'undo-tree-redo))
+(fido-vertical-mode)
 
 
 (defgroup init nil
@@ -143,7 +149,6 @@
 (require 'init-org)
 (require 'init-c)
 ;; (require 'init-webmode)
-;; (require 'init-projectile)
 (require 'init-search)
 (require 'init-diff)
 (require 'init-mouse)
@@ -178,12 +183,7 @@
   (when buffer
     (my/hl-line)))
 
-(advice-add 'switch-to-buffer :after 'try-hl-line-after-file-opened )
-(advice-add 'evil-jump-backward :before 'before-jump)
-(advice-add 'evil-jump-forward :before 'before-jump)
-(advice-add 'evil-jump-backward :after 'my/hl-line )
-(advice-add 'evil-jump-forward :after 'my/hl-line )
-;; (advice-remove 'evil-jump-backward 'try-hl-line-after-file-opened )
+(advice-add 'switch-to-buffer :after 'try-hl-line-after-file-opened)
 
 ;; flash current line
 (global-set-key (kbd "<C-return>") 'my/hl-line)
@@ -210,8 +210,6 @@
 (define-key fast-ex-map (kbd "f") 'explorer)
 (define-key fast-ex-map (kbd "p") 'power-shell)
 (define-key fast-ex-map (kbd "t") 'terminal)
-
-(define-key ctl-x-map (kbd "D") 'ranger)
 
 (global-set-key (kbd "C-f") 'ctl-x-5-prefix)
 (define-key ctl-x-5-map (kbd "n") 'make-frame)
@@ -243,45 +241,13 @@
 (define-key insert-stuff-map (kbd "b") 'insert-buffer-basename)
 (global-set-key (kbd "C-c i") 'insert-stuff-map)
 
-;; Annoying undo tree keybindings
-;; (general-unbind
-;;   :keymaps 'undo-tree-map
-;;   "C-_" nil
-;;   "C-/" nil
-;;   "C-?" nil
-;;   "M-_" nil)
-
-;; (general-unbind
-;;   "C-_" nil
-;;   "C-/" nil
-;;   "C-x m" nil
-;;   "C-?" nil
-;;   "M-_" nil)
-
 (with-eval-after-load 'imenu
   (setq imenu-auto-rescan t))
-
-;; (use-package markdown-mode)
-
-
-;; (use-package yaml-mode)
-
-;; (use-package rainbow-delimiters
-;;   :hook (prog-mode . rainbow-delimiters-mode))
 
 (when (>= emacs-major-version 23)
   (defun server-ensure-safe-dir (dir) "Noop" t))
 
-;; (use-package direnv
-;;   :hook (prog-mode . direnv-mode))
-
-;; (use-package open-in-vscode
-;;   :commands (open-in-vscode)
-;; ;;   :bind (:map open-map
-;; 	      ("v" . open-in-vscode)))
-
 ;; snippets
-
 (autoload 'yas-insert-snippet "yasnippet")
 
 (with-eval-after-load 'yasnippet

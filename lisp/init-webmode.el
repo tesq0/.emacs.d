@@ -19,17 +19,6 @@
 (with-eval-after-load 'emmet-mode
   (setq emmet-expand-jsx-className? t))
 
-
-;; (use-package prettier
-;;   :commands (prettier-prettify)
-;;   :bind (("C-c f" . prettier-prettify)
-;; 	 ("C-x f" . prettier-prettify))
-;;   :init
-;;   (defun setup-prettier ()
-;;     "Enable prettier-mode if it's configured."
-;;     (when (find-filename-in-project ".prettierrc")
-;;       (prettier-mode))))
-
 (defgroup nightwatch nil
   "Nightwatch."
   :group 'root)
@@ -120,9 +109,9 @@
   (goto-create-jest-test-for-file (buffer-file-name)))
 
 (define-prefix-command 'js-test-prefix-map)
-(define-key 'js-test-prefix-map "j" 'jest-test-current-file)
-(define-key 'js-test-prefix-map "n" 'nightwatch-test-current-file)
-(define-key 'js-test-prefix-map "g" 'goto-create-jest-test-for-current-file)
+(define-key js-test-prefix-map "j" 'jest-test-current-file)
+(define-key js-test-prefix-map "n" 'nightwatch-test-current-file)
+(define-key js-test-prefix-map "g" 'goto-create-jest-test-for-current-file)
 
 (define-minor-mode js-test-minor-mode
   "Javascript testing mode."
