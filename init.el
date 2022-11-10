@@ -138,7 +138,7 @@
 (require 'init-utils)
 (require 'init-modeline)
 (require 'init-magit)
-;; (require 'init-dired)
+(require 'init-dired)
 (require 'init-eldoc)
 (require 'init-org)
 (require 'init-c)
