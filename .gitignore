@@ -46,3 +46,4 @@ server
 *~undo-tree~
 projects
 vendor-loaddefs.el
+*.elc
