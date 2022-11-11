@@ -1,3 +1,6 @@
 [submodule "vendor/avy"]
 	path = vendor/avy
 	url = https://github.com/abo-abo/avy.git
+[submodule "vendor/php-mode"]
+	path = vendor/php-mode
+	url = https://github.com/emacs-php/php-mode.git
