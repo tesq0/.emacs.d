@@ -16,6 +16,9 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(autoload 'ace-window "ace-window")
+(global-set-key (kbd "M-o") 'ace-window)
+
 (require 'ansi-color)
 
 (provide 'init-ui)
