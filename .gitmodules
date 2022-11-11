@@ -7,3 +7,6 @@
 [submodule "vendor/yasnippet"]
 	path = vendor/yasnippet
 	url = https://github.com/joaotavora/yasnippet.git
+[submodule "vendor/rg"]
+	path = vendor/rg
+	url = https://github.com/dajva/rg.el.git
