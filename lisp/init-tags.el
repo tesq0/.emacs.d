@@ -2,6 +2,7 @@
 
 (with-eval-after-load 'ggtags
   (setenv "GTAGSLABEL" "pygments")
+  
   (setq ggtags-highlight-tag nil
 	ggtags-split-window-function nil
 	ggtags-global-window-height nil
@@ -28,9 +29,8 @@
 
   (advice-add 'compilation-auto-jump :before #'compilation-maybe-halt-auto-jump)
 
-  (define-key ggtags-global-mode-map "C-c C-p" 'wgrep-change-to-wgrep-mode)
-  (define-key ggtags-global-mode-map "C-c C-r" 'nil)
-
+  (define-key ggtags-global-mode-map (kbd "C-c C-p") 'wgrep-change-to-wgrep-mode)
+  (define-key ggtags-global-mode-map (kbd "C-c C-r") 'nil)
 
   (define-key miko-gtags-map "P" 'ggtags-visit-project-root)
   (define-key miko-gtags-map "h" 'ggtags-view-tag-history)

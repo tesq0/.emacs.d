@@ -13,7 +13,7 @@
   "Enable C langserver."
   (and
    (not (memq major-mode c-langserv-disabled-modes))
-   (lsp)))
+   (eglot)))
 
 (add-hook 'c++-mode-hook 'enable-c-langserver)
 (add-hook 'c-mode-hook 'enable-c-langserver)

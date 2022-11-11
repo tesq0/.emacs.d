@@ -3,8 +3,6 @@
   :group 'init)
 
 
-
-
 ;;----------------------------------------------------------------------------
 ;; String utilities missing from core emacs
 ;;----------------------------------------------------------------------------
@@ -134,14 +132,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
       (when (buffer-live-p buf)
 	(with-current-buffer buf
 	  (kill-buffer))))))
-
-;; (defun terminal (&optional args)
-;;   "Open an external terminal with ARGS."
-;;   (interactive)
-;;   (let ((cmd (getenv "TERMINAL"))
-;;	(buffer (generate-new-buffer "terminal"))
-;;	(arg-string (or args (getenv "SHELL"))))
-;;     (set-process-sentinel (start-process "terminal" buffer cmd arg-string) #'terminal-sentinel)))
 
 (defun my-term-handle-exit (&optional process-name msg)
   (message "%s | %s" process-name msg)
