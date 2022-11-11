@@ -1,14 +1,15 @@
 ;; FONT
-(cond
- (sys/win32p 
-  (set-face-attribute 'default nil
-		      :family "Consolas" :height 160))
- (sys/linuxp
-  (set-face-attribute 'default nil
-		      :family "Hack" :height 120))
- (sys/macp
-  (set-face-attribute 'default nil
-		      :family "Hack" :height 140)))
+
+;; (cond
+;;  (sys/win32p 
+;;   (set-face-attribute 'default nil
+;; 		      :family "Consolas" :height 160))
+;;  (sys/linuxp
+;;   (set-face-attribute 'default nil
+;; 		      :family "Hack" :height 120))
+;;  (sys/macp
+;;   (set-face-attribute 'default nil
+;; 		      :family "Hack" :height 140)))
 
 (setq-default display-line-numbers nil
 	      display-line-numbers-widen nil)
@@ -18,7 +19,5 @@
 
 (autoload 'ace-window "ace-window")
 (global-set-key (kbd "M-o") 'ace-window)
-
-(require 'ansi-color)
 
 (provide 'init-ui)
