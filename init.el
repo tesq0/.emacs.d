@@ -139,7 +139,6 @@
 (require 'init-system)
 (require 'init-ui)
 (require 'init-utils)
-(require 'init-modeline)
 (require 'init-dired)
 (require 'init-eldoc)
 (require 'init-org)
