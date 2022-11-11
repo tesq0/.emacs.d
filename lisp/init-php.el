@@ -17,21 +17,21 @@
 (add-to-list 'auto-mode-alist '("/\\.php_cs\\(?:\\.dist\\)?\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(?:php\\.inc\\|stub\\)\\'" . php-mode))
 
-(defun setup-php ()
-  "Configure local stuff when changing to php-mode."
-  (setq-local c-basic-offset 4)
-
-  (when (eq (buffer-size (current-buffer)) 0)
-    (insert "<?php")
-    (newline 2)
-    (insert-psr4-namespace)
-    (call-interactively 'end-of-buffer)
-    (newline 2)))
-
-(add-hook 'php-mode-hook 'setup-php)
-
 (with-eval-after-load 'php-mode
 
+  (defun setup-php ()
+    "Configure local stuff when changing to php-mode."
+    (setq-local c-basic-offset 4)
+
+    (when (eq (buffer-size (current-buffer)) 0)
+      (insert "<?php")
+      (newline 2)
+      (insert-psr4-namespace)
+      (call-interactively 'end-of-buffer)
+      (newline 2)))
+
+  (add-hook 'php-mode-hook 'setup-php)
+  
   (defun php-cs-fixer-command-is-ok ()
     "Check if php-cs-fixer is in PATH."
     (if (executable-find "php-cs-fixer")
