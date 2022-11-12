@@ -76,41 +76,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
     ((= ,n 1)
      (browse-kill-ring))))
 
-(defun my-insert-str (str)
-  ;; ivy8 or ivy9
-  (if (consp str) (setq str (cdr str)))
-  ;; evil-mode?
-  (if (and (functionp 'evil-normal-state-p)
-	   (boundp 'evil-move-cursor-back)
-	   (evil-normal-state-p)
-	   (not (eolp))
-	   (not (eobp)))
-      (forward-char))
-  ;; insert now
-  (insert str))
-
-(defun my-line-str (&optional line-end)
-  (buffer-substring-no-properties (line-beginning-position)
-				  (if line-end line-end (line-end-position))))
-
-(defun my-buffer-str ()
-  (buffer-substring-no-properties (point-min) (point-max)))
-
-(defun my-selected-str ()
-  (buffer-substring-no-properties (region-beginning) (region-end)))
-
-(defun my-use-selected-string-or-ask (hint)
-  "Use selected region or ask user input for string."
-  (if (region-active-p) (my-selected-str)
-    (if (string= "" hint) (thing-at-point 'symbol)
-      (read-string hint))))
-
-;;Some other manipulation utils
-
-;; (defun next-line-and-indent
-;;		)
-
-
 (defun kill-and-join-forward (&optional arg)
   (interactive "P")
   (if (and (eolp) (not (bolp)))
@@ -119,7 +84,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 	     (backward-char 1)
 	     (kill-line arg))
     (kill-line arg)))
-
 
 (defun power-shell ()
   (interactive)
@@ -177,6 +141,7 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
     (substring (replace-regexp-in-string "/" "\." (substring buffer-file-name (length root) (* -1 (length base))) t t) 0 -1)
     )
   )
+
 ;; YASNIPPET UTILS END
 
 ;; Delete the current file
@@ -188,20 +153,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
 			     (file-name-nondirectory buffer-file-name)))
     (delete-file (buffer-file-name))
     (kill-this-buffer)))
-
-;; (defun stage-this-file ()
-;;	(interactive)
-;;	(or (buffer-file-name) (error "No file is currently being edited"))
-;;	(when (yes-or-no-p (format "Stage file '%s'?"
-;;														 (file-name-nondirectory buffer-file-name)))
-
-;;		(shell-command (format "cd $(cygpath -w %s); git add $(cygpath -w %s)" (pwd) (buffer-file-name)))))
-
-
-
-(defun copy-current-file-name ()
-  (interactive)
-  (kill-new (buffer-file-name)))
 
 
 (defun rename-file-and-buffer (&optional rename)
@@ -284,15 +235,6 @@ If N is nil, use `ivy-mode' to browse the `kill-ring'."
   (interactive "*b")
   (shell-command (format "dos2unix %s" (file-truename buffer))))
 
-(defun ranger ()
-  (interactive) (terminal "-e ranger"))
-
-(defun explorer ()
-  (interactive)
-  (cond ( sys/win32p
-	  (shell-command "explorer ."))
-	( sys/linuxp
-	  (try-xdg-open default-directory))))
 
 (defun try-xdg-open (URL)
   (if (and (stringp URL) (not (string-empty-p URL)) (executable-find "xdg-open"))
@@ -339,13 +281,6 @@ buffer is not visiting a file."
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name)))
     (goto-char saved-point)))
 
-(defun compile-unity ()
-  (interactive)
-  (let* ((shell-output (shell-command-to-string "xwininfo -tree -root | grep 'Unity.*Personal' | awk '{ print $1; }'"))
-	 (window-id (replace-regexp-in-string "\n" "\s" shell-output))
-	 (command (format "xdotool windowactivate --sync %s key 'Control_R+r'" window-id)))
-    (message "command %s" command)
-    (shell-command command)))
 
 (defun save-all-buffers ()
   (interactive)
@@ -375,12 +310,6 @@ buffer is not visiting a file."
   "Change camelCase STRING to CAPS_CASE."
   (upcase (string-append-to-uppercase-chars string "_")))
 
-;; (string-camel-to-caps "camelCase")
-
-;; (string-camel-to-burger-case "camelCase")
-
-;; (replace-regexp-in-string "\\([A-Z]\\)" "-\\1" "CamelCale")
-
 (defun modify-word-at-point (fn)
   "Modify word at point with FN."
   (interactive)
@@ -400,12 +329,6 @@ buffer is not visiting a file."
   (modify-word-at-point
    (lambda (word)
      (string-camel-to-burger-case word))))
-
-(defun evil-find-WORD (forward)
-  "Return WORD near point as a string.
-If FORWARD is nil, search backward, otherwise forward.  Returns
-nil if nothing is found."
-  (evil-find-thing forward 'evil-WORD))
 
 (defun copy-word-from-above ()
   "Copies the first found word from the line above."
@@ -441,8 +364,7 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
 (defun find-filename-in-project (filename)
   "Find the nearest FILENAME starting from project root."
   (let* ((dir (or
-	       (and (fboundp 'projectile-project-root)
-		    (projectile-project-root))
+	       (project-root (project-current))
 	       default-directory))
 	 (file-at-root-lvl (format "%s/%s" dir filename)))
     (or (and (file-exists-p file-at-root-lvl) file-at-root-lvl)
@@ -521,4 +443,3 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (insert (file-basename (buffer-file-name))))
 
 (provide 'init-utils)
-;;(display-buffer-pop-up-window buf '((window-height . 40)) )
