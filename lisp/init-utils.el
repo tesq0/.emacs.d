@@ -44,7 +44,6 @@
   (let* ((pattern (concat "^" (file-name-as-directory directory))))
     (if (string-match-p pattern file) file)))
 
-
 (defmacro my-select-from-kill-ring (fn &optional n)
   "Use `browse-kill-ring' if it exists and N is 1.
 If N > 1, assume just yank the Nth item in `kill-ring'.
@@ -280,7 +279,6 @@ buffer is not visiting a file."
 			   (ido-read-file-name "Find file(as root): ")))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name)))
     (goto-char saved-point)))
-
 
 (defun save-all-buffers ()
   (interactive)

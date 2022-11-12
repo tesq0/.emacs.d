@@ -143,7 +143,7 @@
 (require 'init-eldoc)
 (require 'init-org)
 (require 'init-c)
-;; (require 'init-php)
+(require 'init-php)
 ;; (require 'init-webmode)
 (require 'init-search)
 (require 'init-diff)

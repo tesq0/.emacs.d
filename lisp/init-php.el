@@ -4,34 +4,10 @@
 
 ;;; Code:
 
-
 (autoload 'php-mode "php-mode")
-
-;; (require 'loaddefs-gen)
-;; (let* ((file (make-temp-file "php-mode-loaddef"))
-;;        (generateted-autoload-file file))
-;;   (loaddefs-generate--parse-file (concat +vendor-dir+ "/php-mode/lisp/php-mode.el") file)
-;;   (find-file file)
-;;   (load file))
-
-(add-to-list 'auto-mode-alist '("/\\.php_cs\\(?:\\.dist\\)?\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.\\(?:php\\.inc\\|stub\\)\\'" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'". php-mode))
 
 (with-eval-after-load 'php-mode
-
-  (defun setup-php ()
-    "Configure local stuff when changing to php-mode."
-    (setq-local c-basic-offset 4)
-
-    (when (eq (buffer-size (current-buffer)) 0)
-      (insert "<?php")
-      (newline 2)
-      (insert-psr4-namespace)
-      (call-interactively 'end-of-buffer)
-      (newline 2)))
-
-  (add-hook 'php-mode-hook 'setup-php)
-  
   (defun php-cs-fixer-command-is-ok ()
     "Check if php-cs-fixer is in PATH."
     (if (executable-find "php-cs-fixer")
@@ -133,7 +109,7 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
   (defun json2php-vb-compile-in-project ()
     "Compile all php.json files to php value object classes in your project."
     (interactive)
-    (let ((dir (projectile-project-root)))
+    (let ((dir (project-root (project-current))))
       (if dir
 	  (dolist (out (mapcar (lambda (file)
 				 (cons file (json2php-compile-json (json-read-file file))))
@@ -167,14 +143,14 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 		  (alist-get 'psr-4
 			     (alist-get 'autoload composer-json))))
 	    (dolist (nsr psr-4)
-	      (let* ((root (f-dirname composer-json-path))
+	      (let* ((root (file-name-directory composer-json-path))
 		     (key (car nsr))
 		     (val (string-trim (cdr nsr) "/" "/"))
 		     (r-path
 		      (replace-regexp-in-string
 		       (regexp-quote root)
 		       ""
-		       (f-dirname (buffer-file-name))))
+		       (file-name-directory (buffer-file-name))))
 		     (rp-list
 		      (split-string (string-trim r-path "/" "/") "/"))
 		     (r-value
@@ -193,6 +169,21 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 	      ))
 	(warn "Could not find composer.json in project")
 	)
-      )))
+      ))
+
+  (defun setup-php ()
+    "Configure local stuff when changing to php-mode."
+    (setq-local c-basic-offset 4)
+
+    (message "PHP-MODE")
+    (when (eq (buffer-size (current-buffer)) 0)
+      (insert "<?php")
+      (newline 2)
+      (insert-psr4-namespace)
+      (call-interactively 'end-of-buffer)
+      (newline 2)))
+
+  (add-hook 'php-mode-hook 'setup-php))
+
 
 (provide 'init-php)
