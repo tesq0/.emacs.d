@@ -42,7 +42,7 @@
 		    :query "<<<<<<<"
 		    :files current)
 
-  (define-key 'mikus-search-map "m" 'rg-project-merge-conflicts)
+  (define-key mikus-search-map "m" 'rg-project-merge-conflicts)
 
   (define-key rg-mode-map "r" 'rg-rerun-change-regexp)
   (define-key rg-mode-map "m" 'rg-rerun-toggle-multiline)
