@@ -156,7 +156,7 @@
 (require 'init-macros)
 
 (recentf-mode)
-(fido-vertical-mode)
+;; (fido-vertical-mode)
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
 
