@@ -84,7 +84,7 @@
 
 (setq bidi-paragraph-direction "left-to-right")
 (setq bidi-inhibit-bpa t)
-(setq debug-on-error t)
+(setq debug-on-error nil)
 
 (global-so-long-mode 1)
 

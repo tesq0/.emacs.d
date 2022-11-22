@@ -8,6 +8,10 @@
 (add-to-list 'auto-mode-alist '("\\.php\\'". php-mode))
 
 (with-eval-after-load 'php-mode
+
+  (with-eval-after-load 'eglot
+    (setcdr (assoc '(php-mode phps-mode) eglot-server-programs) '("phpactor" "language-server" "-vvv")))
+  
   (defun php-cs-fixer-command-is-ok ()
     "Check if php-cs-fixer is in PATH."
     (if (executable-find "php-cs-fixer")
@@ -175,7 +179,6 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
     "Configure local stuff when changing to php-mode."
     (setq-local c-basic-offset 4)
 
-    (message "PHP-MODE")
     (when (eq (buffer-size (current-buffer)) 0)
       (insert "<?php")
       (newline 2)
