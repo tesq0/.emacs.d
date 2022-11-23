@@ -28,6 +28,7 @@
 (define-key ctl-x-map (kbd "C-h") 'help-command)
 
 (global-set-key (kbd "<C-escape>") 'keyboard-quit)
+(global-set-key (kbd "M-n") 'duplicate-line)
 
 (define-prefix-command	'fast-buffer-map)
 
