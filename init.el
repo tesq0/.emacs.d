@@ -127,10 +127,13 @@
     (normal-top-level-add-to-load-path '("."))
     (normal-top-level-add-subdirs-to-load-path)))
 
+
 (add-to-loadpath-recursive +vendor-dir+)
+(add-to-loadpath-recursive (expand-file-name "elpa" user-emacs-directory))
 
 (add-to-list 'load-path
 	     (expand-file-name "lisp" user-emacs-directory))
+
 
 (defgroup init nil
   "Init packages config")
@@ -148,7 +151,7 @@
 (load "init-search")
 (load "init-diff")
 (load "init-mouse")
-;; (load "init-clojure")
+(load "init-clojure")
 (load "init-tags")
 (load "init-vc")
 (load "init-yasnippet")
