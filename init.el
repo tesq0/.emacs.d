@@ -129,7 +129,10 @@
 
 
 (add-to-loadpath-recursive +vendor-dir+)
-(add-to-loadpath-recursive (expand-file-name "elpa" user-emacs-directory))
+
+(let ((elpa-dir (expand-file-name "elpa" user-emacs-directory)))
+  (when (file-exists-p elpa-dir))
+  (add-to-loadpath-recursive elpa-dir))
 
 (add-to-list 'load-path
 	     (expand-file-name "lisp" user-emacs-directory))
