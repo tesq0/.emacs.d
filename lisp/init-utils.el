@@ -440,4 +440,8 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (interactive)
   (insert (file-basename (buffer-file-name))))
 
+(defun xml-format-buffer ()
+  (interactive)
+  (shell-command-on-region (point-min) (point-max) "xmllint --format -" nil t))
+
 (provide 'init-utils)
