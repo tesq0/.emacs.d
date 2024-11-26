@@ -12,5 +12,3 @@
   (define-key vc-annotate-mode-map "C-c D" 'vc-annotate-show-changeset-diff-revision-at-line)
   (define-key vc-annotate-mode-map "C-c d" 'vc-annotate-show-diff-revision-at-line)
 )
-
-(provide 'init-vc)

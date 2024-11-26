@@ -79,63 +79,6 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
 	       (not (string-match geben-temporary-file-directory (file-name-directory buffer-file-name))))
 	   ) (php-cs-fixer-fix)))
 
-  (defun json2php-compile-json (json)
-    "Compile JSON to a PHP8 constructor from JSON."
-    (message "COMPILE %s" json)
-    (cond
-     ((stringp json)
-      (format "\"%s\"" json))
-     ((json-alist-p json)
-      (format "public function __construct(%s) {}"
-	      (mapconcat 'identity (sort (mapcar #'json2php-compile-json json)
-					 (lambda (a b)
-					   (>= 0 (-
-						  (or (and (string-match "\?.+" a) 1) 0)
-						  (or (and (string-match "\?.+" b) 1) 0)
-						  )))
-					 ) ",\n")))
-     ((consp json)
-      (let* ((key (car json))
-	     (val (cdr json))
-	     (type (cond
-		    ((stringp val) "string")
-		    ((floatp val) "float")
-		    ((integerp val) "int")
-		    ((json-alist-p val) "object")
-		    ((vectorp val) "array")
-		    (t "mixed")))
-	     (optional (or (and (stringp val) (string-empty-p val) "\"\"")
-			   nil))
-	     (dvs (or (and optional "?") "")))
-	(format "private %s%s $%s" dvs type key)))
-     (t nil)))
-
-  (defun json2php-vb-compile-in-project ()
-    "Compile all php.json files to php value object classes in your project."
-    (interactive)
-    (let ((dir (project-root (project-current))))
-      (if dir
-	  (dolist (out (mapcar (lambda (file)
-				 (cons file (json2php-compile-json (json-read-file file))))
-			       (find-files dir ".*\.php\.json" t)))
-	    (let ((fname (file-name-base (car out)))
-		  (compiled-output (cdr out)))
-	      (with-current-buffer (generate-new-buffer (format "JSON2PHP_OUTPUT_%s" fname))
-		(insert "<?php")
-		(newline 2)
-		;; (insert-psr4-namespace)
-		(insert (format "class %s {" (replace-regexp-in-string "\.php" "" fname)))
-		(newline 2)
-		(insert compiled-output)
-		(newline 2)
-		(insert "}")
-		(call-interactively #'mark-whole-buffer)
-		(call-interactively #'evil-indent)
-		(write-file (format "%s" (replace-regexp-in-string "\.json" "" fname)))
-		(kill-current-buffer))
-	      ))
-	(warn "Not in project"))))
-
   (defun insert-psr4-namespace ()
     "Try auto resolving and inserting the current psr-4 namespace."
     (interactive)
@@ -187,6 +130,3 @@ Add this to .emacs to run php-cs-fix on the current buffer when saving:
       (newline 2)))
 
   (add-hook 'php-mode-hook 'setup-php))
-
-
-(provide 'init-php)

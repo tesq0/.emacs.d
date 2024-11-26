@@ -38,5 +38,3 @@
 
 (with-eval-after-load 'cc-mode
   (init-c-style))
-
-(provide 'init-c)

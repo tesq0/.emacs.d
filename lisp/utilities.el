@@ -2,7 +2,6 @@
   "Bunch of utility functions"
   :group 'init)
 
-
 ;;----------------------------------------------------------------------------
 ;; String utilities missing from core emacs
 ;;----------------------------------------------------------------------------
@@ -444,4 +443,4 @@ If REGEXP-P is non-nil, treat SEARCH as a regex expression."
   (interactive)
   (shell-command-on-region (point-min) (point-max) "xmllint --format -" nil t))
 
-(provide 'init-utils)
+(provide 'utilites)

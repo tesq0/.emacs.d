@@ -1,4 +1,3 @@
-
 (defun update-diff-refine-colors ()
   "update the colors for diff faces"
   (set-face-attribute 'diff-refine-added nil
@@ -16,5 +15,3 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-diff-options "-w")
 (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
-
-(provide 'init-diff)

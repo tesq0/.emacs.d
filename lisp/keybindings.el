@@ -49,6 +49,3 @@
 
 
 (global-set-key (kbd "<f8>") 'compile)
-
-
-(provide 'init-keybindings)

@@ -121,6 +121,7 @@
 
 (defvar +vendor-dir+ (expand-file-name "vendor" user-emacs-directory))
 (defvar +loaddefs-path+ (expand-file-name "vendor-loaddefs.el" +vendor-dir+))
+(defvar +custom-lisp-dir+ (expand-file-name "lisp" user-emacs-directory))
 
 (defun add-to-loadpath-recursive (dir)
   (let ((default-directory dir))
@@ -134,39 +135,19 @@
   (when (file-exists-p elpa-dir)
     (add-to-loadpath-recursive elpa-dir)))
 
-(add-to-list 'load-path
-	     (expand-file-name "lisp" user-emacs-directory))
-
+(add-to-list 'load-path +custom-lisp-dir+)
 
 (defgroup init nil
   "Init packages config")
 
-(load "init-const")
-(load "init-system")
-(load "init-ui")
-(load "init-utils")
-(load "init-dired")
-(load "init-eldoc")
-(load "init-org")
-(load "init-c")
-(load "init-php")
-;; (load "init-webmode")
-(load "init-search")
-(load "init-diff")
-(load "init-mouse")
-(load "init-clojure")
-(load "init-tags")
-(load "init-vc")
-(load "init-yasnippet")
-(load "init-keybindings")
-(load "init-macros")
+(load "utilities")
+
+(dolist (file (directory-files +custom-lisp-dir+ nil ".el"))
+  (load (file-basename file)))
 
 (recentf-mode)
-;; (fido-vertical-mode)
-(add-hook 'prog-mode-hook 'electric-pair-mode)
+(add-hook 'prog-mode-hook 'electric-pair-local-mode)
 (add-to-list 'auto-mode-alist '("\\.info\\'" . Info-on-current-buffer))
-
-;; (add-hook 'prog-mode-hook editorconfig-mode)
 
 (with-eval-after-load 'imenu
   (setq imenu-auto-rescan t))
