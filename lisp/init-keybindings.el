@@ -3,10 +3,11 @@
 ;; override this fucking shit ESC
 (define-key ctl-x-map (kbd "<ESC>" ) nil)
 
-(defvar-keymap toggle-map
- "l" 'linum-mode
- "t" 'toggle-truncate-lines
- "d" 'toggle-debug-on-error)
+(define-prefix-command 'toggle-map)
+
+(define-key toggle-map (kbd "l") 'linum-mode)
+(define-key toggle-map (kbd "t") 'toggle-truncate-lines)
+(define-key toggle-map (kbd "d") 'toggle-debug-on-error)
 
 (global-set-key (kbd "C-c t") 'toggle-map)
 
@@ -45,6 +46,9 @@
 (define-prefix-command	'insert-stuff-map)
 (define-key insert-stuff-map (kbd "b") 'insert-buffer-basename)
 (global-set-key (kbd "C-c i") 'insert-stuff-map)
+
+
+(global-set-key (kbd "<f8>") 'compile)
 
 
 (provide 'init-keybindings)

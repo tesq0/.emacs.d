@@ -131,8 +131,8 @@
 (add-to-loadpath-recursive +vendor-dir+)
 
 (let ((elpa-dir (expand-file-name "elpa" user-emacs-directory)))
-  (when (file-exists-p elpa-dir))
-  (add-to-loadpath-recursive elpa-dir))
+  (when (file-exists-p elpa-dir)
+    (add-to-loadpath-recursive elpa-dir)))
 
 (add-to-list 'load-path
 	     (expand-file-name "lisp" user-emacs-directory))
@@ -158,7 +158,6 @@
 (load "init-tags")
 (load "init-vc")
 (load "init-yasnippet")
-(load "init-completion")
 (load "init-keybindings")
 (load "init-macros")
 
